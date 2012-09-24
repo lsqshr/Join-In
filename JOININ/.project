@@ -15,4 +15,11 @@
 		<nature>org.python.pydev.pythonNature</nature>
 		<nature>org.python.pydev.django.djangoNature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>requirements.txt</name>
+			<type>1</type>
+			<location>/home/siqi/git/Join-In/requirements.txt</location>
+		</link>
+	</linkedResources>
 </projectDescription>
