@@ -1,0 +1,51 @@
+.groupTitle {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 25px;
+	color: #FFFFFF;
+	font-weight: bold;
+}
+
+.style2 {font-family: Arial, Helvetica, sans-serif; font-size: 12px; color: #FFFFFF; font-weight: bold; }
+
+.tableMenu {
+	border-bottom: 1px;
+	border-left: 1px;
+	border-right: 1px;
+	border-top: 1px;
+	border:#0033FF thin;
+	border-style:solid;
+	padding:5px;
+	height:100%;
+}
+
+.titleMenu {
+	font: 18px Arial, Helvetica, sans-serif;
+	color:#0066FF;
+}
+
+td {
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+}
+
+.text1 {
+	color:#0033FF;
+}
+
+.bordaBox {bbackground: ttransparent; width:95%;}
+.bordaBox .b1, .bordaBox .b2, .bordaBox .b3, .bordaBox .b4, .bordaBox .b1b, .bordaBox .b2b, .bordaBox .b3b, .bordaBox .b4b {display:block; overflow:hidden; font-size:1px;}
+.bordaBox .b1, .bordaBox .b2, .bordaBox .b3, .bordaBox .b1b, .bordaBox .b2b, .bordaBox .b3b {height:1px;}
+.bordaBox .b2, .bordaBox .b3, .bordaBox .b4 { border-left:1px solid #FF9933; border-right:1px solid #FF9933;}
+.bordaBox .b1 {margin:0 5px; background:#FF9933;}
+.bordaBox .b2 {margin:0 3px; border-width:0 2px;}
+.bordaBox .b3 {margin:0 2px;}
+.bordaBox .b4 {height:2px; margin:0 1px;}
+.bordaBox .conteudo {padding:10px; display:block; border-left:1px solid #FF9933; border-right:1px solid #FF9933; text-align:justify;}
+.conteudoRight {padding:10px; display:block; border-left:1px solid #FF9933; border-right:1px solid #FF9933; text-align:right;}
+
+
+.tableReply {
+	border-style:solid;
+	border-color: #FF9933;
+	border-width:1px;
+}
