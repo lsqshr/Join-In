@@ -1,4 +1,12 @@
 # Django settings for JOININ project.
+import os.path
+root = os.path.dirname(__file__).replace('\\', '/')
+ 
+MEDIA_ROOT = root + '/../media/'
+STATIC_ROOT = root + '/../static/'
+TEMPLATE_DIRS = (
+    root + '/../templates',
+)
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -12,11 +20,11 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'joinin',                      # Or path to database file if using sqlite3.
-        'USER': 'lsqshr',                      # Not used with sqlite3.
-        'PASSWORD': 'elec3609joinin',                  # Not used with sqlite3.
-        'HOST': 'SQL09.FREEMYSQL.NET',                      # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '3306',                      # Set to empty string for default. Not used with sqlite3.
+        'NAME': 'joinin', # Or path to database file if using sqlite3.
+        'USER': 'lsqshr', # Not used with sqlite3.
+        'PASSWORD': 'elec3609joinin', # Not used with sqlite3.
+        'HOST': 'SQL09.FREEMYSQL.NET', # Set to empty string for localhost. Not used with sqlite3.
+        'PORT': '3306', # Set to empty string for default. Not used with sqlite3.
     }
 }
 
