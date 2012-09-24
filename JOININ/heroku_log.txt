@@ -1,2 +1,0 @@
-Creating hidden-meadow-6007... done, stack is cedar
-http://hidden-meadow-6007.herokuapp.com/ | git@heroku.com:hidden-meadow-6007.git
