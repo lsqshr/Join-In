@@ -1,8 +1,5 @@
 # Django settings for JOININ project.
 import os
-import sys
-import urlparse
-
 root = os.path.dirname(__file__).replace('\\', '/')
  
 MEDIA_ROOT = root + '/../media/'
@@ -20,40 +17,16 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
-#start enddb database
-# Register database schemes in URLs.
-urlparse.uses_netloc.append('mysql')
-
-try:
-
-    # Check to make sure DATABASES is set in settings.py file.
-    # If not default to {}
-
-    if 'DATABASES' not in locals():
-        DATABASES = {}
-
-    if 'DATABASE_URL' in os.environ:
-        url = urlparse.urlparse(os.environ['DATABASE_URL'])
-
-        # Ensure default database exists.
-        DATABASES['default'] = DATABASES.get('default', {})
-
-        # Update with environment configuration.
-        DATABASES['default'].update({
-            'NAME': url.path[1:],
-            'USER': url.username,
-            'PASSWORD': url.password,
-            'HOST': url.hostname,
-            'PORT': url.port,
-        })
-    
-
-        if url.scheme == 'mysql':
-            DATABASES['default']['ENGINE'] = 'django.db.backends.mysql'
-except Exception:
-    print 'Unexpected error:', sys.exc_info()
-    
-#end set up cleardb database
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+#        'NAME': 'joinin', # Or path to database file if using sqlite3.
+#        'USER': 'lsqshr', # Not used with sqlite3.
+#        'PASSWORD': 'elec3609joinin', # Not used with sqlite3.
+#        'HOST': 'SQL09.FREEMYSQL.NET', # Set to empty string for localhost. Not used with sqlite3.
+#        'PORT': '3306', # Set to empty string for default. Not used with sqlite3.
+#    }
+#}
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
