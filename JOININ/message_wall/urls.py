@@ -1,3 +1,8 @@
+'''
+Created on 25/09/2012
+
+@author: siqi
+'''
 from django.conf.urls import patterns, include, url
 
 # Uncomment the next two lines to enable the admin:
@@ -14,5 +19,5 @@ urlpatterns = patterns('',
 
     # Uncomment the next line to enable the admin:
     # url(r'^admin/', include(admin.site.urls)),
-    url(r'^hi/',include('JOININ.message_wall.urls')),
+    url(r'^$','JOININ.message_wall.views.hi'),
 )
