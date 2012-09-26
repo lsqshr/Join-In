@@ -2,7 +2,7 @@
 import os
 root = os.path.dirname(__file__).replace('\\', '/')
  
-MEDIA_ROOT = root + '/../media/'
+MEDIA_ROOT = root + '/media/'
 STATIC_ROOT = root + '/../static/'
 TEMPLATE_DIRS = (
     root + '/templates',
