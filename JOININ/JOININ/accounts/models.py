@@ -9,8 +9,7 @@ class JoinInUserManager(models.Manager):
         new_user = User.objects.create(username=email, email=email, password=password)
         new_user.save()
         new_joinin_user=self.create(user=new_user) 
-        new_joinin_user.profile_img=models.ImageField(upload_to=new_user.username,null=True)
-        
+        return new_joinin_user
 
 class JoinInUser(models.Model):
     '''
@@ -18,10 +17,10 @@ class JoinInUser(models.Model):
     by using a OneToOneField(User) property
     '''
     #vars
-    user = models.ForeignKey(User, null=False,unique=True)
+    user = models.ForeignKey(User, null=False,unique=True,related_name='user_fk')
     phone = models.CharField(max_length=20, null=True)
     phone_public = models.BooleanField(default=False) 
-    profile_img = models.ImageField(null=True)
+    profile_img = models.ImageField(upload_to='profile_imgs',null=True)
     system_notification = models.BooleanField(default=True)
     email_update = BooleanField(default=True)
     objects=JoinInUserManager() 
@@ -96,9 +95,9 @@ class JoinInGroup(models.Model):
     '''
     name = models.CharField(max_length=15)
     create_datetime = models.DateTimeField()
-    invitations = ManyToManyField(JoinInUser, null=True)
-    appliers = ManyToManyField(JoinInUser, null=True)
-    users = ManyToManyField(JoinInUser, null=True)
+    invitations = ManyToManyField(JoinInUser, null=True,related_name="group_invitations")
+    appliers = ManyToManyField(JoinInUser, null=True,related_name="group_appliers")
+    users = ManyToManyField(JoinInUser, null=True,related_name="group_users")
     public = BooleanField(default=False)#if the group is free to apply to join without the creator's permission.'
     creator = OneToOneField(JoinInUser)
     
@@ -114,4 +113,4 @@ class JoinInGroup(models.Model):
 
    
 #append to class declaration of JoinInUser to avoid circular dependency
-JoinInUser.groups = ManyToManyField(JoinInGroup)
+JoinInUser.groups = ManyToManyField(JoinInGroup,related_name="joinin_user_groups")
