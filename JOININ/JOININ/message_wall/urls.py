@@ -19,5 +19,5 @@ urlpatterns = patterns('',
 
     # Uncomment the next line to enable the admin:
     # url(r'^admin/', include(admin.site.urls)),
-    url(r'^$','JOININ.message_wall.views.hi'),
+    url(r'(?P<user_id>\d+)/', 'JOININ.message_wall.views.private_message_wall'),
 )
