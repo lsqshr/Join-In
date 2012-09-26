@@ -1,6 +1,2 @@
-<form method="POST" action="" enctype="multipart/form-data">
-		{% csrf_token %}
-		{{form.as_table}}
-		<input type="submit" value="Submit">
-	</table>
-</form>
+{% extends "base.html" %}
+{% block content %} 
