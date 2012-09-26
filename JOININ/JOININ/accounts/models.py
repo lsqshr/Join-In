@@ -13,14 +13,14 @@ class JoinInUser(models):
     #vars
     user = models.OneToOneField(User, null=False)
     phone = models.CharField(max_length=20, null=True)
-    phone_public = models.BooleanField() 
-    profile_img = models.ImageField(upload_to=user.username)
+    phone_public = models.BooleanField(initial=False) 
+    profile_img = models.ImageField(upload_to=user.username,null=True)
     system_notification = models.BooleanField(initial=True)
     email_update=BooleanField(initial=True)
     
     #methods
     def join_group(self, group):
-        #TODO: group is a JoinInGroup instance 
+        # group is a JoinInGroup instance 
         #if this user is in the invitation list or this group is public,
         # then directly add this user to the group
         if self in group.invitations.all() or group.public:
@@ -31,7 +31,7 @@ class JoinInUser(models):
         return
     
     def leave_group(self, group):
-        #TODO:group is a JoinInGroup instance
+        #group is a JoinInGroup instance
         group.delete_user(self)
         return
     
@@ -40,12 +40,12 @@ class JoinInUser(models):
         return
     
     def change_password(self, new_password):
-        #TODO:interface to change the auth.user.password
+        #interface to change the auth.user.password
         self.user.set_password(new_password)
         return
     
     def create_group(self, group_name, create_date, invitations, public):
-        #TODO:method to create a new group and set the creator to this user
+        #method to create a new group and set the creator to this user
         new_group = JoinInGroup.objects.create(name=group_name,
                                    create_datetime=datetime.datetime.now(), public=public, creator=self)
         #add the creator as the first user
@@ -63,7 +63,7 @@ class JoinInUser(models):
         return
     
     def change_profile_img(self, img):
-        #TODO:img is a ImgField
+        #img is a ImgField
         self.profile_img=img
         return
     
@@ -77,6 +77,10 @@ class JoinInUser(models):
     
     def change_username(self, new_name):
         self.user.username=new_name
+        return
+    
+    def change_phone_public(self,phone_public):
+        self.phone_public=phone_public
         return
     
 class JoinInGroup(models):
