@@ -4,19 +4,27 @@ from django.db.models.fields import BooleanField
 from django.db.models.fields.related import ManyToManyField, OneToOneField
 import datetime
     
+class JoinInUserManager(models.Manager):
+    def create_user(self, email, password):
+        new_user = User.objects.create(username=email, email=email, password=password)
+        new_user.save()
+        new_joinin_user=self.create(user=new_user) 
+        new_joinin_user.profile_img=models.ImageField(upload_to=new_user.username,null=True)
+        
 
-class JoinInUser(models):
+class JoinInUser(models.Model):
     '''
     extending the django.contrib.auth.models.User
     by using a OneToOneField(User) property
     '''
     #vars
-    user = models.OneToOneField(User, null=False)
+    user = models.ForeignKey(User, null=False,unique=True)
     phone = models.CharField(max_length=20, null=True)
-    phone_public = models.BooleanField(initial=False) 
-    profile_img = models.ImageField(upload_to=user.username,null=True)
-    system_notification = models.BooleanField(initial=True)
-    email_update=BooleanField(initial=True)
+    phone_public = models.BooleanField(default=False) 
+    profile_img = models.ImageField(null=True)
+    system_notification = models.BooleanField(default=True)
+    email_update = BooleanField(default=True)
+    objects=JoinInUserManager() 
     
     #methods
     def join_group(self, group):
@@ -53,7 +61,7 @@ class JoinInUser(models):
         return
     
     def set_email_update(self, is_update):
-        self.email_update=is_update
+        self.email_update = is_update
         return
     
     def delete_account(self):
@@ -64,26 +72,26 @@ class JoinInUser(models):
     
     def change_profile_img(self, img):
         #img is a ImgField
-        self.profile_img=img
+        self.profile_img = img
         return
     
     def change_phone_num(self, new_num):
-        self.phone=new_num
+        self.phone = new_num
         return
     
     def change_email(self, new_email):
-        self.user.email=new_email
+        self.user.email = new_email
         return
     
     def change_username(self, new_name):
-        self.user.username=new_name
+        self.user.username = new_name
         return
     
-    def change_phone_public(self,phone_public):
-        self.phone_public=phone_public
+    def change_phone_public(self, phone_public):
+        self.phone_public = phone_public
         return
     
-class JoinInGroup(models):
+class JoinInGroup(models.Model):
     '''Group for Join in system. different with the auth.Group
     '''
     name = models.CharField(max_length=15)
@@ -91,7 +99,7 @@ class JoinInGroup(models):
     invitations = ManyToManyField(JoinInUser, null=True)
     appliers = ManyToManyField(JoinInUser, null=True)
     users = ManyToManyField(JoinInUser, null=True)
-    public = BooleanField(initial=False)#if the group is free to apply to join without the creator's permission.'
+    public = BooleanField(default=False)#if the group is free to apply to join without the creator's permission.'
     creator = OneToOneField(JoinInUser)
     
     #methods

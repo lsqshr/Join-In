@@ -21,5 +21,4 @@ urlpatterns = patterns('',
     # url(r'^admin/', include(admin.site.urls)),
     url(r'^login/$','JOININ.accounts.views.login'),
     url(r'^signup/$','JOININ.accounts.views.signup'),
-    url(r'^congratulation_for_signup/$','JOININ.accounts.views.congrats'),
 )

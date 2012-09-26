@@ -1,4 +1,5 @@
 from JOININ.accounts.forms import SignupForm, LoginForm
+from JOININ.accounts.models import JoinInUser
 from django.contrib import auth
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
@@ -31,13 +32,17 @@ def signup(request):
         form=SignupForm(request.POST)
         if form.is_valid():
             cd = form.cleaned_data
-            user=User.objects.create_user(cd['username'],cd['email'],cd['password'])
+            email=cd['email']
+            password=cd['password']
+            confirm_password=cd['confirm_password']
+            errors=[]#errors list to be rendered
+            #see if two password match each other
+            if password!=confirm_password:
+                errors.append('Sorry, two password do not match each other.')
+                return render_to_response('signup.html',{'form',form,'errors',errors},context_instance=RequestContext(request,{}))
+            new_joinin_user=JoinInUser.objects.create_user(email, password)
             #redirect to the congratulations view
-            return HttpResponseRedirect('/congratulation_for_signup/')
+            return render_to_response('congrats_signup.html',{'user':new_joinin_user}) 
     else:
         form=SignupForm()
     return render_to_response('signup.html',{'form':form},context_instance=RequestContext(request,{}))
-
-
-def congrats(request):
-    return render_to_response("congrats_signup.html")

@@ -21,9 +21,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
         'NAME': 'joinin', # Or path to database file if using sqlite3.
-        'USER': 'lsqshr', # Not used with sqlite3.
-        'PASSWORD': 'elec3609joinin', # Not used with sqlite3.
-        'HOST': 'SQL09.FREEMYSQL.NET', # Set to empty string for localhost. Not used with sqlite3.
+        'USER': 'b0737e2544eb5d', # Not used with sqlite3.
+        'PASSWORD': '52616d18', # Not used with sqlite3.
+        'HOST': 'us-cdbr-east-02.cleardb.com', # Set to empty string for localhost. Not used with sqlite3.
         'PORT': '3306', # Set to empty string for default. Not used with sqlite3.
     }
 }
@@ -122,6 +122,8 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
+    'JOININ.message_wall',
+    'JOININ.accounts',
 )
 
 # A sample logging configuration. The only tangible logging
