@@ -21,10 +21,10 @@ def login(request):
                 #Redirect to a success page.
                 return HttpResponseRedirect("/message_wall/"+str(user.id)+'/')
             else:
-                return render_to_response('login.html',{'form':form},context_instance=RequestContext(request,{}))
+                return render_to_response('login.html',{'form':form,'page_name':'Log-in'},context_instance=RequestContext(request,{}))
     else:
         form=LoginForm()
-    return render_to_response('login.html',{'form':form},context_instance=RequestContext(request,{}))
+    return render_to_response('login.html',{'form':form,'page_name':'Log-in'},context_instance=RequestContext(request,{}))
 
 
 def signup(request):
