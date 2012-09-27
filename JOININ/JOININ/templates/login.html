@@ -2,7 +2,6 @@
 {% block content %}
 <form method="POST" action="" enctype="multipart/form-data">
 		{% csrf_token %}
-		{{form.as_table}}
 		<input type="text" name="username" maxlength="50" value="Username">
 		<input type=text name="password" maxlength="8" value="Password">
 		<input name="Submit" type="submit" value="submit">
