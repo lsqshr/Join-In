@@ -139,11 +139,4 @@ class Feedback(models.Model):
         self.content=c
         return
 
-class Settings(models.Model):
-    user = models.ForeignKey(JoinInUser)
-    email_updates = models.BooleanField()
-    
-    def set_email_updates(self,b):
-        self.email_updates=b
-        return
 
