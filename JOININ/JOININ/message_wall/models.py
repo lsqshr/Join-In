@@ -5,9 +5,10 @@ import datetime
 from JOININ import accounts.models
           
 class Message(models.Model):
-    reply_to = models.ForeignKey(Message)
+    reply_to = models.ForeignKey(Message, null=True)
     file_link = models.ForeignKey(File)
-    priority = models.IntegerField()
+    priority_choices = (1,'Low'2,'Medium',3,'High')
+    priority = models.IntegerField(choice=priority_choices, default=1)
     date_time = models.DateTimeField()
     belongs_to_group = models.ForeignKey(JoinInGroup)
     written_by = models.ForeignKey(JoinInUser)
