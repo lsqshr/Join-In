@@ -18,12 +18,14 @@ class JoinInUser(models.Model):
     '''
     #vars
     user = models.ForeignKey(User, null=False,unique=True,related_name='user_fk')
+    full_name = models.CharField(max_length=100, null=False)
     phone = models.CharField(max_length=20, null=True)
     phone_public = models.BooleanField(default=False) 
     profile_img = models.ImageField(upload_to='profile_imgs',null=True)
     system_notification = models.BooleanField(default=True)
     email_update = BooleanField(default=True)
     objects=JoinInUserManager() 
+    last_login=models.TimeField()
     
     #methods
     def join_group(self, group):
@@ -90,11 +92,20 @@ class JoinInUser(models.Model):
         self.phone_public = phone_public
         return
     
+    def setTime(self):
+        self.last_login = datetime.datetime.now()
+        return
+    
+    def changeName(self, name):
+        self.full_name = name
+        return
+    
+    
 class JoinInGroup(models.Model):
     '''Group for Join in system. different with the auth.Group
     '''
     name = models.CharField(max_length=15)
-    create_datetime = models.DateTimeField()
+    datetime = models.DateTimeField()
     invitations = ManyToManyField(JoinInUser, null=True,related_name="group_invitations")
     appliers = ManyToManyField(JoinInUser, null=True,related_name="group_appliers")
     users = ManyToManyField(JoinInUser, null=True,related_name="group_users")
@@ -110,7 +121,29 @@ class JoinInGroup(models.Model):
         return
     def delete_user(self, user):
         self.users.remove(user)
-
-   
+        
 #append to class declaration of JoinInUser to avoid circular dependency
 JoinInUser.groups = ManyToManyField(JoinInGroup,related_name="joinin_user_groups")
+
+    
+class Feedback(models.Model):
+    date_time = models.DateTimeField()
+    written_by = models.ForeignKey(JoinInUser)
+    content = models.CharField(1000)
+
+    def set_date_time(self):
+        self.date_time=datetime.datetime.now()
+        return
+    
+    def enter_content(self,c):
+        self.content=c
+        return
+
+class Settings(models.Model):
+    user = models.ForeignKey(JoinInUser)
+    email_updates = models.BooleanField()
+    
+    def set_email_updates(self,b):
+        self.email_updates=b
+        return
+
