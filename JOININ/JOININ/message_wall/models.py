@@ -1,48 +1,45 @@
+from JOININ.accounts.models import JoinInUser, JoinInGroup
 from django.contrib.auth.models import User
 from django.db import models
 from django.db.models.fields.related import ManyToManyField
 import datetime
-from JOININ import accounts.models
-          
-class Message(models.Model):
-    reply_to = models.ForeignKey(Message, null=True)
-    file_link = models.ForeignKey(File)
-    priority_choices = (1,'Low'2,'Medium',3,'High')
-    priority = models.IntegerField(choice=priority_choices, default=1)
-    date_time = models.DateTimeField()
-    belongs_to_group = models.ForeignKey(JoinInGroup)
-    written_by = models.ForeignKey(JoinInUser)
-    content = models.CharField(1000)
-
-    def add_file_link(self, link):
-        self.file_link=link
-        return
-    
-    def set_priority(self, p):
-        self.priority=p
-        return
-    
-    def set_date_time(self):
-        self.date_time=datetime.datetime.now()
-        return
-    
-    def enter_content(self,c):
-        self.content=c
-        return
 
 class File(models.Model):
-    name = models.CharField(20)
+    name = models.CharField(max_length=20)
     last_edited = models.DateTimeField()
     uploaded_by = models.ForeignKey(JoinInUser)
     belongs_to_group = models.ForeignKey(JoinInGroup)
     
-    def set_name(self,n):
-        self.name=n
+    def set_name(self, n):
+        self.name = n
         return
     
     def update_time(self):
-        self.last_edited=datetime.datetime.now()
+        self.last_edited = datetime.datetime.now()
         return
+          
+class Message(models.Model):
+    reply_to = models.ForeignKey('self', null=True)
+    file_link = models.ForeignKey(File)
+    priority_choices = ((1, 'Low'),(2, 'Medium'),( 3, 'High'),)
+    priority = models.IntegerField(choices=priority_choices, default=1)
+    date_time = models.DateTimeField()
+    belongs_to_group = models.ForeignKey(JoinInGroup)
+    written_by = models.ForeignKey(JoinInUser)
+    content = models.CharField(max_length=1000)
 
+    def add_file_link(self, link):
+        self.file_link = link
+        return
     
+    def set_priority(self, p):
+        self.priority = p
+        return
     
+    def set_date_time(self):
+        self.date_time = datetime.datetime.now()
+        return
+    
+    def enter_content(self, c):
+        self.content = c
+        return

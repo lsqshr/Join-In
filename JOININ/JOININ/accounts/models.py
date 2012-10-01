@@ -129,7 +129,7 @@ JoinInUser.groups = ManyToManyField(JoinInGroup,related_name="joinin_user_groups
 class Feedback(models.Model):
     date_time = models.DateTimeField()
     written_by = models.ForeignKey(JoinInUser)
-    content = models.CharField(1000)
+    content = models.CharField(max_length=1000)
 
     def set_date_time(self):
         self.date_time=datetime.datetime.now()
