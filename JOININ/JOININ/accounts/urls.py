@@ -22,5 +22,5 @@ urlpatterns = patterns('',
     url(r'^login/$','JOININ.accounts.views.login'),
     url(r'^signup/$','JOININ.accounts.views.signup'),
     url(r'^forget_password/$','JOININ.accounts.views.forget_password'),
-    url(r'^register/$','JOININ.accounts.views.register'),
+    url(r'^signup/$','JOININ.accounts.views.signup'),
 )

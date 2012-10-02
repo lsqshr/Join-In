@@ -20,24 +20,30 @@ class File(models.Model):
           
 class Message(models.Model):
     reply_to = models.ForeignKey('self', null=True)
-    file_link = models.ForeignKey(File)
+    file = models.ForeignKey(File,null=True)
+    web_url = models.URLField(null=True)
     priority_choices = ((1, 'Low'),(2, 'Medium'),( 3, 'High'),)
     priority = models.IntegerField(choices=priority_choices, default=1)
-    date_time = models.DateTimeField()
+    send_datetime = models.DateTimeField()
     belongs_to_group = models.ForeignKey(JoinInGroup)
     written_by = models.ForeignKey(JoinInUser)
     content = models.CharField(max_length=1000)
 
-    def add_file_link(self, link):
-        self.file_link = link
+    #methods
+    def add_url(self,url):
+        self.web_url=url
+        return
+    
+    def add_file(self, file):
+        self.file = file
         return
     
     def set_priority(self, p):
         self.priority = p
         return
     
-    def set_date_time(self):
-        self.date_time = datetime.datetime.now()
+    def set_datetime(self):
+        self.send_datetime = datetime.datetime.now()
         return
     
     def enter_content(self, c):

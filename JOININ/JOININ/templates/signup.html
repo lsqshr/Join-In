@@ -1,6 +1,23 @@
-<form method="POST" action="" enctype="multipart/form-data">
+{% extends "base.html" %}
+{% block content %}
+<br><br>
+<h1 align='center'>Register</h1>
+
+<form method="POST" action="" enctype="multipart/form-data" align="center"">
+	<br><br><br><br>
+	{% if errors %}
+		{% for error in errors %}
+		<p align="center" style="color:red;"><b>{{error}}</b></p>
+		{% endfor %}
+	{% endif %}
 		{% csrf_token %}
-		{{form.as_table}}
-		<input type="submit" value="Submit">
+		<p style="color:red;">{{form.email.errors}}</p>
+		Email address:{{form.email}}<br><br>
+		<p style="color:red;">{{form.password.errors}}</p>
+		Password:{{form.password}}<br><br>
+		<p style="color:red;">{{form.confirm_password.errors}}</p>
+		Confirm password:{{form.confirm_password}}<br><br>
+		<input name="Submit" type="submit" value="submit">
 	</table>
 </form>
+{% endblock %}

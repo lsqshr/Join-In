@@ -39,10 +39,10 @@ def signup(request):
             #see if two password match each other
             if password!=confirm_password:
                 errors.append('Sorry, two password do not match each other.')
-                return render_to_response('signup.html',{'form',form,'errors',errors},context_instance=RequestContext(request,{}))
+                return render_to_response('signup.html',{'form':form,'errors':errors,'page_name':'Register'},context_instance=RequestContext(request,{}))
             new_joinin_user=JoinInUser.objects.create_user(email, password)
             #redirect to the congratulations view
             return render_to_response('congrats_signup.html',{'user':new_joinin_user.user}) 
     else:
         form=SignupForm()
-    return render_to_response('signup.html',{'form':form},context_instance=RequestContext(request,{}))
+    return render_to_response('signup.html',{'form':form,'page_name':'Register'},context_instance=RequestContext(request,{}))
