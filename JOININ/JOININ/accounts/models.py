@@ -18,13 +18,14 @@ class JoinInUser(models.Model):
     '''
     #vars
     user = models.ForeignKey(User, null=False,unique=True,related_name='user_fk')
+    full_name = models.CharField(max_length=100, null=False)
     phone = models.CharField(max_length=20, null=True)
     phone_public = models.BooleanField(default=False) 
     profile_img = models.ImageField(upload_to='profile_imgs',null=True)
     system_notification = models.BooleanField(default=True)
     email_update = BooleanField(default=True)
     objects=JoinInUserManager() 
-    last_login=models.DateTimeField(null=True)
+    last_login=models.TimeField()
     
     #methods
     def join_group(self, group):
@@ -104,7 +105,7 @@ class JoinInGroup(models.Model):
     '''Group for Join in system. different with the auth.Group
     '''
     name = models.CharField(max_length=15)
-    create_datetime = models.DateTimeField()
+    datetime = models.DateTimeField()
     invitations = ManyToManyField(JoinInUser, null=True,related_name="group_invitations")
     appliers = ManyToManyField(JoinInUser, null=True,related_name="group_appliers")
     users = ManyToManyField(JoinInUser, null=True,related_name="group_users")

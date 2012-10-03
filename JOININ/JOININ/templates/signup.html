@@ -11,11 +11,23 @@
 		{% endfor %}
 	{% endif %}
 		{% csrf_token %}
-		<font style="color:red;">{{form.email.errors}}</font>
+		{% if form.email.errors %}
+			{% for e_error in form.email.errors %}
+				<p align="center" style="color:red;">{{e_error}}</p>
+			{% endfor %}
+		{%  endif %}
 		Email address:{{form.email}}<br><br>
-		<font style="color:red;">{{form.password.errors}}</font>
+		{% if form.email.errors %}
+			{% for p_error in form.password.errors %}
+				<p align="center" style="color:red;">{{p_error}}</p>
+			{% endfor %}
+		{%  endif %}
 		Password:{{form.password}}<br><br>
-		<font style="color:red;">{{form.confirm_password.errors}}</font>
+		{% if form.email.errors %}
+			{% for c_error in form.confirm_password.errors %}
+				<p align="center" style="color:red;">{{c_error}}</p>
+			{% endfor %}
+		{%  endif %}
 		Confirm password:{{form.confirm_password}}<br><br>
 		<input name="Submit" type="submit" value="submit">
 	</table>
