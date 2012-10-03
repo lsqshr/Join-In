@@ -2,7 +2,7 @@ from JOININ.accounts.forms import SignupForm, LoginForm
 from JOININ.accounts.models import JoinInUser
 from django.contrib import auth
 from django.contrib.auth.models import User
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response
 from django.template.context import RequestContext
 
@@ -41,13 +41,19 @@ def signup(request):
                 errors.append('Sorry, two password do not match each other.')
                
             #see if the same email has been registered
-            if User.objects.get(username=email):
-                errors.append('Sorry,this email address has been used,please change another one')
+            try:
+                    User.objects.get(username=email)
+                    errors.append('Sorry,this email address has been used,please change another one')
+            except:
+                    pass         
             if errors:
-                 return render_to_response('signup.html',{'form':form,'errors':errors,'page_name':'Register'},context_instance=RequestContext(request,{}))
+                return render_to_response('signup.html',{'form':form,'errors':errors,'page_name':'Register'},context_instance=RequestContext(request,{}))
             new_joinin_user=JoinInUser.objects.create_user(email, password)
             #redirect to the congratulations view
             return render_to_response('congrats_signup.html',{'user':new_joinin_user.user}) 
     else:
         form=SignupForm()
     return render_to_response('signup.html',{'form':form,'page_name':'Register'},context_instance=RequestContext(request,{}))
+
+def forget_password(request):
+    return HttpResponse("forget!");

@@ -6,7 +6,8 @@ import datetime
     
 class JoinInUserManager(models.Manager):
     def create_user(self, email, password):
-        new_user = User.objects.create(username=email, email=email, password=password)
+        new_user = User.objects.create(username=email, email=email)
+        new_user.set_password(password)
         new_user.save()
         new_joinin_user=self.create(user=new_user) 
         return new_joinin_user
@@ -17,15 +18,14 @@ class JoinInUser(models.Model):
     by using a OneToOneField(User) property
     '''
     #vars
-    user = models.ForeignKey(User, null=False,unique=True,related_name='user_fk')
-    full_name = models.CharField(max_length=100, null=False)
+    user = models.OneToOneField(User, null=False,unique=True,related_name='joinin_users')
     phone = models.CharField(max_length=20, null=True)
     phone_public = models.BooleanField(default=False) 
     profile_img = models.ImageField(upload_to='profile_imgs',null=True)
     system_notification = models.BooleanField(default=True)
     email_update = BooleanField(default=True)
     objects=JoinInUserManager() 
-    last_login=models.TimeField()
+    last_login=models.DateTimeField()
     
     #methods
     def join_group(self, group):
@@ -105,7 +105,7 @@ class JoinInGroup(models.Model):
     '''Group for Join in system. different with the auth.Group
     '''
     name = models.CharField(max_length=15)
-    datetime = models.DateTimeField()
+    create_datetime = models.DateTimeField()
     invitations = ManyToManyField(JoinInUser, null=True,related_name="group_invitations")
     appliers = ManyToManyField(JoinInUser, null=True,related_name="group_appliers")
     users = ManyToManyField(JoinInUser, null=True,related_name="group_users")
@@ -123,16 +123,16 @@ class JoinInGroup(models.Model):
         self.users.remove(user)
         
 #append to class declaration of JoinInUser to avoid circular dependency
-JoinInUser.groups = ManyToManyField(JoinInGroup,related_name="joinin_user_groups")
+JoinInUser.groups = ManyToManyField(JoinInGroup,related_name="joinin_users")
 
     
 class Feedback(models.Model):
-    date_time = models.DateTimeField()
-    written_by = models.ForeignKey(JoinInUser)
+    send_datetime = models.DateTimeField()
+    written_by = models.ForeignKey(JoinInUser,related_name='feedbacks')
     content = models.CharField(max_length=1000)
 
     def set_date_time(self):
-        self.date_time=datetime.datetime.now()
+        self.send_datetime=datetime.datetime.now()
         return
     
     def enter_content(self,c):
