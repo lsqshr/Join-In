@@ -19,13 +19,13 @@ class JoinInUser(models.Model):
     '''
     #vars
     user = models.OneToOneField(User, null=False,unique=True,related_name='joinin_users')
-    phone = models.CharField(max_length=20, null=True)
+    phone = models.CharField(max_length=20, null=True,blank=True)
     phone_public = models.BooleanField(default=False) 
-    profile_img = models.ImageField(upload_to='profile_imgs',null=True)
+    profile_img = models.ImageField(upload_to='profile_imgs',null=True,blank=True)
     system_notification = models.BooleanField(default=True)
     email_update = BooleanField(default=True)
     objects=JoinInUserManager() 
-    last_login=models.DateTimeField()
+    last_login=models.DateTimeField(null=True,blank=True)
     
     def __unicode__(self):
         return 'JoinInUser for:'+ self.user.username
