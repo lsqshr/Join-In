@@ -27,6 +27,8 @@ class JoinInUser(models.Model):
     objects=JoinInUserManager() 
     last_login=models.DateTimeField()
     
+    def __unicode__(self):
+        return 'JoinInUser for:'+ self.user.username
     #methods
     def join_group(self, group):
         # group is a JoinInGroup instance 
@@ -112,6 +114,8 @@ class JoinInGroup(models.Model):
     public = BooleanField(default=False)#if the group is free to apply to join without the creator's permission.'
     creator = OneToOneField(JoinInUser)
     
+    def __unicode__(self):
+        return self.name
     #methods
     def add_user(self, user):
         self.users.add(user)
@@ -138,5 +142,3 @@ class Feedback(models.Model):
     def enter_content(self,c):
         self.content=c
         return
-
-

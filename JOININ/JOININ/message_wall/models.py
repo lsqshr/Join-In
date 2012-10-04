@@ -18,6 +18,8 @@ class Message(models.Model):
     written_by = models.ForeignKey(JoinInUser,related_name='messages')
     content = models.CharField(max_length=1000)
 
+    def __unicode__(self):    
+        return 'from:'+self.written_by+'content:'+self.content
     #methods
     def add_url(self,url):
         self.web_url=url
@@ -51,6 +53,9 @@ class PrivateMessage(models.Model):
     priorty=models.CharField(max_length=1)
     trashed=models.BooleanField(default=False)
     
+    def __unicode__(self):
+        return 'private message to:' + self.message.content
+        
     def get_messages(self,user_id,group_id):
         joinin_user=User.objects.get(id=user_id).JoinInUser
         if group_id:

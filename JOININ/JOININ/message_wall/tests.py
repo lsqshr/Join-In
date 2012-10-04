@@ -39,5 +39,5 @@ class message_tests(TestCase):
         msgs=Message.objects.all()
         self.assert_(msgs[0].content=='hi, I send myself a message!', "Message not sent properly")
         p_msgs=PrivateMessage.objects.all()
-        self.assert_(p_msgs[0]., )
+        #self.assert_(p_msgs[0]., )
         #clear the message 
