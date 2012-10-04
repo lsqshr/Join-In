@@ -36,4 +36,8 @@ class message_tests(TestCase):
                            send_to=user, belongs_to_group=group, \
                            written_by=user, 'hi, I send myself a message!')
         #if the message is send correctly
+        msgs=Message.objects.all()
+        self.assert_(msgs[0].content=='hi, I send myself a message!', "Message not sent properly")
+        p_msgs=PrivateMessage.objects.all()
+        self.assert_(p_msgs[0]., )
         #clear the message 
