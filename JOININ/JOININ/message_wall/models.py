@@ -13,6 +13,7 @@ class Message(models.Model):
     priority_choices = ((1, 'Low'),(2, 'Medium'),( 3, 'High'),)
     priority = models.IntegerField(choices=priority_choices, default=1)
     send_datetime = models.DateTimeField()
+    send_to=models.ForeignKey(JoinInUser,related_name='one_to_one_messages',null=True)
     belongs_to_group = models.ForeignKey(JoinInGroup,related_name='messages')
     written_by = models.ForeignKey(JoinInUser,related_name='messages')
     content = models.CharField(max_length=1000)
