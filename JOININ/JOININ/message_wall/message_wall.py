@@ -18,10 +18,10 @@ class MessageWall(object):
         def __init__(self):
             '''Constructor for MessageIterator'''
             self.message_list = None
-        def retrieve_list(self, type, owner_id, group_id, start, end):
+        def retrieve_list(self, type, owner_id, group_id, start=None, end=None):
             #TODO:add limit to the retrieve record number. start to end, use [:] to slice the result set
             self.message_list = PrivateMessage.get_messages(self._owner_id, self._group_id)#the list for private messages
-            return
+            return self.message_list
         
         def search(self):
             return
@@ -40,7 +40,7 @@ class MessageWall(object):
         self.msg_iter = self.MessageIterator()
         return
     
-    def retrieve_list(self, start, end):
+    def retrieve_list(self, start=None, end=None):
         #currently it just retrieve all the message relevant to this user once this method is called
         #In the future, we will take the memory efficiency into consideration.
         
