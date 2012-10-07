@@ -127,7 +127,7 @@ class JoinInGroup(models.Model):
         self.users.remove(user)
         
 #append to class declaration of JoinInUser to avoid circular dependency
-JoinInUser.groups = ManyToManyField(JoinInGroup,related_name="joinin_users")
+#JoinInUser.groups = ManyToManyField(JoinInGroup,related_name="joinin_users")
 
     
 class Feedback(models.Model):

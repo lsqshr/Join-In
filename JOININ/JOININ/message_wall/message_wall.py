@@ -113,4 +113,4 @@ class MessageWall(object):
                 p_msg.save()
         else: 
             p_msg = PrivateMessage.objects.create(msg, send_to, False, 2, False) 
-        return
+        return msg
