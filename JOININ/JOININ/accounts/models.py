@@ -108,9 +108,9 @@ class JoinInGroup(models.Model):
     '''
     name = models.CharField(max_length=15)
     create_datetime = models.DateTimeField()
-    invitations = ManyToManyField(JoinInUser, null=True,related_name="group_invitations")
-    appliers = ManyToManyField(JoinInUser, null=True,related_name="group_appliers")
-    users = ManyToManyField(JoinInUser, null=True,related_name="group_users")
+    invitations = ManyToManyField(JoinInUser, null=True,related_name="groups_invites")
+    appliers = ManyToManyField(JoinInUser, null=True,related_name="groups_to_apply")
+    users = ManyToManyField(JoinInUser, null=True,related_name="groups")
     public = BooleanField(default=False)#if the group is free to apply to join without the creator's permission.'
     creator = OneToOneField(JoinInUser)
     
@@ -127,7 +127,7 @@ class JoinInGroup(models.Model):
         self.users.remove(user)
         
 #append to class declaration of JoinInUser to avoid circular dependency
-JoinInUser.groups = ManyToManyField(JoinInGroup,related_name="joinin_users")
+#JoinInUser.groups = ManyToManyField(JoinInGroup,related_name="joinin_users")
 
     
 class Feedback(models.Model):

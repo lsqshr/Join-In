@@ -16,7 +16,7 @@ class Message(models.Model):
     belongs_to_group = models.ForeignKey(JoinInGroup,related_name='messages')
     written_by = models.ForeignKey(JoinInUser,related_name='messages')
     content = models.CharField(max_length=1000)
-
+    
     def __unicode__(self):    
         return 'from:'+self.written_by+'content:'+self.content
     #methods
