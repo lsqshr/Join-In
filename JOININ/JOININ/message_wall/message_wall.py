@@ -53,7 +53,7 @@ class MessageWall(object):
             p_msg.read = is_read
             p_msg.save()
         except PrivateMessage.DoesNotExist:
-            raise 'Error. The message not found.'
+            raise Exception('Error. The message not found.')
         return
     
     def mark_priority(self, message_id, priority):
@@ -63,7 +63,7 @@ class MessageWall(object):
             p_msg.priority = priority
             p_msg.save()
         except PrivateMessage.DoesNotExist:
-            raise 'Error. The message not found.' 
+            raise Exception('Error. The message not found.' )
         return
     
     def trash(self, message_id):
@@ -73,7 +73,7 @@ class MessageWall(object):
             p_msg.trashed = True
             p_msg.save()
         except PrivateMessage.DoesNotExist:
-            raise 'Error. The message not found.' 
+            raise Exception('Error. The message not found.' )
         return
     
     def delete_message(self, message_id):
@@ -81,7 +81,7 @@ class MessageWall(object):
         try:
             PrivateMessage.objects.get(message__id=message_id).delete()
         except PrivateMessage.DoesNotExist:
-            raise 'Error. The message not found.' 
+            raise Exception('Error. The message not found.' )
         return
         
     def send_message(self, reply_to=None, web_url=None, priority=2, \
@@ -101,7 +101,7 @@ class MessageWall(object):
         try:
                 group = JoinInGroup.objects.get(id=belongs_to_group)
         except JoinInGroup.DoesNotExist:
-                raise "Group not found"
+                raise Exception("Group not found")
         #create private messages relevant to where this message is expected to be sent
         if send_to is None:
            

@@ -18,7 +18,7 @@ def private_message_wall(request,user_id):
     try:
         user=JoinInUser.objects.get(id=user_id)
     except JoinInUser.DoesNotExist:
-        raise "Sorry, this user does not exist. Please contact the system administrator."
+        raise Exception("Sorry, this user does not exist. Please contact the system administrator.")
     groups=user.groups.all()
     
     if request.method=="POST":
@@ -38,11 +38,11 @@ def private_message_wall(request,user_id):
             try:
                 send_to=JoinInUser.objects.get(user__username=send_to)
             except JoinInUser.DoesNotExist:
-                raise "Fail to find the user to send the message. User with email:"+send_to+" does not exist." 
+                raise Exception("Fail to find the user to send the message. User with email:"+send_to+" does not exist.") 
             try:
                 belongs_to=JoinInGroup.objects.get(name=belongs_to)
             except JoinInGroup.DoesNotExist:
-                raise "Fail to find the group to send the message. Group with name "+belongs_to+" does not exist."
+                raise Exception("Fail to find the group to send the message. Group with name "+belongs_to+" does not exist.")
             #send this message
             msgw=MessageWall(owner=user_id)
             msgw.send_message(web_url,send_datetime=datetime.datetime.now(), send_to=send_to, belongs_to=belongs_to, written_by=user, content=content)#did not include priority
