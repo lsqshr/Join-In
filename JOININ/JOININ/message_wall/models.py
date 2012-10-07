@@ -1,4 +1,3 @@
-from Canvas import Group
 from JOININ.accounts.models import JoinInUser, JoinInGroup
 from django.contrib.auth.models import User
 from django.db import models
