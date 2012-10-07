@@ -20,7 +20,13 @@ class MessageWall(object):
             self.message_list = None
         def retrieve_list(self, type, owner_id, group_id, start=None, end=None):
             #TODO:add limit to the retrieve record number. start to end, use [:] to slice the result set
-            self.message_list = PrivateMessage.get_messages(self._owner_id, self._group_id)#the list for private messages
+            joinin_user=User.objects.get(id=owner_id).joinin_user
+            if group_id:
+                self.message_list=joinin_user.private_messages.order_by('message__send_datetime')
+            else:
+                self.message_list=joinin_user.private_messages.filter(message__belongs_to_group__id=group_id)\
+                    .order_by('message__send_datetime')
+            
             return self.message_list
         
         def search(self):
@@ -44,7 +50,7 @@ class MessageWall(object):
         #currently it just retrieve all the message relevant to this user once this method is called
         #In the future, we will take the memory efficiency into consideration.
         
-        return self.msg_iter.retrieve_list(None, self.owner_id, self.group_id, start, end)
+        return self.msg_iter.retrieve_list(None, self._owner_id, self._group_id, start, end)
     
     def mark_message_read(self, message_id, is_read):
         #get the private_message matching the message_id

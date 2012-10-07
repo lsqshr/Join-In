@@ -19,14 +19,14 @@
 				user-{{pmsg.message.send_to}}
 			{%else%}
 				group-{{pmsg.message.belongs_to_group}} 
-			{%end if%}
+			{%endif%}
 			content:{{pmsg.message.content}}
 			when:{pmsg.datetime}}
 			priority:{{pmsg.priority}}</a>
 		</div>
 		<div><!--replies-->
 			<ul>
-			{% for reply in pmsg.reply.all()%}
+			{% for reply in pmsg.reply.all%}
 					<div>
 						from: {{pmsg.message.written_by}} 
 						to: 
@@ -34,7 +34,7 @@
 							user-{{pmsg.message.send_to}}
 						{%else%}
 							group-{{pmsg.message.belongs_to_group}} 
-						{%end if%}
+						{%endif%}
 						content:{{pmsg.message.content}}
 						when:{pmsg.datetime}}
 						priority:{{pmsg.priority}}</a>

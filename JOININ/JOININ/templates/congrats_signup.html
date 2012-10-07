@@ -1,2 +1,10 @@
-congrats!!{{user.username}},You are now member of Join-In! Enjoy group work! <br/>
-<a href="message_wall">
+{% extends "base.html" %}
+{% block content %}
+<font color="Brown" align="center">
+	<h2>Congratulations! Dear {{user.username}},user id {{user.id}} You 
+		have been a member of Join-in! <br/>
+		<center><a href="/message_wall/{{user.id}}/">Start your group work here!</center>
+		</a>
+	</h2>
+</font> 
+{% endblock %}

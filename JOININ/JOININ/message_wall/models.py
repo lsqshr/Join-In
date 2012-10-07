@@ -19,26 +19,6 @@ class Message(models.Model):
     
     def __unicode__(self):    
         return 'from:'+self.written_by+'content:'+self.content
-    #methods
-    def add_url(self,url):
-        self.web_url=url
-        return
-    
-    def add_file(self, file):
-        self.file = file
-        return
-    
-    def set_priority(self, p):
-        self.priority = p
-        return
-    
-    def set_datetime(self):
-        self.send_datetime = datetime.datetime.now()
-        return
-    
-    def enter_content(self, c):
-        self.content = c
-        return
 
 class PrivateMessage(models.Model):
     '''
@@ -54,14 +34,6 @@ class PrivateMessage(models.Model):
     
     def __unicode__(self):
         return 'private message to:' + self.message.content
-        
-    def get_messages(self,user_id,group_id):
-        joinin_user=User.objects.get(id=user_id).JoinInUser
-        if group_id:
-            return joinin_user.private_messages.order_by('message__send_datetime')
-        else:
-            return joinin_user.private_messages.filter(message__belongs_to_group__id=group_id)\
-                .order_by('message__send_datetime')
        
     
 class File(models.Model):

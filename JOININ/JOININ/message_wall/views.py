@@ -16,11 +16,13 @@ def hi(request):
 def private_message_wall(request,user_id):
     #get all the groups this person registered
     try:
-        user=JoinInUser.objects.get(id=user_id)
+        user=request.user
     except JoinInUser.DoesNotExist:
-        raise Exception("Sorry, this user does not exist. Please contact the system administrator.")
+        raise Exception("Sorry, this user does not exist. Please contact the system administrator."+"USERID:"+str(user_id))
     groups=user.groups.all()
-    
+    #create the messagewall instance for this view
+    msgw=MessageWall(user_id=user.id)
+    #deal with the form
     if request.method=="POST":
         form=SendMessageForm(request.POST)
         if form.is_valid():
@@ -44,16 +46,16 @@ def private_message_wall(request,user_id):
             except JoinInGroup.DoesNotExist:
                 raise Exception("Fail to find the group to send the message. Group with name "+belongs_to+" does not exist.")
             #send this message
-            msgw=MessageWall(owner=user_id)
             msgw.send_message(web_url,send_datetime=datetime.datetime.now(), send_to=send_to, belongs_to=belongs_to, written_by=user, content=content)#did not include priority
              
-            #get all the private messages to this user
-            p_msgs=msgw.retrieve_list()
+            
             
     else:
         pass 
+    #get all the private messages to this user
+    p_msgs=msgw.retrieve_list()
     #refresh the form to render
-    form=SendMessageForm(user_id)
+    form=SendMessageForm(user=request.user)
     #add groups to the choicefield of the SendMessageForm
     return render_to_response('message_wall.html',{'form':form,'page_name':'Message Wall', 'private_messages':p_msgs},context_instance=RequestContext(request,{}))
     

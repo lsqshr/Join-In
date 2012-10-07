@@ -18,7 +18,7 @@ class JoinInUser(models.Model):
     by using a OneToOneField(User) property
     '''
     #vars
-    user = models.OneToOneField(User, null=False,unique=True,related_name='joinin_users')
+    user = models.OneToOneField(User, null=False,unique=True,related_name='joinin_user')
     phone = models.CharField(max_length=20, null=True,blank=True)
     phone_public = models.BooleanField(default=False) 
     profile_img = models.ImageField(upload_to='profile_imgs',null=True,blank=True)
