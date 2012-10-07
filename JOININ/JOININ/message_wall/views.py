@@ -24,7 +24,7 @@ def private_message_wall(request,user_id):
     msgw=MessageWall(user_id=user.id)
     #deal with the form
     if request.method=="POST":
-        form=SendMessageForm(request.POST)
+        form=SendMessageForm(request.user,request.POST)
         if form.is_valid():
             cd = form.cleaned_data
             if cd.has_key('web_url'):
