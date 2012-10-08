@@ -18,15 +18,13 @@ class MessageWall(object):
         def __init__(self):
             '''Constructor for MessageIterator'''
             self.message_list = None
-        def retrieve_list(self, type, owner_id, group_id, start=None, end=None):
+        def retrieve_list(self, type, user, group, start=None, end=None):
             #TODO:add limit to the retrieve record number. start to end, use [:] to slice the result set
-            joinin_user=User.objects.get(id=owner_id).joinin_user
-            if group_id:
-                self.message_list=joinin_user.private_messages.order_by('message__send_datetime')
+            if not group:
+                self.message_list=user.private_messages.order_by('message__send_datetime')
             else:
-                self.message_list=joinin_user.private_messages.filter(message__belongs_to_group__id=group_id)\
+                self.message_list=user.private_messages.filter(message__belongs_to_group=group)\
                     .order_by('message__send_datetime')
-            
             return self.message_list
         
         def search(self):
@@ -35,14 +33,14 @@ class MessageWall(object):
         def get_list(self):
             return self.message_list
 
-    def __init__(self, user_id, group_id=None):
+    def __init__(self, user, group=None):
         '''
         Constructor
         @param id: id of user/group
         @param is_group: whether this class's owner is a group  
         '''
-        self._owner_id = user_id#id of the owner of this class
-        self._group_id = group_id
+        self._user = user
+        self._group = group
         self.msg_iter = self.MessageIterator()
         return
     
@@ -50,7 +48,7 @@ class MessageWall(object):
         #currently it just retrieve all the message relevant to this user once this method is called
         #In the future, we will take the memory efficiency into consideration.
         
-        return self.msg_iter.retrieve_list(None, self._owner_id, self._group_id, start, end)
+        return self.msg_iter.retrieve_list(None, self._user, self._group, start, end)
     
     def mark_message_read(self, message_id, is_read):
         #get the private_message matching the message_id
@@ -97,26 +95,23 @@ class MessageWall(object):
         #@param send_to: if send_to is not setted, it means this message is going 
         #to be send to the whole group stated 
         #create a new message,if send_to is None, then send this message to the whole group
-        msg = Message.objects.create(reply_to, web_url, priority,\
-                                      send_datetime, send_to, belongs_to_group, written_by, content);
-        #create files
-        for file in files:
-            file.message = msg
-            file.save()
-        #find the group this message is expected to be sent to
-        try:
-                group = JoinInGroup.objects.get(id=belongs_to_group)
-        except JoinInGroup.DoesNotExist:
-                raise Exception("Group not found")
+        msg = Message.objects.create(reply_to=reply_to, web_url=web_url, priority=priority,\
+                                      send_datetime=send_datetime, send_to=send_to, belongs_to_group=belongs_to_group, written_by=written_by, content=content);
+        if files:
+            #create files
+            for file in files:
+                file.message = msg
+                file.save()
+       
         #create private messages relevant to where this message is expected to be sent
         if send_to is None:
            
             #find the users in that group
-            users = group.joinin_users
+            users = belongs_to_group.joinin_users
             #for each user in that group, create a new private message
             for user in users:
                 p_msg = PrivateMessage.objects.create(msg, user, False, 2, False)
                 p_msg.save()
         else: 
-            p_msg = PrivateMessage.objects.create(msg, send_to, False, 2, False) 
+            p_msg = PrivateMessage.objects.create(message=msg, belongs_to=send_to, read=False, priority=2, trashed=False) 
         return msg

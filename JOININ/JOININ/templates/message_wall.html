@@ -6,8 +6,12 @@
 	<button type="submit">Post</button>
 </form>
 
-
-
+debug: 
+{%for d in debug%}
+	{{d}},
+{%endfor%}
+message_wall
+{{private_messages}}
 <!--START TO SHOW THE MESSAGE WALL-->
 <ul>
 {%for pmsg in private_messages%}

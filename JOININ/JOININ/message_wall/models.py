@@ -17,8 +17,9 @@ class Message(models.Model):
     written_by = models.ForeignKey(JoinInUser,related_name='messages')
     content = models.CharField(max_length=1000)
     
-    def __unicode__(self):    
-        return 'from:'+self.written_by+'content:'+self.content
+    def __unicode__(self):
+        username_str=self.written_by.user.username
+        return 'from:'+username_str+'content:'+self.content
 
 class PrivateMessage(models.Model):
     '''
@@ -29,7 +30,7 @@ class PrivateMessage(models.Model):
     message=models.ForeignKey(Message,related_name='private_messages')
     belongs_to=models.ForeignKey(JoinInUser,related_name='private_messages')
     read=models.BooleanField(default=False)
-    priorty=models.CharField(max_length=1)
+    priority=models.CharField(max_length=1)
     trashed=models.BooleanField(default=False)
     
     def __unicode__(self):
