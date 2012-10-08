@@ -34,13 +34,16 @@ def private_message_wall(request,user_id):
             priority=cd['priority']
             if cd.has_key('send_to'):
                 send_to=cd['send_to']
+                if send_to is u'':
+                    send_to=None
             else:
                 send_to=None
             belongs_to=cd['belongs_to_group']
             content=cd['content']
             #get all the entities
             try:
-                send_to=JoinInUser.objects.get(user__username=send_to)
+                if send_to:
+                    send_to=JoinInUser.objects.get(user__username=send_to)
             except JoinInUser.DoesNotExist:
                 raise Exception("Fail to find the user to send the message. User with email:"+send_to+" does not exist.") 
             try:
@@ -50,7 +53,7 @@ def private_message_wall(request,user_id):
             #send this message
             msgw.send_message(web_url=web_url,send_datetime=datetime.datetime.now(), send_to=send_to, belongs_to_group=belongs_to, written_by=user, content=content)#did not include priority
     else:
-        pass 
+        pass
     #get all the private messages to this user
     p_msgs=msgw.retrieve_list()
     #refresh the form to render

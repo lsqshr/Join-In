@@ -107,11 +107,10 @@ class MessageWall(object):
         if send_to is None:
            
             #find the users in that group
-            users = belongs_to_group.joinin_users
+            users = belongs_to_group.users.all()
             #for each user in that group, create a new private message
             for user in users:
-                p_msg = PrivateMessage.objects.create(msg, user, False, 2, False)
-                p_msg.save()
+                PrivateMessage.objects.create(message=msg, belongs_to=user, read=False, priority=2, trashed=False)
         else: 
-            p_msg = PrivateMessage.objects.create(message=msg, belongs_to=send_to, read=False, priority=2, trashed=False) 
+            PrivateMessage.objects.create(message=msg, belongs_to=send_to, read=False, priority=2, trashed=False) 
         return msg

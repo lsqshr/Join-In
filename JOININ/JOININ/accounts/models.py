@@ -1,7 +1,8 @@
 from django.contrib.auth.models import User
 from django.db import models
 from django.db.models.fields import BooleanField
-from django.db.models.fields.related import ManyToManyField, OneToOneField
+from django.db.models.fields.related import ManyToManyField, OneToOneField,\
+    ForeignKey
 import datetime
     
 class JoinInUserManager(models.Manager):
@@ -112,7 +113,7 @@ class JoinInGroup(models.Model):
     appliers = ManyToManyField(JoinInUser, null=True,related_name="groups_to_apply")
     users = ManyToManyField(JoinInUser, null=True,related_name="groups")
     public = BooleanField(default=False)#if the group is free to apply to join without the creator's permission.'
-    creator = OneToOneField(JoinInUser)
+    creator = ForeignKey(JoinInUser,related_name='created_groups')
     
     def __unicode__(self):
         return self.name
