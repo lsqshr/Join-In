@@ -14,28 +14,18 @@ def login(request):
         form = LoginForm(request.POST)
         if form.is_valid():
             cd = form.cleaned_data
-<<<<<<< HEAD
-            username = cd['username']
-            password = cd['password']
-            user = auth.authenticate(username=username, password=password)
-=======
             errors=[]
             username=cd['username']
             password=cd['password']
             user=auth.authenticate(username=username,password=password)
->>>>>>> branch 'master' of https://github.com/lsqshr/Join-In.git
             if user is not None and user.is_active:
                 #Correct Password, and User is marked "active"
                 auth.login(request, user)
                 #Redirect to a success page.
                 return HttpResponseRedirect("/message_wall/" + str(user.id) + '/')
             else:
-<<<<<<< HEAD
-                return render_to_response('login.html', {'form':form, 'page_name':'Log-in'}, context_instance=RequestContext(request, {}))
-=======
                 errors.append('Your username or password is incorrect,please try again.')
                 return render_to_response('login.html',{'form':form,'page_name':'Log-in','errors':errors},context_instance=RequestContext(request,{}))
->>>>>>> branch 'master' of https://github.com/lsqshr/Join-In.git
     else:
         form = LoginForm()
     return render_to_response('login.html', {'form':form, 'page_name':'Log-in'}, context_instance=RequestContext(request, {}))
