@@ -12,6 +12,7 @@ def login(request):
         form=LoginForm(request.POST)
         if form.is_valid():
             cd = form.cleaned_data
+            errors=[]
             username=cd['username']
             password=cd['password']
             user=auth.authenticate(username=username,password=password)
@@ -21,7 +22,8 @@ def login(request):
                 #Redirect to a success page.
                 return HttpResponseRedirect("/message_wall/"+str(user.id)+'/')
             else:
-                return render_to_response('login.html',{'form':form,'page_name':'Log-in'},context_instance=RequestContext(request,{}))
+                errors.append('Your username or password is incorrect,please try again.')
+                return render_to_response('login.html',{'form':form,'page_name':'Log-in','errors':errors},context_instance=RequestContext(request,{}))
     else:
         form=LoginForm()
     return render_to_response('login.html',{'form':form,'page_name':'Log-in'},context_instance=RequestContext(request,{}))
