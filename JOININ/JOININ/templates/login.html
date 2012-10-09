@@ -2,22 +2,28 @@
 {% block content %}
 <br><br>
 <a href="/accounts/signup/"><img src="/static/images/register-button.jpg" align="right" width="100" height="38"></a>
-<form method="POST" action="" enctype="multipart/form-data" align="center"">
-	<br><br><br><br><br>
-		{% csrf_token %}
-		{% if form.username.errors %}
-			{% for error in form.username.errors %}
-				<p style="color:red;"> {{error}} </p>
-			{% endfor %}
-		{% endif %}
-		Username:{{form.username}}<br><br>
-		{% if form.username.errors %}
-			{% for error in form.password.errors %}
-				<p style="color:red;"> {{error}} </p>
-			{% endfor %}
-		{% endif %}
-		Password:{{form.password}}<br><br>
-		<input name="Submit" type="submit" value="submit">&nbsp;<a href="/accounts/forget_password/">Forget password?</a>
-	</table>
-</form>
+<center>
+	<form method="POST" action="" enctype="multipart/form-data" align="center"">
+		<br><br><br><br><br>
+			{% csrf_token %}
+			{% if errors %}
+				{% for error in errors %}
+					<p style='color:red;' align="center"><b>{{error}}</b></p>
+				{% endfor %}
+			{% endif %}
+			{% if form.username.errors %}
+				{% for error in form.username.errors %}
+					<p style="color:red;"> {{error}} </p>
+				{% endfor %}
+			{% endif %}
+			Username:{{form.username}}<br><br>
+			{% if form.username.errors %}
+				{% for error in form.password.errors %}
+					<p style="color:red;"> {{error}} </p>
+				{% endfor %}
+			{% endif %}
+			Password:{{form.password}}<br><br>
+			<input name="Submit" type="submit" value="submit">&nbsp;<a href="/accounts/forget_password/">Forget password?</a>
+	</form>
+</center>
 {% endblock %}
