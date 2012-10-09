@@ -1,0 +1,37 @@
+<!--START TO SHOW THE MESSAGE WALL-->
+<ul>
+{%for pmsg in private_messages%}
+	<li><a href="{{pmsg.message.web_url}}">
+		<div><!--main message-->
+			from: {{pmsg.message.written_by}} 
+			to: 
+			{%if pmsg.message.send_to%}
+				user-{{pmsg.message.send_to}}
+			{%else%}
+				group-{{pmsg.message.belongs_to_group}} 
+			{%endif%}
+			content:{{pmsg.message.content}}
+			when:{pmsg.datetime}}
+			priority:{{pmsg.priority}}</a>
+		</div>
+		<div><!--replies-->
+			<ul>
+			{% for reply in pmsg.reply.all%}
+					<div>
+						from: {{pmsg.message.written_by}} 
+						to: 
+						{%if pmsg.message.send_to%}
+							user-{{pmsg.message.send_to}}
+						{%else%}
+							group-{{pmsg.message.belongs_to_group}} 
+						{%endif%}
+						content:{{pmsg.message.content}}
+						when:{pmsg.datetime}}
+						priority:{{pmsg.priority}}</a>
+					</div>
+			{%endfor%}
+			</ul>
+		</div>
+	</li>
+{%endfor%}
+</ul>
