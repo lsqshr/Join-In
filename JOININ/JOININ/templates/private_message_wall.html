@@ -2,6 +2,9 @@
 <a href="/accounts/logout/">logout</a>
 <a href="/accounts/create_group">create group</a>
 
+<!--groups joined-->
+{%include "accounts_modules/groups_joined.html" %}
+
 <!--post new message-->
 {% include "message_modules/message_sender.html" %}
 
@@ -12,4 +15,4 @@ debug:
 message_wall
 {{private_messages}}
 <!--START TO SHOW THE MESSAGE WALL-->
-{% include "private_message_modules/message_list.html" %}
+{% include "message_modules/private_message_list.html" %}
