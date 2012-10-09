@@ -20,14 +20,26 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'test',                      # Or path to database file if using sqlite3.
-        'USER': 'hangyu',                      # Not used with sqlite3.
-        'PASSWORD': 'hangyu che',                  # Not used with sqlite3.
-        'HOST': 'localhost',                      # Set to empty string for localhost. Not used with sqlite3.
+        'NAME': 'heroku_3b76441b2c16ef9', # Or path to database file if using sqlite3.
+        'USER': 'b0737e2544eb5d', # Not used with sqlite3.
+        'PASSWORD': '52616d18', # Not used with sqlite3.
+        'HOST': 'us-cdbr-east-02.cleardb.com', # Set to empty string for localhost. Not used with sqlite3.
+        'PORT': '3306', # Set to empty string for default. Not used with sqlite3.
+    }
+}
+'''
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': 'joinin',                      # Or path to database file if using sqlite3.
+        'USER': 'siqi',                      # Not used with sqlite3.
+        'PASSWORD': 'lsqshr',                  # Not used with sqlite3.
+        'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
+>>>>>>> branch 'master' of https://github.com/lsqshr/Join-In.git
         'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
     }
 }
-
+'''
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # although not all choices may be available on all operating systems.

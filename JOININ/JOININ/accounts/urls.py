@@ -23,4 +23,6 @@ urlpatterns = patterns('',
     url(r'^signup/$','JOININ.accounts.views.signup'),
     url(r'^forget_password/$','JOININ.accounts.views.forget_password'),
     url(r'^signup/$','JOININ.accounts.views.signup'),
+    url(r'^logout/$','JOININ.accounts.views.user_logout'),
+    url(r'^create_group/$','JOININ.accounts.views.create_group'),
 )

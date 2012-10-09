@@ -63,5 +63,5 @@ def private_message_wall(request,user_id):
 #    debug=[]
 #    debug.append(user)
 #    debug.append(p_msgs)
-    return render_to_response('message_wall.html',{'form':form,'page_name':'Message Wall', 'private_messages':p_msgs},context_instance=RequestContext(request,{}))
+    return render_to_response('message_wall.html',{'form':form,'page_name':'Message Wall', 'private_messages':p_msgs,"groups":groups},context_instance=RequestContext(request,{}))
     
