@@ -35,6 +35,7 @@ DATABASES = {
         'USER': 'siqi',                      # Not used with sqlite3.
         'PASSWORD': 'lsqshr',                  # Not used with sqlite3.
         'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
+>>>>>>> branch 'master' of https://github.com/lsqshr/Join-In.git
         'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
     }
 }
