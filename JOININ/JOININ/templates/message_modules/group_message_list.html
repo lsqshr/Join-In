@@ -1,0 +1,37 @@
+<!--START TO SHOW THE MESSAGE WALL-->
+<ul>
+{%for message in messages%}
+	<li><a href="{{message.web_url}}">
+		<div><!--main message-->
+			from: {{message.written_by}} 
+			to: 
+			{%if message.send_to%}
+				user-{{message.send_to}}
+			{%else%}
+				group-{{message.belongs_to_group}} 
+			{%endif%}
+			content:{{message.content}}
+			when:{message.send_datetime}}
+			priority:{{message.priority}}</a>
+		</div>
+		<div><!--replies-->
+			<ul>
+			{% for reply in message.reply.all%}
+					<div>
+						from: {{reply.written_by}} 
+						to: 
+						{%if reply.send_to%}
+							user-{{reply.send_to}}
+						{%else%}
+							group-{{reply.belongs_to_group}} 
+						{%endif%}
+						content:{{reply.content}}
+						when:{reply.send_datetime}}
+						priority:{{reply.priority}}</a>
+					</div>
+			{%endfor%}
+			</ul>
+		</div>
+	</li>
+{%endfor%}
+</ul>
