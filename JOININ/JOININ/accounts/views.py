@@ -70,6 +70,7 @@ def user_logout(request):
 def create_group(request):
     #get the current user
     user = request.user.joinin_user
+    errors=[]
     #get data from the form
     if request.method == 'GET':
         form = CreateGroupForm(request.GET)
@@ -78,13 +79,22 @@ def create_group(request):
             name = cd['name']
             public = cd['public']
             #create new JoinInGroup
-            new_group = JoinInGroup.objects.create(name=name, create_datetime=datetime.datetime.now(), \
+            group_exist=False
+            try:#see if the group name has been created before
+                JoinInGroup.objects.get(name=name)
+                group_exist=True
+            except JoinInGroup.DoesNotExist:
+                group_exist=False
+            if(not group_exist):
+                new_group = JoinInGroup.objects.create(name=name, create_datetime=datetime.datetime.now(), \
                                                  public=public, creator=user)
-            new_group.users.add(user)
-            #this response is for DEVELOPMENT, in the future it will be redirect to the user's message wall and send a 
-            #system notification to this user to notify that he is in the group now.
-            return HttpResponse("success_create_group. <a href=\"/message_wall/"+str(request.user.id)+"\">go back to the messagewall.")
+                new_group.users.add(user)
+                #this response is for DEVELOPMENT, in the future it will be redirect to the user's message wall and send a 
+                #system notification to this user to notify that he is in the group now.
+                return HttpResponse("success_create_group. <a href=\"/message_wall/"+str(request.user.id)+"\">go back to the messagewall.")
+            else:
+                errors.append("The group name "+name+" has been taken. Please choose another one.")
     else:
         form = CreateGroupForm()
         form.fields['public'].initial = [True, "public"]
-    return render_to_response("create_group.html",{"form":form})
+    return render_to_response("create_group.html",{"form":form,"errors":errors})
