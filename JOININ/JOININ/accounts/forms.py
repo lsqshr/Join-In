@@ -13,8 +13,8 @@ class SignupForm(forms.Form):
     confirm_password=forms.CharField(max_length=50,widget=forms.PasswordInput)
     
 class LoginForm(forms.Form):
-    username=forms.CharField(max_length=50)
-    password=forms.CharField(max_length=50,widget=forms.PasswordInput)
+    username=forms.CharField(max_length=50,required=True)
+    password=forms.CharField(max_length=50,required=True,widget=forms.PasswordInput)
     
 class CreateGroupForm(forms.Form):
     name=forms.CharField(max_length=15)
