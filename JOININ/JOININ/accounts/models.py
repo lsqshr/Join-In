@@ -117,19 +117,6 @@ class JoinInGroup(models.Model):
     
     def __unicode__(self):
         return self.name
-    #methods
-    def add_user(self, user):
-        self.users.add(user)
-        return
-    def add_applier(self, user): 
-        self.appliers.add(user)
-        return
-    def delete_user(self, user):
-        self.users.remove(user)
-        
-#append to class declaration of JoinInUser to avoid circular dependency
-#JoinInUser.groups = ManyToManyField(JoinInGroup,related_name="joinin_users")
-
     
 class Feedback(models.Model):
     send_datetime = models.DateTimeField()

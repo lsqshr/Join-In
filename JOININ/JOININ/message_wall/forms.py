@@ -7,7 +7,7 @@ from django import forms
 
 class SendMessageForm(forms.Form):
     web_url=forms.URLField(required=False)
-    priority=forms.IntegerField()
+    priority=forms.ChoiceField([(2,"Just message"),(1,"Ignore me"),(3,"Urgent")])
     send_to=forms.CharField(max_length=50,required=False)
     content=forms.CharField(max_length=140)
     belongs_to_group=forms.ChoiceField()
