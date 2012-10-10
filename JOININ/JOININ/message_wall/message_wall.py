@@ -23,7 +23,7 @@ class MessageWall(object):
             if not group:
                 self.message_list=user.private_messages.order_by('message__send_datetime')
             else:
-                self.message_list=user.private_messages.filter(message__belongs_to_group=group)\
+                self.message_list=user.private_messages.filter(message__belongs_to_group__name=group.name)\
                     .order_by('message__send_datetime')
             return self.message_list
         

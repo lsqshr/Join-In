@@ -11,7 +11,7 @@
 				group-{{pmsg.message.belongs_to_group}} 
 			{%endif%}
 			content:{{pmsg.message.content}}
-			when:{pmsg.message.send_datetime}}
+			when:{{pmsg.message.send_datetime}}
 			priority:{{pmsg.priority}}</a>
 		</div>
 		<div><!--replies-->
@@ -26,7 +26,7 @@
 							group-{{reply.message.belongs_to_group}} 
 						{%endif%}
 						content:{{reply.message.content}}
-						when:{reply.send_datetime}}
+						when:{{reply.send_datetime}}
 						priority:{{reply.priority}}</a>
 					</div>
 			{%endfor%}

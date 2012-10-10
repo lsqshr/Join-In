@@ -77,9 +77,9 @@ def group_message_wall(request, group_id):
         raise "Sorry, this group does not exist..." 
     #see if this user has permission to view the group content
     try:
-        group.users.get(id=request.user.id)
+        group.users.get(user__username=request.user.username)
     except JoinInUser.DoesNotExist:
-        return HttpResponse("sorry, you do not have the permission to view this group."+str(group.name))
+        return HttpResponse("sorry, you do not have the permission to view this group. Group Name:"+str(group.name)+"Your user id:"+str(request.user.id))
     #get all the messages to render
     messages=group.messages.all()
     #get all the members
@@ -125,5 +125,5 @@ def group_message_wall(request, group_id):
 #    debug=[]
 #    debug.append(user)
 #    debug.append(p_msgs)
-    return render_to_response('group_message_wall.html', {'form':form, 'page_name':'Message Wall', 'private_messages':p_msgs, "groups":request.user.groups.all(),'users':users}, context_instance=RequestContext(request, {}))
+    return render_to_response('group_message_wall.html', {'form':form, 'page_name':'Message Wall', 'private_messages':p_msgs, "groups":request.user.joinin_user.groups.all(),'users':users}, context_instance=RequestContext(request, {}))
     

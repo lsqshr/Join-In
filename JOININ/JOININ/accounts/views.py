@@ -91,7 +91,7 @@ def create_group(request):
                 new_group.users.add(user)
                 #this response is for DEVELOPMENT, in the future it will be redirect to the user's message wall and send a 
                 #system notification to this user to notify that he is in the group now.
-                return HttpResponse("success_create_group. <a href=\"/message_wall/"+str(request.user.id)+"\">go back to the messagewall.")
+                return HttpResponse("success_create_group. <a href=\"/message_wall/"+"\">go back to the messagewall.")
             else:
                 errors.append("The group name "+name+" has been taken. Please choose another one.")
     else:

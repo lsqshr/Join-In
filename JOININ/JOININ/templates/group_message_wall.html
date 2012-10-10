@@ -11,6 +11,11 @@
 	<li>{{user.user.username}}</li>
 {%endfor%}
 </ul>
+
+<!--groups joined-->
+{%include "accounts_modules/groups_joined.html" %}
+
+
 <!--TODO:files belongs to this group-->
 
 
@@ -23,6 +28,5 @@ debug:
 {%endfor%}
 <!--messages to this group. not private messages-->
 message_wall
-
 <!--START TO SHOW THE MESSAGE WALL-->
 {% include "message_modules/private_message_list.html" %}
