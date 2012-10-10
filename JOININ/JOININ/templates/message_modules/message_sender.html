@@ -2,5 +2,26 @@
 <form action="" method="POST" enctype="multipart/form-data">
 	{% csrf_token %}
 	{{form.as_table}}
+	<tr>
+			<div>
+            	<td colspan="3" align="center">{{form.content}}</td>
+            </div>
+            <div>
+            <!--
+            <td align="center">Upload a file
+              <input name="file" type="file" class="inputUpload" /></td>
+            -->
+            <td align="center">
+				{{web_url}}</td>
+			<td align="center">
+				{{form.priority}}</td>
+			<td align="center">
+				{{form.send_to}}</td>
+			<td align="center">
+				<input type="submit" class="button" value="Post" /></td>
+            <td align="center">
+				<input type="submit" class="button" value="Post" /></td>
+			</div>
+     </tr>
 	<button type="submit">Post</button>
 </form>
