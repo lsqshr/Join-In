@@ -3,7 +3,8 @@
 	<table>
 		<td align="right" valign="middle" bgcolor="#1F447B">
 	        <table width="400" border="0" cellspacing="0" cellpadding="5">
-	          <form method="" name="login" id="login" action="">
+	          <form method="post" name="login" id="login" action=""  enctype="multipart/form-data">
+	          	{% csrf_token %}
 			  <tr>
 	            <td class="groupTitle" style="font-size:14px">Email
 	            </td>

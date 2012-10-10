@@ -20,7 +20,8 @@
         	</td>
         	<td width="66%" rowspan="2" align="center" valign="middle">
         		<table width="100%" border="0" cellpadding="5" cellspacing="0">
-					<form name="register" id="register">
+					<form method="post" name="register" id="register"  enctype="multipart/form-data">
+						{% csrf_token %}
             			<tr>
               				<td colspan="2" class="textLar">
 	              				<p>Join-In is a system to assist users with group-work.

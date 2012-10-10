@@ -11,7 +11,7 @@ import datetime
 
 def login(request):
     if request.method == "POST":
-        if request.POST['Login']:#user submited the form to login
+        if 'Login' in request.POST:#user submited the form to login
             form = LoginForm(request.POST)
             if form.is_valid():
                 cd = form.cleaned_data
@@ -27,7 +27,7 @@ def login(request):
                 else:
                     errors.append('Your username or password is incorrect,please try again.')
                     return render_to_response('login.html',{'form':form,'page_name':'Log-in','errors':errors},context_instance=RequestContext(request,{}))
-        else:#user submit the register form
+        elif 'Register' in request.POST:#user submit the register form
             form = SignupForm(request.POST)
             if form.is_valid():
                 cd = form.cleaned_data
