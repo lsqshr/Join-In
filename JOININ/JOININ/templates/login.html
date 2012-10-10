@@ -8,55 +8,61 @@
 <body>
 <table width="100%" border="0" cellpadding="0" cellspacing="0">
 	{% include "register_header.html" %}
-	<table width="100%" height="300" border="0" cellpadding="10" cellspacing="0">
-		<tr>
-        	<td width="34%" align="center" valign="middle" >
-        		<table width="100%" height="300" border="0" cellpadding="20" cellspacing="0">
-          			<tr>
-            			<td><img src="/static/images/cover.jpg" width="380" height="268" />
-            			</td>
-          			</tr>
-        		</table>
-        	</td>
-        	<td width="66%" rowspan="2" align="center" valign="middle">
-        		<table width="100%" border="0" cellpadding="5" cellspacing="0">
-					<form method="post" name="register" id="register"  enctype="multipart/form-data">
-						{% csrf_token %}
-            			<tr>
-              				<td colspan="2" class="textLar">
-	              				<p>Join-In is a system to assist users with group-work.
-	              				 Designed with students and industry professionals in mind, 
-	              				 Join-In can be used for collaborations including, 
-	              				 but not limited to, university assignments, 
-	              				 IT projects and cooperative research essays
-	              				</p>
-	                			<p>Register Now! 
-	                			</p>
-                			</td>
-            			</tr>
-            			<tr>
-              				<td width="179">Email:
-              				</td>
-              				<td>{{ register_form.email}}
-              				</td>
-            			</tr>
-            			<tr>
-              				<td width="179">Password:
-              				</td>
-              				<td>{{register_form.password}}
-              				</td>
-            			</tr>
-            			<tr>
-              				<td width="179">Confirm password: 
-              				</td>
-              				<td>{{register_form.confirm_password}}
-			  					<input type="submit" value="Register" class="button" />			  
-			  				</td>
-             			</tr>
-					</form> 
-				</table>
-			</td>
-		</tr>
-    </table>
+	<tr>
+    	<td>
+    		<table width="100%" height="300" border="0" cellpadding="10" cellspacing="0">
+      			<tr>
+        			<td width="34%" align="center" valign="middle" >
+        				<table width="100%" height="300" border="0" cellpadding="20" cellspacing="0">
+          					<tr>
+            					<td>
+            						<img src="images/cover.jpg" width="380" height="268" />
+            					</td>
+          					</tr>
+        				</table>
+        			</td>
+        			<td width="66%" rowspan="2" align="center" valign="middle">
+        				<table width="100%" border="0" cellpadding="5" cellspacing="0">
+							<form name="register" id="register" method="POST">
+							{% csrf_token %}
+            					<tr>
+              						<td colspan="2" class="textLar">
+              							<p>Join-In is a system to assist users with group-work.
+              							 Designed with students and industry professionals in mind,
+              							  Join-In can be used for collaborations including,
+              							   but not limited to, university assignments, 
+              							   IT projects and cooperative research essays
+              							</p>
+                						<p>Register Now! 
+                						</p>
+                					</td>
+            					</tr>
+            					<tr>
+              						<td width="179">Email:
+              						</td>
+              						<td>{{register_form.email}}              
+              						</td>
+            					</tr>
+            					<tr>
+              						<td width="179">Password:
+              						</td>
+              						<td>{{register_form.password}}
+              						</td>
+            					</tr>
+            					<tr>
+              						<td width="179">Confirm password: 
+              						</td>
+              						<td>{{register_form.confirm_password}}
+			  							<input type="submit" value="Register" class="button" />			  
+			  						</td>
+             					</tr>
+			 				</form> 
+          				</table>
+          			</td>
+      			</tr>
+      		</table>
+      	</td>
+  	</tr>
 </table>
 </body>
+</html>
