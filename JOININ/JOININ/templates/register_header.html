@@ -1,18 +1,18 @@
 {% extends 'header_base.html' %}
-{% {% block sign_in %} 
+{% block sign_in %} 
 	<table>
 		<td align="right" valign="middle" bgcolor="#1F447B">
 	        <table width="400" border="0" cellspacing="0" cellpadding="5">
-	          <form name="login" id="login" action="#">
+	          <form method="" name="login" id="login" action="">
 			  <tr>
 	            <td class="groupTitle" style="font-size:14px">Email
 	            </td>
-	            <td>{{login_form.password}}
+	            <td>{{login_form.username}}
 	            </td>
 	            <td><span class="groupTitle" style="font-size:14px">Password</span></td>
-	            <td>{{ login_form.username}}
+	            <td>{{ login_form.password}}
 	            </td>
-	            <td><input name="submit" type="submit" class="button" value="Sign in" />
+	            <td><input name="Login" type="submit" class="button" value="Sign in" />
 	            </td>
 	          </tr>
 			  <tr>

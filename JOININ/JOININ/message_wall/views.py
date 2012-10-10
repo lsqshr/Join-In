@@ -15,8 +15,10 @@ def hi(request):
 
 @login_required
 def private_message_wall(request):
+    debug=[]
     #get all the groups this person registered
     try:
+        debug.append("get user\n")
         sys_user = request.user
         #get the joinin user
         user = sys_user.joinin_user
@@ -25,10 +27,13 @@ def private_message_wall(request):
     groups = user.groups.all()
     #create the messagewall instance for this view
     msgw = MessageWall(user=user)
+    debug.append("ready for the from!")
     #deal with the form
     if request.method == "POST":
-        form = SendMessageForm(request.user, request.POST)
+        debug.append("get in deal with form,")
+        form = SendMessageForm(request.user,None,request.POST)
         if form.is_valid():
+            debug.append("form valid!")
             cd = form.cleaned_data
             if cd.has_key('web_url'):
                 web_url = cd['web_url']
@@ -52,6 +57,7 @@ def private_message_wall(request):
             except JoinInGroup.DoesNotExist:
                 raise Exception("Fail to find the group to send the message. Group with name " + belongs_to + " does not exist.")
             #send this message
+            debug.append("ready to send\n")
             msgw.send_message(web_url=web_url, send_datetime=datetime.datetime.now(), send_to=send_to, belongs_to_group=belongs_to, written_by=user, content=content)#did not include priority
     else:
         pass
@@ -64,7 +70,7 @@ def private_message_wall(request):
 #    debug=[]
 #    debug.append(user)
 #    debug.append(p_msgs)
-    return render_to_response('private_message_wall.html', {'form':form, 'page_name':'Message Wall', 'private_messages':p_msgs, "groups":groups}, context_instance=RequestContext(request, {}))
+    return render_to_response('private_message_wall.html', {'form':form, 'page_name':'Message Wall', 'private_messages':p_msgs, "groups":groups,"debug":debug}, context_instance=RequestContext(request, {}))
     
 @login_required    
 def group_message_wall(request, group_id):
@@ -88,7 +94,7 @@ def group_message_wall(request, group_id):
     ####################deal with form#########################################
     msgw=MessageWall(user=request.user.joinin_user,group=group)
     if request.method == "POST":
-        form = SendMessageForm(request.user, request.POST)
+        form = SendMessageForm(request.user,group, request.POST)
         if form.is_valid():
             cd = form.cleaned_data
             if cd.has_key('web_url'):
@@ -113,7 +119,7 @@ def group_message_wall(request, group_id):
             except JoinInGroup.DoesNotExist:
                 raise Exception("Fail to find the group to send the message. Group with name " + belongs_to + " does not exist.")
             #send this message
-            msgw.send_message(web_url=web_url, send_datetime=datetime.datetime.now(), send_to=send_to, belongs_to_group=belongs_to, written_by=request.user, content=content)#did not include priority
+            msgw.send_message(web_url=web_url, send_datetime=datetime.datetime.now(), send_to=send_to, belongs_to_group=belongs_to, written_by=request.user.joinin_user, content=content)#did not include priority
     else:
         pass
     #get all the private messages to this user
