@@ -4,12 +4,13 @@ Created on 07/10/2012
 @author: siqi
 '''
 from django import forms
+from django.forms.widgets import Textarea
 
 class SendMessageForm(forms.Form):
     web_url=forms.URLField(required=False)
     priority=forms.ChoiceField([(2,"Just message"),(1,"Ignore me"),(3,"Urgent")])
     send_to=forms.CharField(max_length=50,required=False)
-    content=forms.CharField(max_length=140)
+    content=forms.CharField(max_length=140,widget=Textarea)
     belongs_to_group=forms.ChoiceField()
     #TODO: files upload needed
     
