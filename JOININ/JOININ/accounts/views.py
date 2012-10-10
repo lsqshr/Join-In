@@ -13,6 +13,7 @@ def login(request):
     if request.method == "POST":
         if 'Login' in request.POST:#user submited the form to login
             form = LoginForm(request.POST)
+            register_form=SignupForm()
             if form.is_valid():
                 cd = form.cleaned_data
                 errors=[]
@@ -26,8 +27,8 @@ def login(request):
                     return HttpResponseRedirect("/message_wall/") 
                 else:
                     errors.append('Your username or password is incorrect,please try again.')
-                    return render_to_response('login.html',{'form':form,'page_name':'Log-in','errors':errors},context_instance=RequestContext(request,{}))
-        elif 'Register' in request.POST:#user submit the register form
+                    return render_to_response('login.html',{'login_form':form,'register_form':register_form,'page_name':'Log-in','errors':errors},context_instance=RequestContext(request,{}))
+        else:#user submit the register form
             form = SignupForm(request.POST)
             if form.is_valid():
                 cd = form.cleaned_data
@@ -47,8 +48,13 @@ def login(request):
                 if errors:
                     return render_to_response('signup.html', {'register_form':form,'login_form':LoginForm(), 'errors':errors}, context_instance=RequestContext(request, {}))
                 new_joinin_user = JoinInUser.objects.create_user(email, password)
-                #redirect to the congratulations view
-                return render_to_response('congrats_signup.html', {'user':new_joinin_user.user}) 
+                user=auth.authenticate(username=email,password=password)
+                if user is not None and user.is_active:
+                    #Correct Password, and User is marked "active"
+                    auth.login(request, user)
+                    #Redirect to a success page.
+                    #redirect to the congratulations view
+                    return render_to_response('congrats_signup.html', {'user':new_joinin_user.user}) 
     else:
         login_form = LoginForm()
         register_form=SignupForm()
