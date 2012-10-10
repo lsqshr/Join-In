@@ -1,0 +1,18 @@
+<!--logout should be added in the base.html. I put it here for debugging-->
+<a href="/accounts/logout/">logout</a>
+<a href="/accounts/create_group">create group</a>
+
+<!--groups joined-->
+{%include "accounts_modules/groups_joined.html" %}
+
+<!--post new message-->
+{% include "message_modules/message_sender.html" %}
+
+debug: 
+{%for d in debug%}
+	{{d}},
+{%endfor%}
+message_wall
+{{private_messages}}
+<!--START TO SHOW THE MESSAGE WALL-->
+{% include "message_modules/private_message_list.html" %}

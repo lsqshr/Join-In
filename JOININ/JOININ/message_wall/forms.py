@@ -14,9 +14,11 @@ class SendMessageForm(forms.Form):
     #TODO: files upload needed
     
     #override the constructor of form
-    def __init__(self,user,*args, **kwargs):
+    def __init__(self,user,initial_group=None,*args, **kwargs):
         super(SendMessageForm, self).__init__(*args, **kwargs)
         #get groups
         groups=user.joinin_user.groups.all()
         choices=[ (o.id, o.name) for o in groups]
         self.fields['belongs_to_group']=forms.ChoiceField(choices)#this part is dynamic, need to find the groups that this user has registered
+        if initial_group:
+            self.fields['belongs_to_group'].initial=initial_group
