@@ -40,11 +40,10 @@ class PrivateMessage(models.Model):
        
     
 class JoinInFile(models.Model):
-    file = models.FileField(upload_to='files',null=True,blank=True)
+    file = models.FileField(upload_to='/files',null=True,blank=True)
     name = models.CharField(max_length=20)
     uploaded_by = models.ForeignKey(JoinInUser, null=False)
     belongs_to_group = models.ForeignKey(JoinInGroup, null=False)
-    message=models.ForeignKey(Message,null=False,related_name='files')
     
     def create_file(self, name, user, group):
         self.file = open('/files', 'r+')
@@ -54,11 +53,13 @@ class JoinInFile(models.Model):
         self.uploaded_by=user
         return
     
-    def rename(self, n):
-        self.name = n
-        return
+class Notification(models.Model):
+    content = models.CharField(max_length=200)
+    user = models.ForeignKey(JoinInUser, null=True)
+    dateTime= models.DateTimeField()
     
-    def update_time(self):
-        self.last_edited = datetime.datetime.now()
-        return    
+    def send_notification(self, c):
+        self.content=c
+        '''send mail-https://docs.djangoproject.com/en/dev/topics/email/'''
+        return
     
