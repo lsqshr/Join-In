@@ -4,6 +4,7 @@ from django.db.models.fields import BooleanField
 from django.db.models.fields.related import ManyToManyField, OneToOneField, ForeignKey
 import datetime
     
+
 class JoinInUserManager(models.Manager):
     def create_user(self, email, password):
         new_user = User.objects.create(username=email, email=email)
