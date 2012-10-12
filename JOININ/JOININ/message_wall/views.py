@@ -11,11 +11,8 @@ import datetime
 from django.http import HttpResponse, HttpResponseRedirect
 from JOININ.accounts.forms import InviteForm
 
-def hi(request):
-    return render_to_response("base.html")
-
 @login_required
-def private_message_wall(request):
+def private_message_wall(request,link):
     debug=[]
     #get all the groups this person registered
     try:
@@ -29,49 +26,52 @@ def private_message_wall(request):
     #create the messagewall instance for this view
     msgw = MessageWall(user=user)
     debug.append("ready for the from!")
-    #deal with the form
-    if request.method == "POST":
-        debug.append("get in deal with form,")
-        form = SendMessageForm(request.user,None,request.POST)
-        if form.is_valid():
-            debug.append("form valid!")
-            cd = form.cleaned_data
-            if cd.has_key('web_url'):
-                web_url = cd['web_url']
-            priority = cd['priority']
-            if cd.has_key('send_to'):
-                send_to = cd['send_to']
-                if send_to is u'':
+    if link == 'view':
+        #deal with the form
+        if request.method == "POST":
+            debug.append("get in deal with form,")
+            form = SendMessageForm(request.user,None,request.POST)
+            if form.is_valid():
+                debug.append("form valid!")
+                cd = form.cleaned_data
+                if cd.has_key('web_url'):
+                    web_url = cd['web_url']
+                priority = cd['priority']
+                if cd.has_key('send_to'):
+                    send_to = cd['send_to']
+                    if send_to is u'':
+                        send_to = None
+                else:
                     send_to = None
-            else:
-                send_to = None
-            belongs_to = cd['belongs_to_group']
-            content = cd['content']
-            #get all the entities
-            try:
-                if send_to:
-                    send_to = JoinInUser.objects.get(user__username=send_to)
-            except JoinInUser.DoesNotExist:
-                raise Exception("Fail to find the user to send the message. User with email:" + send_to + " does not exist.") 
-            try:
-                belongs_to = JoinInGroup.objects.get(id=belongs_to)
-            except JoinInGroup.DoesNotExist:
-                raise Exception("Fail to find the group to send the message. Group with name " + belongs_to + " does not exist.")
-            #send this message
-            debug.append("ready to send\n")
-            msgw.send_message(web_url=web_url, send_datetime=datetime.datetime.now(), send_to=send_to, belongs_to_group=belongs_to, written_by=user, content=content)#did not include priority
-    else:
-        pass
-    #get all the private messages to this user
-    p_msgs = msgw.retrieve_list()
-    #refresh the form to render
-    form = SendMessageForm(user=request.user)
-    #add groups to the choicefield of the SendMessageForm
-    #debug bundle
-#    debug=[]
-#    debug.append(user)
-#    debug.append(p_msgs)
-    return render_to_response('private_message_wall.html', {'form':form, 'page_name':'Message Wall', 'private_messages':p_msgs, "groups":groups,"debug":debug,'user':request.user.joinin_user}, context_instance=RequestContext(request, {}))
+                belongs_to = cd['belongs_to_group']
+                content = cd['content']
+                #get all the entities
+                try:
+                    if send_to:
+                        send_to = JoinInUser.objects.get(user__username=send_to)
+                except JoinInUser.DoesNotExist:
+                    raise Exception("Fail to find the user to send the message. User with email:" + send_to + " does not exist.") 
+                try:
+                    belongs_to = JoinInGroup.objects.get(id=belongs_to)
+                except JoinInGroup.DoesNotExist:
+                    raise Exception("Fail to find the group to send the message. Group with name " + belongs_to + " does not exist.")
+                #send this message
+                debug.append("ready to send\n")
+                msgw.send_message(web_url=web_url, send_datetime=datetime.datetime.now(), send_to=send_to, belongs_to_group=belongs_to, written_by=user, content=content)#did not include priority
+        else:
+            pass
+        #get all the private messages to this user
+        p_msgs = msgw.retrieve_list()
+        #refresh the form to render
+        form = SendMessageForm(user=request.user)
+        #add groups to the choicefield of the SendMessageForm
+        #debug bundle
+    #    debug=[]
+    #    debug.append(user)
+    #    debug.append(p_msgs)
+        return render_to_response('private_message_wall.html', {'form':form, 'page_name':'Message Wall', 'private_messages':p_msgs, "groups":groups,"debug":debug,'user':request.user.joinin_user}, context_instance=RequestContext(request, {}))
+    elif link=='apply':
+        return HttpResponse("works")
     
 @login_required    
 def group_message_wall(request, group_id,link):
@@ -129,7 +129,6 @@ def group_message_wall(request, group_id,link):
                 if form.is_valid():
                     cd=form.cleaned_data
                     username=cd['username']
-                    message=cd['message']
                     #get the user
                     errors=[]
                     try:
@@ -144,7 +143,7 @@ def group_message_wall(request, group_id,link):
                     except JoinInGroup.DoesNotExist:
                         pass
                     if errors:
-                        return render_to_response("messge_modules/invite_dialog.html",{'errors':errors})
+                        return render_to_response("messge_modules/invite_dialog.html",{'errors':errors},context_instance=RequestContext(request, {}))
                     #create new invitation to the user.
                     else:
                         group.invitations.add(user)
@@ -183,7 +182,9 @@ def group_message_wall(request, group_id,link):
                     except JoinInUser.DoesNotExist:
                         pass
                     if errors:
-                        return render_to_response("messge_modules/invite_dialog.html",{'errors':errors}, context_instance=RequestContext(request, {}))
+                        return render_to_response("messge_modules/invite_dialog.html",\
+                                                  {'errors':errors,'form':form,'group':group},\
+                                                   context_instance=RequestContext(request, {}))
                     #create new invitation to the user.
                     else:
                         group.invitations.add(user)
@@ -191,8 +192,14 @@ def group_message_wall(request, group_id,link):
                         return HttpResponseRedirect('/message_wall/group/'+str(group.id)+'/view/')
         else:#no submit form
             form=InviteForm() 
-            return render_to_response("accounts_modules/invite_dialog.html",{'group':group,'form':form}, context_instance=RequestContext(request, {}))
+            return render_to_response("accounts_modules/invite_dialog.html",\
+                                      {'group':group,'form':form},\
+                                       context_instance=RequestContext(request, {}))
     elif link == 'leave':
-        return HttpResponse("works")
+        #delete the current user from this group
+        group.users.remove(request.user.joinin_user)
+        #TODO:send notification to notify user that the user has left the group
+        #redirect to the private message wall
+        return HttpResponseRedirect("/message_wall/")
     else: 
         return HttpResponse("not working"+link)

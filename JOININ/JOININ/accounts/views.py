@@ -27,7 +27,9 @@ def login(request):
                     return HttpResponseRedirect("/message_wall/") 
                 else:
                     errors.append('Your username or password is incorrect,please try again.')
-                    return render_to_response('login.html',{'login_form':form,'register_form':register_form,'page_name':'Log-in','errors':errors},context_instance=RequestContext(request,{}))
+                    return render_to_response('login.html',{'login_form':form,\
+                                                            'register_form':register_form,\
+                                                            'page_name':'Log-in','errors':errors},context_instance=RequestContext(request,{}))
         else:#user submit the register form
             form = SignupForm(request.POST)
             if form.is_valid():
@@ -46,7 +48,9 @@ def login(request):
                 except:
                         pass         
                 if errors:
-                    return render_to_response('signup.html', {'register_form':form,'login_form':LoginForm(), 'errors':errors}, context_instance=RequestContext(request, {}))
+                    return render_to_response('signup.html', {'register_form':form,
+                                                              'login_form':LoginForm(), 'errors':errors},
+                                                               context_instance=RequestContext(request, {}))
                 new_joinin_user = JoinInUser.objects.create_user(email, password)
                 user=auth.authenticate(username=email,password=password)
                 if user is not None and user.is_active:
@@ -121,7 +125,7 @@ def create_group(request):
                 new_group.users.add(user)
                 #this response is for DEVELOPMENT, in the future it will be redirect to the user's message wall and send a 
                 #system notification to this user to notify that he is in the group now.
-                return HttpResponse("success_create_group. <a href=\"/message_wall/"+"\">go back to the messagewall.")
+                return HttpResponse("success_create_group. <a href=\"/message_wall/view/"+"\">go back to the messagewall.")
             else:
                 errors.append("The group name "+name+" has been taken. Please choose another one.")
     else:
