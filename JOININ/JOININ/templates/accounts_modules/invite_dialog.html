@@ -1,0 +1,6 @@
+<form action="" method="POST" enctype="multipart/form-data">
+{% csrf_token %}
+{{form.username.label}} to invite : {{form.username}}
+<button name="invite" type="submit">invite</button>
+</form>
+<a href="/message_wall/group/{{group.id}}/view/">go back to group message wall</a>
