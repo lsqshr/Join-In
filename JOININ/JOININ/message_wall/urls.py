@@ -10,6 +10,6 @@ from django.conf.urls import patterns, include, url
 # admin.autodiscover()
 
 urlpatterns = patterns('',
-    url(r'^$', 'JOININ.message_wall.views.private_message_wall'),
+    url(r'^(?P<link>\b(view|apply)\b)/$', 'JOININ.message_wall.views.private_message_wall'),
     url(r'^group/(?P<group_id>\d+)/(?P<link>\b(view|invite|leave)\b)/$', 'JOININ.message_wall.views.group_message_wall'),
 )
