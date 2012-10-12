@@ -22,5 +22,4 @@ class CreateGroupForm(forms.Form):
     public=forms.ChoiceField([(True,"Public"),(False,"Private")])
     
 class InviteForm(forms.Form):
-    username=CharField(max_length=50)
-    message=CharField(max_length=144,help_text="Say something to the new member, maximum 144 letters.")
+    username=forms.CharField(max_length=50)

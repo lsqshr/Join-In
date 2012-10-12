@@ -8,7 +8,8 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render_to_response
 from django.template.context import RequestContext
 import datetime
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
+from JOININ.accounts.forms import InviteForm
 
 def hi(request):
     return render_to_response("base.html")
@@ -70,10 +71,10 @@ def private_message_wall(request):
 #    debug=[]
 #    debug.append(user)
 #    debug.append(p_msgs)
-    return render_to_response('private_message_wall.html', {'form':form, 'page_name':'Message Wall', 'private_messages':p_msgs, "groups":groups,"debug":debug}, context_instance=RequestContext(request, {}))
+    return render_to_response('private_message_wall.html', {'form':form, 'page_name':'Message Wall', 'private_messages':p_msgs, "groups":groups,"debug":debug,'user':request.user.joinin_user}, context_instance=RequestContext(request, {}))
     
 @login_required    
-def group_message_wall(request, group_id):
+def group_message_wall(request, group_id,link):
     #get the group
     group_id = long(group_id)
     group = None
@@ -86,50 +87,112 @@ def group_message_wall(request, group_id):
         group.users.get(user__username=request.user.username)
     except JoinInUser.DoesNotExist:
         return HttpResponse("sorry, you do not have the permission to view this group. Group Name:"+str(group.name)+"Your user id:"+str(request.user.id))
-    #get all the messages to render
-    messages=group.messages.all()
-    #get all the members
-    users=group.users.all()
-    #TODO: get all the files
-    ####################deal with form#########################################
-    msgw=MessageWall(user=request.user.joinin_user,group=group)
-    if request.method == "POST":
-        form = SendMessageForm(request.user,group, request.POST)
-        if form.is_valid():
-            cd = form.cleaned_data
-            if cd.has_key('web_url'):
-                web_url = cd['web_url']
-            priority = cd['priority']
-            if cd.has_key('send_to'):
-                send_to = cd['send_to']
-                if send_to is u'':
-                    send_to = None
-            else:
-                send_to = None
-            belongs_to = cd['belongs_to_group']
-            content = cd['content']
-            #get all the entities
-            try:
-                if send_to:
-                    send_to = JoinInUser.objects.get(user__username=send_to)
-            except JoinInUser.DoesNotExist:
-                raise Exception("Fail to find the user to send the message. User with email:" + send_to + " does not exist.") 
-            try:
-                belongs_to = JoinInGroup.objects.get(id=belongs_to)
-            except JoinInGroup.DoesNotExist:
-                raise Exception("Fail to find the group to send the message. Group with name " + belongs_to + " does not exist.")
-            #send this message
-            msgw.send_message(web_url=web_url, send_datetime=datetime.datetime.now(), send_to=send_to, belongs_to_group=belongs_to, written_by=request.user.joinin_user, content=content)#did not include priority
-    else:
-        pass
-    #get all the private messages to this user
-    p_msgs = msgw.retrieve_list()
-    #refresh the form to render
-    form = SendMessageForm(user=request.user,initial_group=group)
-    #add groups to the choicefield of the SendMessageForm
-    #debug bundle
-#    debug=[]
-#    debug.append(user)
-#    debug.append(p_msgs)
-    return render_to_response('group_message_wall.html', {'form':form, 'page_name':'Message Wall', 'private_messages':p_msgs, "groups":request.user.joinin_user.groups.all(),'users':users}, context_instance=RequestContext(request, {}))
-    
+    if link == 'view':#deal with when the url is like /group_id/view/
+        #
+        #get all the messages to render
+        messages=group.messages.all()
+        #get all the members
+        users=group.users.all()
+        msgw=MessageWall(user=request.user.joinin_user,group=group)
+        #TODO: get all the files
+        ####################deal with form#########################################
+        if request.method == "POST":
+            if "send" in request.POST:
+                    form = SendMessageForm(request.user,group, request.POST)
+                    if form.is_valid():
+                        cd = form.cleaned_data
+                        if cd.has_key('web_url'):
+                            web_url = cd['web_url']
+                        priority = cd['priority']
+                        if cd.has_key('send_to'):
+                            send_to = cd['send_to']
+                            if send_to is u'':
+                                send_to = None
+                        else:
+                            send_to = None
+                        belongs_to = cd['belongs_to_group']
+                        content = cd['content']
+                        #get all the entities
+                        try:
+                            if send_to:
+                                send_to = JoinInUser.objects.get(user__username=send_to)
+                        except JoinInUser.DoesNotExist:
+                            raise Exception("Fail to find the user to send the message. User with email:" + send_to + " does not exist.") 
+                        try:
+                            belongs_to = JoinInGroup.objects.get(id=belongs_to)
+                        except JoinInGroup.DoesNotExist:
+                            raise Exception("Fail to find the group to send the message. Group with name " + belongs_to + " does not exist.")
+                        #send this message
+                        msgw.send_message(web_url=web_url, send_datetime=datetime.datetime.now(), send_to=send_to, belongs_to_group=belongs_to, written_by=request.user.joinin_user, content=content)#did not include priority
+            elif "invite" in request.POST:
+                form=InviteForm(request.POST)
+                if form.is_valid():
+                    cd=form.cleaned_data
+                    username=cd['username']
+                    message=cd['message']
+                    #get the user
+                    errors=[]
+                    try:
+                        user=JoinInUser.objects.get(user__username=username)
+                    except JoinInUser.DoesNotExist:
+                        #show the form again.
+                        errors.append("Sorry! The user does not exist.")
+                    #see if the user is in the group now    
+                    try:
+                        group.users.get(user_username=username)
+                        errors.append("Sorry! The user has already been added to this group!")
+                    except JoinInGroup.DoesNotExist:
+                        pass
+                    if errors:
+                        return render_to_response("messge_modules/invite_dialog.html",{'errors':errors})
+                    #create new invitation to the user.
+                    else:
+                        group.invitations.add(user)
+        else:
+            pass
+        #get all the private messages to this user
+        p_msgs = msgw.retrieve_list()
+        #refresh the form to render
+        form = SendMessageForm(user=request.user,initial_group=group)
+        #add groups to the choicefield of the SendMessageForm
+        #debug bundle
+    #    debug=[]
+    #    debug.append(user)
+    #    debug.append(p_msgs)
+        return render_to_response('group_message_wall.html', \
+                                  {'form':form, 'page_name':'Message Wall',\
+                                    'private_messages':p_msgs, "groups":request.user.joinin_user.groups.all(),\
+                                    'users':users,'group':group}, context_instance=RequestContext(request, {}))
+    elif link == 'invite':
+        if request.method=="POST"and "invite" in request.POST:
+                form=InviteForm(request.POST)
+                if form.is_valid():
+                    cd=form.cleaned_data
+                    username=cd['username']
+                    #get the user
+                    errors=[]
+                    try:
+                        user=JoinInUser.objects.get(user__username=username)
+                    except JoinInUser.DoesNotExist:
+                        #show the form again.
+                        errors.append("Sorry! The user does not exist.")
+                    #see if the user is in the group now    
+                    try:
+                        group.users.get(user__username=username)
+                        errors.append("Sorry! The user has already been added to this group!")
+                    except JoinInUser.DoesNotExist:
+                        pass
+                    if errors:
+                        return render_to_response("messge_modules/invite_dialog.html",{'errors':errors}, context_instance=RequestContext(request, {}))
+                    #create new invitation to the user.
+                    else:
+                        group.invitations.add(user)
+                        #TODO:should send user a notification to notify success of inviting the user.
+                        return HttpResponseRedirect('/message_wall/group/'+str(group.id)+'/view/')
+        else:#no submit form
+            form=InviteForm() 
+            return render_to_response("accounts_modules/invite_dialog.html",{'group':group,'form':form}, context_instance=RequestContext(request, {}))
+    elif link == 'leave':
+        return HttpResponse("works")
+    else: 
+        return HttpResponse("not working"+link)
