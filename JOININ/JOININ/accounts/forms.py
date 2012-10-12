@@ -23,3 +23,6 @@ class CreateGroupForm(forms.Form):
     
 class InviteForm(forms.Form):
     username=forms.CharField(max_length=50)
+    
+class ApplyGroupForm(forms.Form):
+    group_name=forms.CharField(max_length=15)

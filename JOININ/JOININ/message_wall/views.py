@@ -1,15 +1,15 @@
 # Create your views here.
+from JOININ.accounts.forms import InviteForm, ApplyGroupForm
 from JOININ.accounts.models import JoinInGroup, JoinInUser
 from JOININ.message_wall.forms import SendMessageForm
 from JOININ.message_wall.message_wall import MessageWall
 from JOININ.message_wall.models import PrivateMessage
 from django import forms
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template.context import RequestContext
 import datetime
-from django.http import HttpResponse, HttpResponseRedirect
-from JOININ.accounts.forms import InviteForm
 
 @login_required
 def private_message_wall(request,link):
@@ -21,7 +21,8 @@ def private_message_wall(request,link):
         #get the joinin user
         user = sys_user.joinin_user
     except JoinInUser.DoesNotExist:
-        raise Exception("Sorry, this user does not exist. Please contact the system administrator." + "USERID:" + str(request.user.id))
+        raise Exception("Sorry, this user does not exist. Please contact the system administrator." \
+                        + "USERID:" + str(request.user.id))
     groups = user.groups.all()
     #create the messagewall instance for this view
     msgw = MessageWall(user=user)
@@ -57,7 +58,8 @@ def private_message_wall(request,link):
                     raise Exception("Fail to find the group to send the message. Group with name " + belongs_to + " does not exist.")
                 #send this message
                 debug.append("ready to send\n")
-                msgw.send_message(web_url=web_url, send_datetime=datetime.datetime.now(), send_to=send_to, belongs_to_group=belongs_to, written_by=user, content=content)#did not include priority
+                msgw.send_message(web_url=web_url, send_datetime=datetime.datetime.now(), \
+                                  send_to=send_to, belongs_to_group=belongs_to, written_by=user, content=content)#did not include priority
         else:
             pass
         #get all the private messages to this user
@@ -69,10 +71,41 @@ def private_message_wall(request,link):
     #    debug=[]
     #    debug.append(user)
     #    debug.append(p_msgs)
-        return render_to_response('private_message_wall.html', {'form':form, 'page_name':'Message Wall', 'private_messages':p_msgs, "groups":groups,"debug":debug,'user':request.user.joinin_user}, context_instance=RequestContext(request, {}))
+        return render_to_response('private_message_wall.html', {'form':form,\
+                                                                'page_name':'Message Wall', \
+                                                                'private_messages':p_msgs,\
+                                                                "groups":groups,"debug":debug,'user':request.user.joinin_user},\
+                                                                context_instance=RequestContext(request, {}))
     elif link=='apply':
-        return HttpResponse("works")
-    
+        #deal with the form
+        if request.method == 'POST':
+            form=ApplyGroupForm(request.POST)
+            errors=[]
+            if form.is_valid():
+                cd=form.cleaned_data
+                group_name=cd['group_name']
+                #find the group
+                group_to_apply=None
+                try:
+                    group_to_apply=JoinInGroup.objects.get(name=group_name)
+                except JoinInGroup.DoesNotExist:
+                    errors.append("Sorry, group with name<b>"+group_name+"</b> does not exist, please check the name.")
+                #add the user to the appliers of that group
+                group_to_apply.appliers.add(request.user.joinin_user)
+                #TODO:send notification
+                #redirect to the private message wall
+                return HttpResponseRedirect("/message_wall/view/")
+            else:#group name is not in the right format
+                errors.append("OOps!The group name is too long...")
+            if errors:    
+                return render_to_response("accounts_modules/apply_dialog.html",{'form':form,'errors':errors},\
+                                  context_instance=RequestContext(request, {}))       
+        else:
+            form=ApplyGroupForm()
+        #show the apply group dialog
+        return render_to_response("accounts_modules/apply_dialog.html",{'form':form},\
+                                  context_instance=RequestContext(request, {}))
+        
 @login_required    
 def group_message_wall(request, group_id,link):
     #get the group
@@ -86,7 +119,8 @@ def group_message_wall(request, group_id,link):
     try:
         group.users.get(user__username=request.user.username)
     except JoinInUser.DoesNotExist:
-        return HttpResponse("sorry, you do not have the permission to view this group. Group Name:"+str(group.name)+"Your user id:"+str(request.user.id))
+        return HttpResponse("sorry, you do not have the permission to view this group. Group Name:"\
+                            +str(group.name)+"Your user id:"+str(request.user.id))
     if link == 'view':#deal with when the url is like /group_id/view/
         #
         #get all the messages to render
@@ -123,7 +157,9 @@ def group_message_wall(request, group_id,link):
                         except JoinInGroup.DoesNotExist:
                             raise Exception("Fail to find the group to send the message. Group with name " + belongs_to + " does not exist.")
                         #send this message
-                        msgw.send_message(web_url=web_url, send_datetime=datetime.datetime.now(), send_to=send_to, belongs_to_group=belongs_to, written_by=request.user.joinin_user, content=content)#did not include priority
+                        msgw.send_message(web_url=web_url, send_datetime=datetime.datetime.now(),\
+                                           send_to=send_to, belongs_to_group=belongs_to,\
+                                            written_by=request.user.joinin_user, content=content)#did not include priority
             elif "invite" in request.POST:
                 form=InviteForm(request.POST)
                 if form.is_valid():
@@ -143,7 +179,8 @@ def group_message_wall(request, group_id,link):
                     except JoinInGroup.DoesNotExist:
                         pass
                     if errors:
-                        return render_to_response("messge_modules/invite_dialog.html",{'errors':errors},context_instance=RequestContext(request, {}))
+                        return render_to_response("messge_modules/invite_dialog.html",\
+                                                  {'errors':errors},context_instance=RequestContext(request, {}))
                     #create new invitation to the user.
                     else:
                         group.invitations.add(user)
