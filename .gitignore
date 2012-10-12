@@ -1,3 +1,5 @@
 /JOININ
 #Compiled source#
 *.pyc
+settings.py
+
