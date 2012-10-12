@@ -3,7 +3,6 @@ from django.db import models
 from django.db.models.fields import BooleanField
 from django.db.models.fields.related import ManyToManyField, OneToOneField, ForeignKey
 import datetime
-from JOININ.JOININ.message_wall.models import JoinInFile
     
 class JoinInUserManager(models.Manager):
     def create_user(self, email, password):
@@ -44,12 +43,6 @@ class JoinInGroup(models.Model):
     
     def __unicode__(self):
         return self.name
-    
-    def get_files(self):
-        f = JoinInFile.objects.get(belongs_to_group=self.name)
-        return f
-        
-        
     
 class Feedback(models.Model):
     send_datetime = models.DateTimeField()

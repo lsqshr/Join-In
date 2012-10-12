@@ -6,7 +6,6 @@ import datetime
 
 
 
-
           
 class Message(models.Model):
     reply_to = models.ForeignKey('self', null=True,related_name='reply')
@@ -38,6 +37,7 @@ class PrivateMessage(models.Model):
     
     def __unicode__(self):
         return 'private message to:' + self.message.content
+
 ''' 
 #Sorry it does not work this way. I commented this part to avoid syncdb. 
 #This class can not deal with uploaded file currently. it simply create a new file.
@@ -50,7 +50,7 @@ class JoinInFileManager(models.Manager):
         self.file.save(name,'')
         self.file.close()
         return
-
+    
 class JoinInFile(models.Model):
     file = models.FileField(upload_to='/files',null=True,blank=True)
     name = models.CharField(max_length=20)
@@ -61,3 +61,4 @@ class Notification(models.Model):
     content = models.CharField(max_length=200)
     user = models.ForeignKey(JoinInUser)
     dateTime= models.DateTimeField()
+    
