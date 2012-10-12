@@ -3,9 +3,6 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.db.models.fields.related import ManyToManyField
 import datetime
-
-
-
           
 class Message(models.Model):
     reply_to = models.ForeignKey('self', null=True,related_name='reply')
@@ -41,7 +38,7 @@ class PrivateMessage(models.Model):
 ''' 
 #Sorry it does not work this way. I commented this part to avoid syncdb. 
 #This class can not deal with uploaded file currently. it simply create a new file.
-#It should take in a IOInputStream or something to store the file user upoads.
+#It should take in a IOInputStream or something to store the file user uploads.
 #We do syncdb when this is fully implemented.      
 class JoinInFileManager(models.Manager):
     def create_file(self,name, user, group):

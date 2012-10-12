@@ -3,8 +3,6 @@ from django.db import models
 from django.db.models.fields import BooleanField
 from django.db.models.fields.related import ManyToManyField, OneToOneField, ForeignKey
 import datetime
-    
-'''test commit'''
 
 class JoinInUserManager(models.Manager):
     def create_user(self, email, password):
