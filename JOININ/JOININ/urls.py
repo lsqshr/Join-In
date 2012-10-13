@@ -16,6 +16,5 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^accounts/',include('JOININ.accounts.urls')),
     url(r'^message_wall/',include('JOININ.message_wall.urls')),
-    url(r'^hi/','JOININ.message_wall.views.hi'),
     
 )
