@@ -91,7 +91,11 @@ def private_message_wall(request,link,**kwargs):
                 except JoinInGroup.DoesNotExist:
                     errors.append("Sorry, group with name<b>"+group_name+"</b> does not exist, please check the name.")
                 #add the user to the appliers of that group
-                group_to_apply.appliers.add(request.user.joinin_user)
+                if request.user.joinin_user not in group_to_apply.appliers.all() or \
+                        request.user.joinin_user not in group_to_apply.users.all():
+                    group_to_apply.appliers.add(request.user.joinin_user)
+                else:#TODO:
+                    raise "You have applied for this group or you have been a member of this group. Please be patient for the acceptance."
                 #TODO:send notification
                 #redirect to the private message wall
                 return HttpResponseRedirect("/message_wall/view/")
@@ -112,7 +116,7 @@ def private_message_wall(request,link,**kwargs):
             group_to_join=JoinInGroup.objects.get(id=group_id)
         except JoinInGroup.DoesNotExist:
             #TODO:
-            raise "Sorry, This group does not exist any more."
+            raise Exception("Sorry, This group does not exist any more.")
         #add this user to that group
         if request.user.joinin_user in group_to_join.invitations.all() and \
                 request.user.joinin_user not in group_to_join.users.all():
@@ -128,7 +132,7 @@ def private_message_wall(request,link,**kwargs):
             group_to_join=JoinInGroup.objects.get(id=group_id)
         except JoinInGroup.DoesNotExist:
             #TODO:
-            raise "Sorry, This group does not exist any more."
+            raise Exception("Sorry, This group does not exist any more.")
         #simply remove the user from the invitations
         group_to_join.invitations.remove(request.user.joinin_user)
         return HttpResponseRedirect('/message_wall/view/')
@@ -140,7 +144,7 @@ def group_message_wall(request, group_id,link):
     try:
         group = JoinInGroup.objects.get(id=group_id)
     except:
-        raise "Sorry, this group does not exist..." 
+        raise Exception("Sorry, this group does not exist..." )
     #see if this user has permission to view the group content
     try:
         group.users.get(user__username=request.user.username)
@@ -176,7 +180,7 @@ def group_message_wall(request, group_id,link):
                         try:
                             if send_to:
                                 send_to = JoinInUser.objects.get(user__username=send_to)
-                        except JoinInUser.DoesNotExist:
+                        except JoinInUser.DoesNotExist:#TODO:
                             raise Exception("Fail to find the user to send the message. User with email:" + send_to + " does not exist.") 
                         try:
                             belongs_to = JoinInGroup.objects.get(id=belongs_to)
@@ -261,6 +265,6 @@ def group_message_wall(request, group_id,link):
         group.users.remove(request.user.joinin_user)
         #TODO:send notification to notify user that the user has left the group
         #redirect to the private message wall
-        return HttpResponseRedirect("/message_wall/")
+        return HttpResponseRedirect("/message_wall/view/")
     else: 
         return HttpResponse("not working"+link)
