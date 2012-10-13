@@ -62,7 +62,7 @@ td {
 	margin:5px 10px 10px auto; 
 	list-style:none; 
 	height:50px; 
-	width:408px; 
+	width:306px; 
 	overflow:hidden;
 	border-top:1px solid #ccc; 
 	border-bottom:1px solid #ccc;
@@ -98,9 +98,9 @@ background-image: linear-gradient(90deg, rgba(255, 255, 255,0.4), rgba(255, 255,
 
 
 .writeTxtArea {
-	width: 650px;
+	width: 95%;
 	height: 100px;
-	border: solid 1px #1F447B;
+	border: solid 1px #000;
 	color:#999999; 
 	font-family:Arial, Helvetica, sans-serif;
 	font-size:13px;
@@ -126,12 +126,84 @@ background-image: linear-gradient(90deg, rgba(255, 255, 255,0.4), rgba(255, 255,
 	border-color: #1F447B;
 }
 
+.inputSmall {
+	height: 20px;
+	width: 100px;
+	border-style:solid;
+	border-width: 1px;
+	border-color: #000;
+}
+
+.inputMed {
+	height: 20px;
+	width: 200px;
+	border-style:solid;
+	border-width: 1px;
+	border-color: #000;
+}
+
+.inputLar {
+	height: 20px;
+	width: 400px;
+	border-style:solid;
+	border-width: 1px;
+	border-color: #000;
+}
+
+.textLar {
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:18px;
+	text-align:justify;
+	text-indent: 20px;
+	color:#666666;
+}
+
+.selectMed {
+	height: 20px;
+	width: 200px;
+	border-style:solid;
+	border-width: 1px;
+	border-color: #000;
+}
 
 
+.titleMenu {
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:18px;
+	text-align:justify;
+	text-indent: 20px;
+	color:#FFF;
+}
 
+.link {
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	color:#CCCCCC;
+}
 
+.linkBlue {
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	color:#006699;
+}
 
+.inputFile {
+	width: 200px;
+	height: 20px;
+	border-style:solid;
+	border-width: 1px;
+	border-color: #000;
+}
 
-
-
+.banner {
+	position:absolute;
+	top:20%;
+	left:25%;		
+	background-color: #C2DAFC; 
+	color: #000000; 
+	font-weight: bold;
+	font-size: 16px; 
+	width:50%; 
+	vertical-align:middle;
+}
 
