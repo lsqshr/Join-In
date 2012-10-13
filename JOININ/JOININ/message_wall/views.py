@@ -160,7 +160,7 @@ def group_message_wall(request, group_id,link):
                         msgw.send_message(web_url=web_url, send_datetime=datetime.datetime.now(),\
                                            send_to=send_to, belongs_to_group=belongs_to,\
                                             written_by=request.user.joinin_user, content=content)#did not include priority
-            elif "invite" in request.POST:
+            elif "invite" in request.POST:#deal with the 
                 form=InviteForm(request.POST)
                 if form.is_valid():
                     cd=form.cleaned_data
@@ -190,15 +190,13 @@ def group_message_wall(request, group_id,link):
         p_msgs = msgw.retrieve_list()
         #refresh the form to render
         form = SendMessageForm(user=request.user,initial_group=group)
-        #add groups to the choicefield of the SendMessageForm
-        #debug bundle
-    #    debug=[]
-    #    debug.append(user)
-    #    debug.append(p_msgs)
+        #get applisers to this group
+        appliers=group.appliers.all()
         return render_to_response('group_message_wall.html', \
                                   {'form':form, 'page_name':'Message Wall',\
                                     'private_messages':p_msgs, "groups":request.user.joinin_user.groups.all(),\
-                                    'users':users,'group':group}, context_instance=RequestContext(request, {}))
+                                    'users':users,'group':group,'appliers':appliers},\
+                                   context_instance=RequestContext(request, {}))
     elif link == 'invite':
         if request.method=="POST"and "invite" in request.POST:
                 form=InviteForm(request.POST)
