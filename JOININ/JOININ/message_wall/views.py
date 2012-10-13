@@ -3,8 +3,6 @@ from JOININ.accounts.forms import InviteForm, ApplyGroupForm
 from JOININ.accounts.models import JoinInGroup, JoinInUser
 from JOININ.message_wall.forms import SendMessageForm
 from JOININ.message_wall.message_wall import MessageWall
-from JOININ.message_wall.models import PrivateMessage
-from django import forms
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response
@@ -136,8 +134,9 @@ def private_message_wall(request,link,**kwargs):
         #simply remove the user from the invitations
         group_to_join.invitations.remove(request.user.joinin_user)
         return HttpResponseRedirect('/message_wall/view/')
+    
 @login_required    
-def group_message_wall(request, group_id,link):
+def group_message_wall(request, group_id,link,**kwargs):
     #get the group
     group_id = long(group_id)
     group = None
@@ -266,5 +265,33 @@ def group_message_wall(request, group_id,link):
         #TODO:send notification to notify user that the user has left the group
         #redirect to the private message wall
         return HttpResponseRedirect("/message_wall/view/")
+    elif link == 'accept':
+        #get user
+        try:
+            user_to_add= JoinInUser.objects.get(user__username=kwargs['username'])
+        except JoinInUser.DoesNotExist:
+            raise "User Does not exist!"#TODO:
+        #see if this user is in the group, not? add!
+        if user_to_add not in group.users.all():
+            group.users.add(user_to_add) 
+        else:
+            raise "User has already been in the group."
+        #delete this user from appliers
+        group.appliers.remove(user_to_add)
+        #delete the user from the invitations, if there are invitation was sent to this user
+        if user in group.invitations.all():
+            group.invitations.remove(user_to_add)
+        #redirect
+        return HttpResponseRedirect('/message_wall/group/'+str(group.id)+'/view/')
+    elif link== 'deny':
+        #get user 
+        #get user
+        try:
+            user_to_add= JoinInUser.objects.get(user__username=kwargs['username'])
+        except JoinInUser.DoesNotExist:
+            raise "User Does not exist!"#TODO:
+        #simply remove this joinin user from the appliers
+        group.appliers.remove(user_to_add)
+        return HttpResponseRedirect('/message_wall/group/'+str(group.id)+'/view/')
     else: 
         return HttpResponse("not working"+link)

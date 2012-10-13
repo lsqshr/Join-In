@@ -2,7 +2,7 @@ appliers:
 <ul>
 {%for applier in appliers%}
 	{{applier.user.username}}
-	<a href="/message_wall/group/accept/{{applier.user.username}}/">accept</a>
-	<a href="/message_wall/group/deny/{{applier.user.username}}/">deny</a>
+	<a href="/message_wall/group/{{group.id}}/accept/{{applier.user.username}}/">accept</a>
+	<a href="/message_wall/group/{{group.id}}/deny/{{applier.user.username}}/">deny</a>
 {%endfor%}
 </ul>
