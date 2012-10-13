@@ -3,8 +3,6 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.db.models.fields.related import ManyToManyField
 import datetime
-
-
           
 class Message(models.Model):
     reply_to = models.ForeignKey('self', null=True,related_name='reply')
@@ -16,6 +14,7 @@ class Message(models.Model):
     belongs_to_group = models.ForeignKey(JoinInGroup,related_name='messages')
     written_by = models.ForeignKey(JoinInUser,related_name='messages')
     content = models.CharField(max_length=1000)
+    '''file = models.FileField(upload_to='files',null=True,blank=True) '''
     
     def __unicode__(self):
         username_str=self.written_by.user.username
@@ -35,20 +34,28 @@ class PrivateMessage(models.Model):
     
     def __unicode__(self):
         return 'private message to:' + self.message.content
-       
-    
-class File(models.Model):
-    name = models.CharField(max_length=20)
-    last_edited = models.DateTimeField()
-    uploaded_by = models.ForeignKey(JoinInUser)
-    belongs_to_group = models.ForeignKey(JoinInGroup)
-    message=models.ForeignKey(Message,null=False,related_name='files')
-    
-    def set_name(self, n):
-        self.name = n
+
+''' 
+#Sorry it does not work this way. I commented this part to avoid syncdb. 
+#This class can not deal with uploaded file currently. it simply create a new file.
+#It should take in a IOInputStream or something to store the file user uploads.
+#We do syncdb when this is fully implemented.      
+class JoinInFileManager(models.Manager):
+    def create_file(self,name, user, group):
+        self.create(file=None,name, user, group) 
+        self.file = open('/files', 'r+')
+        self.file.save(name,'')
+        self.file.close()
         return
     
-    def update_time(self):
-        self.last_edited = datetime.datetime.now()
-        return    
+class JoinInFile(models.Model):
+    file = models.FileField(upload_to='/files',null=True,blank=True)
+    name = models.CharField(max_length=20)
+    uploaded_by = models.ForeignKey(JoinInUser, null=False)
+    belongs_to_group = models.ForeignKey(JoinInGroup, null=False)
+'''    
+class Notification(models.Model):
+    content = models.CharField(max_length=200)
+    user = models.ForeignKey(JoinInUser)
+    dateTime= models.DateTimeField()
     

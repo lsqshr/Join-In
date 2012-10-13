@@ -5,6 +5,7 @@ Created on 25/09/2012
 '''
 from django import forms
 from django.forms.widgets import Widget
+from django.db.models.fields import CharField
 
 class SignupForm(forms.Form):
     #The user name will be the same as email
@@ -20,3 +21,8 @@ class CreateGroupForm(forms.Form):
     name=forms.CharField(max_length=15)
     public=forms.ChoiceField([(True,"Public"),(False,"Private")])
     
+class InviteForm(forms.Form):
+    username=forms.CharField(max_length=50)
+    
+class ApplyGroupForm(forms.Form):
+    group_name=forms.CharField(max_length=15)

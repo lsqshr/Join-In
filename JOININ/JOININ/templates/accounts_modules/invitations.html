@@ -1,0 +1,6 @@
+invitations:
+<li>
+{%for invitation in user.groups_invites.all%}
+	{{invitation}}
+{%endfor%}
+</li>
