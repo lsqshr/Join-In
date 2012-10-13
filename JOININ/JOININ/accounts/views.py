@@ -24,7 +24,7 @@ def login(request):
                     #Correct Password, and User is marked "active"
                     auth.login(request, user)
                     #Redirect to a success page.
-                    return HttpResponseRedirect("/message_wall/") 
+                    return HttpResponseRedirect("/message_wall/view/") 
                 else:
                     errors.append('Your username or password is incorrect,please try again.')
                     return render_to_response('login.html',{'login_form':form,\
