@@ -1,9 +1,18 @@
-<!--logout should be added in the base.html. I put it here for debugging-->
-<a href="/accounts/logout/">logout</a>
-<a href="/accounts/create_group">create group</a>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title> Join-in private message wall</title>
+<link rel="stylesheet" type="text/css" href="/static/styles.css">
+<script language="javascript" src="/static/scripts.js"></script>
+</head>
+<body>
+
+<!--include header for private message wall -->
+{% include "message_modules/message_wall_header.html" %}
+<br>
 
 <!--groups joined-->
-{%include "accounts_modules/groups_joined.html" %}
+{% include "message_modules/private_message_wall_sidebar.html" %}
 
 <!--post new message-->
 {% include "message_modules/message_sender.html" %}
@@ -15,3 +24,5 @@ debug:
 message_wall
 <!--START TO SHOW THE MESSAGE WALL-->
 {% include "message_modules/private_message_list.html" %}
+</body>
+</html>

@@ -1,8 +1,7 @@
-<br/>groups:
-<ul>
+<tr>
 {%for group in groups%}
-	<li>
-		<a href="/message_wall/group/{{group.id}}">{{group.name}}</a>
-	</li>
+	<td width=163>
+		<a href="/message_wall/group/{{group.id}}"><font size="4px">{{group.name}}</font></a><br>
+	</td>
 {%endfor%}
-</ul>
+</tr>
