@@ -1,7 +1,7 @@
-<tr>
 {%for group in groups%}
-	<td width=163>
-		<a href="/message_wall/group/{{group.id}}/view/"><font size="4px">{{group.name}}</font></a>
-	</td>
+	<tr>
+		<td width=163>
+			<a href="/message_wall/group/{{group.id}}"><font size="4px">{{group.name}}</font></a><br>
+		</td>
+	</tr>
 {%endfor%}
-</tr>
