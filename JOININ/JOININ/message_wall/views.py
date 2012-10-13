@@ -12,7 +12,7 @@ from django.template.context import RequestContext
 import datetime
 
 @login_required
-def private_message_wall(request,link):
+def private_message_wall(request,link,**kwargs):
     debug=[]
     #get all the groups this person registered
     try:
@@ -105,7 +105,33 @@ def private_message_wall(request,link):
         #show the apply group dialog
         return render_to_response("accounts_modules/apply_dialog.html",{'form':form},\
                                   context_instance=RequestContext(request, {}))
-        
+    elif link == 'accept':#accept one groupe's invitation 
+        #get groupto accept invitation
+        group_id=long(kwargs['group_id'])
+        try:
+            group_to_join=JoinInGroup.objects.get(id=group_id)
+        except JoinInGroup.DoesNotExist:
+            #TODO:
+            raise "Sorry, This group does not exist any more."
+        #add this user to that group
+        if request.user.joinin_user in group_to_join.invitations.all() and \
+                request.user.joinin_user not in group_to_join.users.all():
+            group_to_join.users.add(request.user.joinin_user)
+        #delete the invitation
+        group_to_join.invitations.remove(request.user.joinin_user)
+        #TODO:send notification to this user
+        return HttpResponseRedirect('/message_wall/view/')
+    elif link == 'deny':
+        #get groupto accept invitation
+        group_id=long(kwargs['group_id'])
+        try:
+            group_to_join=JoinInGroup.objects.get(id=group_id)
+        except JoinInGroup.DoesNotExist:
+            #TODO:
+            raise "Sorry, This group does not exist any more."
+        #simply remove the user from the invitations
+        group_to_join.invitations.remove(request.user.joinin_user)
+        return HttpResponseRedirect('/message_wall/view/')
 @login_required    
 def group_message_wall(request, group_id,link):
     #get the group
