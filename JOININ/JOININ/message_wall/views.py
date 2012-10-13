@@ -1,15 +1,16 @@
 # Create your views here.
 from JOININ.accounts.forms import InviteForm, ApplyGroupForm
 from JOININ.accounts.models import JoinInGroup, JoinInUser
-from JOININ.message_wall.forms import SendMessageForm
+from JOININ.message_wall.forms import SendMessageForm, FileForm
 from JOININ.message_wall.message_wall import MessageWall
-from JOININ.message_wall.models import PrivateMessage
+from JOININ.message_wall.models import PrivateMessage, JoinInFile
 from django import forms
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template.context import RequestContext
 import datetime
+from django.core.urlresolvers import reverse
 
 @login_required
 def private_message_wall(request,link):
@@ -240,3 +241,33 @@ def group_message_wall(request, group_id,link):
         return HttpResponseRedirect("/message_wall/")
     else: 
         return HttpResponse("not working"+link)
+    
+    
+    
+# Upload a file and render a list of all files relating to that group
+def upload_File(request):
+    # UPLOAD
+    if request.method == 'POST':
+        form = FileForm(request.POST, request.FILES)
+        if form.is_valid():
+            newfile = JoinInFile(file = request.FILES['file'])
+            newfile.save()
+
+            # SETUP LIST
+            return HttpResponseRedirect(reverse('JOININ.views.upload_File'))
+    else: #There is no file to upload
+        form = FileForm()
+
+    # GENERATE LIST
+    group_Files = JoinInFile.objects.filter(belongs_to_group='$group_id')
+
+    # RENDERING
+    '''
+    HANGYU/DANI- Please reference the .html page here
+    SIQI- Please check this in urls.py
+    return render_to_response(
+        'JOININ/xxxxxx  uploadFile.html',
+        {'Files for $group_id': group_Files, 'form': form},
+        context_instance=RequestContext(request)
+    )
+    '''

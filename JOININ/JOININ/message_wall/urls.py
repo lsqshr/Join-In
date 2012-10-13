@@ -12,4 +12,5 @@ from django.conf.urls import patterns, include, url
 urlpatterns = patterns('',
     url(r'^(?P<link>\b(view|apply)\b)/$', 'JOININ.message_wall.views.private_message_wall'),
     url(r'^group/(?P<group_id>\d+)/(?P<link>\b(view|invite|leave)\b)/$', 'JOININ.message_wall.views.group_message_wall'),
+    url(r'^upload_File/(?P<group_id>\d+)/$', 'JOININ.message_wall.views.upload_File'),
 )
