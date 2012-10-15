@@ -1,0 +1,4 @@
+notifications:<br/>
+{%for notification in notifications%}
+	<a href {{notification.url}}>{{notification.content}}{{notification.send_datetime}}</a>
+{%endfor%}

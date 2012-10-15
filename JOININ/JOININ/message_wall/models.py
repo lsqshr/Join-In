@@ -57,7 +57,7 @@ class JoinInFile(models.Model):
 class Notification(models.Model):
     content = models.CharField(max_length=200)
     user = models.ForeignKey(JoinInUser)
-    dateTime= models.DateTimeField()
+    send_datetime = models.DateTimeField()
     url=models.URLField(null=True)
-    is_read=models.BooleanField(initial=False)
+    is_read=models.BooleanField(default=False)
     

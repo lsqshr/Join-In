@@ -48,11 +48,11 @@ class NotificationManager(object):
         simply create a notification instance for that user
         '''
         Notification.objects.create(user=to_user, \
-                                    content=text, url=url, datetime=datetime.datetime.now())
+                                    content=text, url=url, send_datetime=datetime.datetime.now())
         return
     
     def get_unread_notification(self, user):
-        return Notification.objects.filter(user=user,is_read=False).order_by('datetime')
+        return Notification.objects.filter(user=user,is_read=False).order_by('send_datetime')
     
     def set_sender(self,sender_email,smtp_host,smtp_port,username,password):
         #better design with smtp servers stored in the database end
@@ -61,4 +61,5 @@ class NotificationManager(object):
             settings.EMAIL_PORT = smtp_port
             settings.EMAIL_HOST_USER = username
             settings.EMAIL_HOST_PASSWORD = password
+            self.is_sender_set=True
             return 

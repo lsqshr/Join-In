@@ -3,6 +3,7 @@ from JOININ.accounts.forms import InviteForm, ApplyGroupForm
 from JOININ.accounts.models import JoinInGroup, JoinInUser
 from JOININ.message_wall.forms import SendMessageForm
 from JOININ.message_wall.message_wall import MessageWall
+from JOININ.message_wall.notification_manager import NotificationManager
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response
@@ -12,6 +13,8 @@ import datetime
 @login_required
 def private_message_wall(request,link,**kwargs):
     debug=[]
+    nm=NotificationManager()
+    nm.set_sender(request.user.username, 'smtp.gmail.com', 465, 'lsqshr@gmail.com', '13936344120lsqshr')
     #get all the groups this person registered
     try:
         debug.append("get user\n")
@@ -69,10 +72,12 @@ def private_message_wall(request,link,**kwargs):
     #    debug=[]
     #    debug.append(user)
     #    debug.append(p_msgs)
+        #get notifications
+        notifications=nm.get_unread_notification(user)
         return render_to_response('private_message_wall.html', {'form':form,\
                                                                 'page_name':'Message Wall', \
                                                                 'private_messages':p_msgs,\
-                                                                "groups":groups,"debug":debug,'user':request.user.joinin_user},\
+                                                                "groups":groups,'notifications':notifications,"debug":debug,'user':request.user.joinin_user},\
                                                                 context_instance=RequestContext(request, {}))
     elif link=='apply':
         #deal with the form
@@ -94,7 +99,9 @@ def private_message_wall(request,link,**kwargs):
                     group_to_apply.appliers.add(request.user.joinin_user)
                 else:#TODO:
                     raise "You have applied for this group or you have been a member of this group. Please be patient for the acceptance."
-                #TODO:send notification
+                #send notification
+                nm.send_notification(request.user.joinin_user, None, 'You have applied to join group '+group_to_apply.name\
+                                     +'Please wait for permission. Any of the members in this group are able to allow you to join in.', None) 
                 #redirect to the private message wall
                 return HttpResponseRedirect("/message_wall/view/")
             else:#group name is not in the right format
