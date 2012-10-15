@@ -10,25 +10,30 @@
 <!--include header for private message wall -->
 {% include "message_modules/message_wall_header.html" %}
 <br>
+<div id="container">
+	<div id="left">
+		<!--groups joined-->
+		{% include "message_modules/private_message_wall_sidebar.html" %}
+		
+	</div>
+	<div id="middle">
+		<!--post new message-->
+		{% include "message_modules/message_sender.html" %}
 
-<a href="/message_wall/apply/">apply for a group</a>
+		debug: 
+	{%for d in debug%}
+		{{d}},
+	{%endfor%}
+		message_wall
+	<!--START TO SHOW THE MESSAGE WALL-->
+	{% include "message_modules/private_message_list.html" %}
+	</div>
+	<div id="right">
+		<a href="/message_wall/apply/">
+			<input type="button" class="button" value="apply group">
+		</a>
+	</div>
+</div>
 
-
-<!--groups joined-->
-{% include "message_modules/private_message_wall_sidebar.html" %}
-
-<!--invitations-->
-{%include "accounts_modules/invitations.html" %}
-
-<!--post new message-->
-{% include "message_modules/message_sender.html" %}
-
-debug: 
-{%for d in debug%}
-	{{d}},
-{%endfor%}
-message_wall
-<!--START TO SHOW THE MESSAGE WALL-->
-{% include "message_modules/private_message_list.html" %}
 </body>
 </html>
