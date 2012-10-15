@@ -59,4 +59,5 @@ class Notification(models.Model):
     user = models.ForeignKey(JoinInUser)
     dateTime= models.DateTimeField()
     url=models.URLField(null=True)
+    is_read=models.BooleanField(initial=False)
     
