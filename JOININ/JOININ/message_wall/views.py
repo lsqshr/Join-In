@@ -3,6 +3,8 @@ from JOININ.accounts.forms import InviteForm, ApplyGroupForm
 from JOININ.accounts.models import JoinInGroup, JoinInUser
 from JOININ.message_wall.forms import SendMessageForm
 from JOININ.message_wall.message_wall import MessageWall
+from JOININ.message_wall.models import Notification
+from JOININ.message_wall.notification_manager import NotificationManager
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response
@@ -12,6 +14,8 @@ import datetime
 @login_required
 def private_message_wall(request,link,**kwargs):
     debug=[]
+    nm=NotificationManager()
+    nm.set_sender(request.user.username, 'smtp.gmail.com', 465, 'lsqshr@gmail.com', '13936344120lsqshr')
     #get all the groups this person registered
     try:
         debug.append("get user\n")
@@ -26,6 +30,13 @@ def private_message_wall(request,link,**kwargs):
     msgw = MessageWall(user=user)
     debug.append("ready for the from!")
     if link == 'view':
+        #check if notification is set as read
+        if kwargs.has_key('notification_id'):
+            notification_id=kwargs['notification_id']
+            #find the notification and set it as read 
+            n=Notification.objects.get(id=notification_id)
+            n.is_read=True
+            n.save()
         #deal with the form
         if request.method == "POST":
             debug.append("get in deal with form,")
@@ -69,10 +80,20 @@ def private_message_wall(request,link,**kwargs):
     #    debug=[]
     #    debug.append(user)
     #    debug.append(p_msgs)
+        #get notifications
+        if kwargs.has_key('see') and kwargs['see'] == 'all_notifications':
+            notifications=nm.get_all_notification(user)
+            see_all_notifications=True
+        elif kwargs.has_key('see') and kwargs['see']=='unread_notifications' \
+                or not kwargs.has_key('see'):
+            notifications=nm.get_unread_notification(user)
+            see_all_notifications=False
         return render_to_response('private_message_wall.html', {'form':form,\
-                                                                'page_name':'Message Wall', \
+                                                                'page_name':'Private Message Wall', \
                                                                 'private_messages':p_msgs,\
-                                                                "groups":groups,"debug":debug,'user':request.user.joinin_user},\
+                                                                "groups":groups,'notifications':notifications,\
+                                                                'see_all_notifications':see_all_notifications,\
+                                                                "debug":debug,'user':request.user.joinin_user},\
                                                                 context_instance=RequestContext(request, {}))
     elif link=='apply':
         #deal with the form
@@ -94,7 +115,9 @@ def private_message_wall(request,link,**kwargs):
                     group_to_apply.appliers.add(request.user.joinin_user)
                 else:#TODO:
                     raise "You have applied for this group or you have been a member of this group. Please be patient for the acceptance."
-                #TODO:send notification
+                #send notification
+                nm.send_notification(request.user.joinin_user, None, 'You have applied to join group '+group_to_apply.name\
+                                     +'.Please wait for permission. Any of the members in this group are able to allow you to join in.', None) 
                 #redirect to the private message wall
                 return HttpResponseRedirect("/message_wall/view/")
             else:#group name is not in the right format
@@ -122,6 +145,9 @@ def private_message_wall(request,link,**kwargs):
         #delete the invitation
         group_to_join.invitations.remove(request.user.joinin_user)
         #TODO:send notification to this user
+        nm.send_notification(request.user.joinin_user,None, \
+                             "Congratulations, you are now in group "+group_to_join.name+'.',\
+                              '/message_wall/group/'+group_to_join.id+'/view/')
         return HttpResponseRedirect('/message_wall/view/')
     elif link == 'deny':
         #get groupto accept invitation
@@ -222,7 +248,7 @@ def group_message_wall(request, group_id,link,**kwargs):
         #get applisers to this group
         appliers=group.appliers.all()
         return render_to_response('group_message_wall.html', \
-                                  {'form':form, 'page_name':'Message Wall',\
+                                  {'form':form, 'page_name':'Group '+group.name+' Message Wall',\
                                     'private_messages':p_msgs, "groups":request.user.joinin_user.groups.all(),\
                                     'users':users,'group':group,'appliers':appliers},\
                                    context_instance=RequestContext(request, {}))

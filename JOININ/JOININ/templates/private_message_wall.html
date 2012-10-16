@@ -13,12 +13,14 @@
 
 <a href="/message_wall/apply/">apply for a group</a>
 
-
 <!--groups joined-->
 {% include "message_modules/private_message_wall_sidebar.html" %}
 
 <!--invitations-->
 {%include "accounts_modules/invitations.html" %}
+
+<!--notifications-->
+{% include "message_modules/notifications.html" %}
 
 <!--post new message-->
 {% include "message_modules/message_sender.html" %}
