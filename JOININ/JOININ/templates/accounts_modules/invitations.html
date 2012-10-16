@@ -1,8 +1,10 @@
-invitations:
-<li>
 {%for invitation in user.groups_invites.all%}
-	{{invitation.name}}
-	<a href="/message_wall/accept/{{invitation.name}}/">accept</a>
-	<a href="/message_wall/deny/{{invitation.name}}/">deny</a>
+`<tr>
+	<td width="163">
+		<font sice=2px>{{invitation.name}}
+			<a href="/message_wall/accept/{{invitation.name}}/">accept</a>
+			<a href="/message_wall/deny/{{invitation.name}}/">deny</a>
+		</font>
+	</td>
+</tr>
 {%endfor%}
-</li>
