@@ -24,7 +24,7 @@ class NotificationManager(object):
         self.is_sender_set=False
         pass
     
-    def send_notification(self, to_user=None, to_group=None, text=None, url=None):
+    def send_notification(self, to_user=None, to_group=None, text=None, url=None,sys=True,email=True):
         if to_user.system_notification:#check if the user allow the system to send system notification
             self._send_sys_notification(to_user, text, url)
         if to_user.email_update:
@@ -37,7 +37,7 @@ class NotificationManager(object):
         '''
         if self.is_sender_set:
             em = EmailMessage(subject="JoinIn Notification",\
-                            body=text, from_email=self.from_email, to=[email],)
+                            body=text+'\n\n Cheers\nJoinIn Team', from_email=self.from_email, to=[email],)
             em.send(fail_silently=False) 
         else:
             raise Exception("Sender not set!")
@@ -53,6 +53,9 @@ class NotificationManager(object):
     
     def get_unread_notification(self, user):
         return Notification.objects.filter(user=user,is_read=False).order_by('send_datetime')
+    
+    def get_all_notification(self,user):
+        return Notification.objects.filter(user=user).order_by('send_datetime')
     
     def set_sender(self,sender_email,smtp_host,smtp_port,username,password):
         #better design with smtp servers stored in the database end

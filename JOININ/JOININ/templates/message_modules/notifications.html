@@ -1,4 +1,20 @@
-notifications:<br/>
+notifications:&nbsp
+{%if see_all_notifications%}
+	<a href="/message_wall/view/unread_notifications/">[show unread]</a><br/>
+{%else%}
+	<a href="/message_wall/view/all_notifications/">[see all]</a><br/>
+{%endif%}
+<ol>
 {%for notification in notifications%}
-	<a href {{notification.url}}>{{notification.content}}{{notification.send_datetime}}</a>
+	<li>
+		{%if notification.url%}
+		  <a href {{notification.url}}>{{notification.content}}&nbsp;
+			{{notification.send_datetime}}</a>
+		{%else%}
+			{{notification.content}}&nbsp;
+			{{notification.send_datetime}}
+		{%endif%}
+		  <a href="/message_wall/view/notification_set_read/{{notification.id}}/">got it!</a>
+	</li>
 {%endfor%}
+</ol>
