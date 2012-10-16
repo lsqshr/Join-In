@@ -21,10 +21,10 @@ class MessageWall(object):
         def retrieve_list(self, type, user, group, start=None, end=None):
             #TODO:add limit to the retrieve record number. start to end, use [:] to slice the result set
             if not group:
-                self.message_list=user.private_messages.order_by('-message__send_datetime')
+                self.message_list=user.private_messages.order_by('-message__update_datetime')
             else:
                 self.message_list=user.private_messages.filter(message__belongs_to_group__name=group.name)\
-                    .order_by('-message__send_datetime')
+                    .order_by('-message__update_datetime')
             return self.message_list
         
         def search(self):
@@ -96,7 +96,7 @@ class MessageWall(object):
         #to be send to the whole group stated 
         #create a new message,if send_to is None, then send this message to the whole group
         msg = Message.objects.create(reply_to=reply_to, web_url=web_url, priority=priority,\
-                                      send_datetime=send_datetime, send_to=send_to, belongs_to_group=belongs_to_group, written_by=written_by, content=content);
+                                      send_datetime=send_datetime, update_datetime=send_datetime,send_to=send_to, belongs_to_group=belongs_to_group, written_by=written_by, content=content);
         if files:
             #create files
             for file in files:

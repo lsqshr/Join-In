@@ -3,10 +3,10 @@ from JOININ.accounts.forms import InviteForm, ApplyGroupForm
 from JOININ.accounts.models import JoinInGroup, JoinInUser
 from JOININ.message_wall.forms import SendMessageForm
 from JOININ.message_wall.message_wall import MessageWall
-from JOININ.message_wall.models import Notification
+from JOININ.message_wall.models import Notification, Message
 from JOININ.message_wall.notification_manager import NotificationManager
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render_to_response
 from django.template.context import RequestContext
 import datetime
@@ -40,35 +40,58 @@ def private_message_wall(request,link,**kwargs):
         #deal with the form
         if request.method == "POST":
             debug.append("get in deal with form,")
-            form = SendMessageForm(request.user,None,request.POST)
-            if form.is_valid():
-                debug.append("form valid!")
-                cd = form.cleaned_data
-                if cd.has_key('web_url'):
-                    web_url = cd['web_url']
-                priority = cd['priority']
-                if cd.has_key('send_to'):
-                    send_to = cd['send_to']
-                    if send_to is u'':
+            if 'reply'  not in request.POST: 
+                form = SendMessageForm(request.user,None,request.POST)
+                if form.is_valid():
+                    debug.append("form valid!")
+                    cd = form.cleaned_data
+                    if cd.has_key('web_url'):
+                        web_url = cd['web_url']
+                    priority = cd['priority']
+                    if cd.has_key('send_to'):
+                        send_to = cd['send_to']
+                        if send_to is u'':
+                            send_to = None
+                    else:
                         send_to = None
-                else:
-                    send_to = None
-                belongs_to = cd['belongs_to_group']
-                content = cd['content']
-                #get all the entities
+                    belongs_to = cd['belongs_to_group']
+                    content = cd['content']
+                    #get all the entities
+                    try:
+                        if send_to:
+                            send_to = JoinInUser.objects.get(user__username=send_to)
+                    except JoinInUser.DoesNotExist:
+                        raise Exception("Fail to find the user to send the message. User with email:" + send_to + " does not exist.") 
+                    try:
+                        belongs_to = JoinInGroup.objects.get(id=belongs_to)
+                    except JoinInGroup.DoesNotExist:
+                        raise Exception("Fail to find the group to send the message. Group with name " + belongs_to + " does not exist.")
+                    #send this message
+                    debug.append("ready to send\n")
+                    msgw.send_message(web_url=web_url, send_datetime=datetime.datetime.now(), \
+                                      send_to=send_to, belongs_to_group=belongs_to, written_by=user, content=content)#did not include priority
+            else:#write reply
+                content=request.POST['content']
+                message_id=long(request.POST['message_id'])
+                group_id=request.POST['group_id']
+                #get message to reply to
                 try:
-                    if send_to:
-                        send_to = JoinInUser.objects.get(user__username=send_to)
-                except JoinInUser.DoesNotExist:
-                    raise Exception("Fail to find the user to send the message. User with email:" + send_to + " does not exist.") 
+                    message=Message.objects.get(id=message_id)
+                except Message.DoesNotExist:
+                    raise Exception("message not found") 
                 try:
-                    belongs_to = JoinInGroup.objects.get(id=belongs_to)
+                    group=JoinInGroup.objects.get(id=group_id)
                 except JoinInGroup.DoesNotExist:
-                    raise Exception("Fail to find the group to send the message. Group with name " + belongs_to + " does not exist.")
-                #send this message
-                debug.append("ready to send\n")
-                msgw.send_message(web_url=web_url, send_datetime=datetime.datetime.now(), \
-                                  send_to=send_to, belongs_to_group=belongs_to, written_by=user, content=content)#did not include priority
+                    raise Exception("group not found")
+                Message.objects.create(reply_to=message,priority=1,\
+                                       send_datetime=datetime.datetime.now(), \
+                                       update_datetime=datetime.datetime.now(),\
+                                       belongs_to_group=group,\
+                                       written_by=request.user.joinin_user,content=content)
+                #change the parent message's update_datetime for sorting
+                message.update_datetime=datetime.datetime.now() 
+                message.save()
+                return HttpResponseRedirect('/message_wall/view/')
         else:
             pass
         #get all the private messages to this user
@@ -239,6 +262,28 @@ def group_message_wall(request, group_id,link,**kwargs):
                     #create new invitation to the user.
                     else:
                         group.invitations.add(user)
+            elif 'reply' in request.POST:#write reply
+                content=request.POST['content']
+                message_id=long(request.POST['message_id'])
+                group_id=request.POST['group_id']
+                #get message to reply to
+                try:
+                    message=Message.objects.get(id=message_id)
+                except Message.DoesNotExist:
+                    raise Exception("message not found") 
+                try:
+                    group=JoinInGroup.objects.get(id=group_id)
+                except JoinInGroup.DoesNotExist:
+                    raise Exception("group not found")
+                Message.objects.create(reply_to=message,priority=1,\
+                                       send_datetime=datetime.datetime.now(), \
+                                       update_datetime=datetime.datetime.now(),\
+                                       belongs_to_group=group,\
+                                       written_by=request.user.joinin_user,content=content)
+                #change the parent message's update_datetime for sorting
+                message.update_datetime=datetime.datetime.now() 
+                message.save()
+                return HttpResponseRedirect('/message_wall/group/'+str(group.id)+'/view/')
         else:
             pass
         #get all the private messages to this user

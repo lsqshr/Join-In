@@ -14,17 +14,11 @@
 	<div id="left">
 		<!--groups joined-->
 		{% include "message_modules/private_message_wall_sidebar.html" %}
-		
 	</div>
 	<div id="middle">
 		<!--post new message-->
 		{% include "message_modules/message_sender.html" %}
-
-		debug: 
-	{%for d in debug%}
-		{{d}},
-	{%endfor%}
-		message_wall
+	
 	<!--START TO SHOW THE MESSAGE WALL-->
 	{% include "message_modules/private_message_list.html" %}
 	</div>
