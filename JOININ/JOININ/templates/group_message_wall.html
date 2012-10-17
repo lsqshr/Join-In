@@ -9,12 +9,19 @@
 <!-- header starts-->
 	{% include "message_modules/group_message_wall_header.html" %}<br>
 <div id="container">
-	<div id="left">
+	<div id="leftside">
 		<!--sidebar-->
 		{% include "message_modules/group_message_wall_sidebar.html" %}
 		<!--TODO:files belongs to this group-->	
 	</div>
-	<div id="middle">
+	<div id="rightside">
+		<!--links should be in the head of group page-->
+		<a href="/message_wall/group/{{group.id}}/leave/" style="float:right;">
+			<input type="button" class="button" value="leave group">
+		</a> &nbsp;&nbsp;
+		<a href="/message_wall/group/{{group.id}}/invite/" style="float:right;">
+			<input type="button" class="button" value="invite">
+		</a>
 		<!--post new message-->
 			{% include "message_modules/message_sender.html" %}
 		debug: 
@@ -26,15 +33,6 @@
 		<!--START TO SHOW THE MESSAGE WALL-->
 		{% include "message_modules/private_message_list.html" %}
 	
-	</div>
-	<div id="right">
-		<!--links should be in the head of group page-->
-		<a href="/message_wall/group/{{group.id}}/leave/">
-			<input type="button" class="button" value="leave group">
-		</a> &nbsp;&nbsp;
-		<a href="/message_wall/group/{{group.id}}/invite/">
-			<input type="button" class="button" value="invite">
-		</a>
 	</div>
 </div>
 	

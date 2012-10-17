@@ -112,7 +112,7 @@ def private_message_wall(request,link,**kwargs):
             notifications=nm.get_unread_notification(user)
             see_all_notifications=False
         return render_to_response('private_message_wall.html', {'form':form,\
-                                                                'page_name':'Private Message Wall', \
+                                                                'page_name':'Hi, '+user.user.username,\
                                                                 'private_messages':p_msgs,\
                                                                 "groups":groups,'notifications':notifications,\
                                                                 'see_all_notifications':see_all_notifications,\
