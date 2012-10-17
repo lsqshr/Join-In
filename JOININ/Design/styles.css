@@ -35,13 +35,14 @@ td {
 .bordaBox {bbackground: ttransparent; width:95%;}
 .bordaBox .b1, .bordaBox .b2, .bordaBox .b3, .bordaBox .b4, .bordaBox .b1b, .bordaBox .b2b, .bordaBox .b3b, .bordaBox .b4b {display:block; overflow:hidden; font-size:1px;}
 .bordaBox .b1, .bordaBox .b2, .bordaBox .b3, .bordaBox .b1b, .bordaBox .b2b, .bordaBox .b3b {height:1px;}
-.bordaBox .b2, .bordaBox .b3, .bordaBox .b4 { border-left:1px solid #FF9933; border-right:1px solid #FF9933;}
-.bordaBox .b1 {margin:0 5px; background:#FF9933;}
+.bordaBox .b2, .bordaBox .b3, .bordaBox .b4 { border-left:1px solid #0033FF; border-right:1px solid #0033FF;}
+.bordaBox .b1 {margin:0 5px; background:#0033FF;}
 .bordaBox .b2 {margin:0 3px; border-width:0 2px;}
 .bordaBox .b3 {margin:0 2px;}
 .bordaBox .b4 {height:2px; margin:0 1px;}
-.bordaBox .conteudo {padding:10px; display:block; border-left:1px solid #FF9933; border-right:1px solid #FF9933; text-align:justify;}
-.conteudoRight {padding:10px; display:block; border-left:1px solid #FF9933; border-right:1px solid #FF9933; text-align:right;}
+.bordaBox .conteudo {padding:10px; display:block; border-left:1px solid #0033FF; border-right:1px solid #0033FF; text-align:justify;}
+.conteudoRight {padding:10px; display:block; border-left:1px solid #0033FF; border-right:1px solid #0033FF; text-align:right;}
+.conteudoReply {padding-left:50px; padding-right:10px; display:block; border-left:1px solid #0033FF; border-right:1px solid #0033FF; text-align:justify;}
 
 
 .tableReply {
@@ -72,18 +73,7 @@ td {
 	float:left;
 }
 
-.cssplayNav li a {
-display:block;
-float:left;
-width:100px;
-line-height:50px;
-text-align:center;
-font-family:arial, sans-serif;
-font-size:13px;
-text-decoration:none;
-font-weight:bold; 
-border-right:1px solid #333;
-border-left:1px solid #ccc;
+.cssplayNav li a {display:block; float:left; width:100px; line-height:50px; text-align:center; font-family:arial, sans-serif; font-size:13px; text-decoration:none; font-weight:bold; border-right:1px solid #333; border-left:1px solid #ccc;
 -moz-transition: 0.25s;
 -ms-transition: 0.25s;
 -o-transition: 0.25s;
@@ -166,7 +156,7 @@ background-image: linear-gradient(90deg, rgba(255, 255, 255,0.4), rgba(255, 255,
 	font-size:18px;
 	text-align:justify;
 	text-indent: 20px;
-	color:#666666;
+	color:#009900;
 }
 
 .selectMed {
@@ -232,7 +222,7 @@ background-image: linear-gradient(90deg, rgba(255, 255, 255,0.4), rgba(255, 255,
 }
 
 #middle{
-	width:50%;
+	width:70%;
 	float:left;
 	
 }

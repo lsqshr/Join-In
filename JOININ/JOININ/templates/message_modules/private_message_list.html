@@ -1,37 +1,53 @@
-<!--START TO SHOW THE MESSAGE WALL-->
-<ul>
 {%for pmsg in private_messages%}
-	<li><a href="{{pmsg.message.web_url}}">
-		<div><!--main message-->
-			from: {{pmsg.message.written_by}} 
-			to: 
-			{%if pmsg.message.send_to%}
-				user-{{pmsg.message.send_to}}
-			{%else%}
-				group-{{pmsg.message.belongs_to_group}} 
-			{%endif%}
-			content:{{pmsg.message.content}}
-			when:{{pmsg.message.send_datetime}}
-			priority:{{pmsg.priority}}</a>
-		</div>
-		<div><!--replies-->
-			<ul>
-			{% for reply in pmsg.message.reply.all%}
-					<div>
-						from: {{reply.message.written_by}} 
-						to: 
-						{%if reply.message.send_to%}
-							user-{{reply.message.send_to}}
-						{%else%}
-							group-{{reply.message.belongs_to_group}} 
-						{%endif%}
-						content:{{reply.message.content}}
-						when:{{reply.send_datetime}}
-						priority:{{reply.priority}}</a>
+		<div class="bordaBox">
+					<b class="b1"></b><b class="b2"></b><b class="b3"></b><b class="b4"></b>
+					<a href="{{pmsg.message.web_url}}" style="color:black;text-decoration:none;">
+						<div class="conteudo">
+							from: {{pmsg.message.written_by.user.username}}
+							<br />
+							  <br />
+							 {{pmsg.message.content}}					
+						 </div>
+						<div class="conteudoRight">
+							<span style="color:#999999">
+								Belongs to {{pmsg.message.belongs_to_group}} on {{pmsg.message.send_datetime}} |
+								Priority: 
+									{%if pmsg.message.priority == 1%}
+										ignore me <img src="/static/images/ignore_me.gif" />
+									{%elif pmsg.message.priority == 2%}
+										just message <img src="/static/images/just_message.gif" />
+									{%else%}
+										urgent <img src="/static/images/urgent.gif" />
+									{%endif%}
+								 |
+							</span>
+							<a href="#" class="linkBlue">File 1 <img src="/static/images/sae.gif" /> </a>
+							<br />
+							<hr style="color:#CCCCCC" />						
+						</div>
+					</a>
+					<div class="conteudoReply">
+						{% for reply in pmsg.message.reply.all%}
+							<div>
+								from: {{reply.written_by.user.username}}  <br><br>
+								{{reply.content}}
+								<span style="color:#999999">{{reply.send_datetime}}</span>
+								<br /><br />
+							</div>
+						{% endfor %}
+						<table width="100%">
+							<tr>
+								<form action="" method="post" enctype="multipart/form-data">
+									{% csrf_token %}
+									<td width="90%"><textarea name="content" class="writeTxtArea" style="width:95%; height:20px;">Reply</textarea></td>
+									<input type="hidden" name="message_id" value="{{pmsg.message.id}}"/>
+									<input type="hidden" name="group_id" value="{{pmsg.message.belongs_to_group.id}}"/>
+									<td width="10%"><input type="submit" class="button" value="reply" name="reply" /></td>
+								</form>
+							</tr>
+						</table>
 					</div>
-			{%endfor%}
-			</ul>
-		</div>
-	</li>
-{%endfor%}
-</ul>
+					<b class="b4"></b><b class="b3"></b><b class="b2"></b><b class="b1"></b>	
+				</div>
+				<br/>
+		{%endfor%}

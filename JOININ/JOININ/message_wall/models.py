@@ -10,6 +10,7 @@ class Message(models.Model):
     priority_choices = ((1, 'Low'),(2, 'Medium'),( 3, 'High'),)
     priority = models.IntegerField(choices=priority_choices, default=1)
     send_datetime = models.DateTimeField()
+    update_datetime=models.DateTimeField()
     send_to=models.ForeignKey(JoinInUser,related_name='one_to_one_messages',null=True)
     belongs_to_group = models.ForeignKey(JoinInGroup,related_name='messages')
     written_by = models.ForeignKey(JoinInUser,related_name='messages')
@@ -57,5 +58,7 @@ class JoinInFile(models.Model):
 class Notification(models.Model):
     content = models.CharField(max_length=200)
     user = models.ForeignKey(JoinInUser)
-    dateTime= models.DateTimeField()
+    send_datetime = models.DateTimeField()
+    url=models.URLField(null=True)
+    is_read=models.BooleanField(default=False)
     
