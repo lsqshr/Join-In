@@ -70,6 +70,11 @@ def private_message_wall(request,link,**kwargs):
                     debug.append("ready to send\n")
                     msgw.send_message(web_url=web_url, send_datetime=datetime.datetime.now(), \
                                       send_to=send_to, belongs_to_group=belongs_to, written_by=user, content=content)#did not include priority
+                    #send notification to all of the members in that group
+                    nm.send_notification(to_user=None, to_group=belongs_to, text=request.user.joinin_user.username+\
+                                         " has posted a message in group "+belongs_to.name+".\n\n"\
+                                         +datetime.datetime.now()+content, \
+                                         url="/message_wall/view/", sys=False, email=True)
             else:#write reply
                 content=request.POST['content']
                 message_id=long(request.POST['message_id'])
@@ -186,6 +191,8 @@ def private_message_wall(request,link,**kwargs):
     
 @login_required    
 def group_message_wall(request, group_id,link,**kwargs):
+    nm=NotificationManager()
+    nm.set_sender(request.user.username, 'smtp.gmail.com', 465, 'lsqshr@gmail.com', '13936344120lsqshr')
     #get the group
     group_id = long(group_id)
     group = None
@@ -238,6 +245,11 @@ def group_message_wall(request, group_id,link,**kwargs):
                         msgw.send_message(web_url=web_url, send_datetime=datetime.datetime.now(),\
                                            send_to=send_to, belongs_to_group=belongs_to,\
                                             written_by=request.user.joinin_user, content=content)#did not include priority
+                        #send notification to all of the members in that group
+                        nm.send_notification(to_user=None, to_group=belongs_to, text=request.user.joinin_user.username+\
+                                             " has posted a message in group "+belongs_to.name+".\n\n"\
+                                             +datetime.datetime.now()+content, \
+                                             url="/message_wall/view/", sys=False, email=True)
             elif "invite" in request.POST:#deal with the 
                 form=InviteForm(request.POST)
                 if form.is_valid():

@@ -25,10 +25,17 @@ class NotificationManager(object):
         pass
     
     def send_notification(self, to_user=None, to_group=None, text=None, url=None,sys=True,email=True):
-        if to_user.system_notification:#check if the user allow the system to send system notification
-            self._send_sys_notification(to_user, text, url)
-        if to_user.email_update:
-            self._send_email_notification(to_user.user.username, text, url)
+        if to_user:
+            if to_user.system_notification and sys:#check if the user allow the system to send system notification
+                self._send_sys_notification(to_user, text, url)
+            if to_user.email_update and email:
+                self._send_email_notification(to_user.user.username, text, url)
+        else:
+            for to_user in to_group.users.all():
+                if to_user.system_notification and sys:#check if the user allow the system to send system notification
+                    self._send_sys_notification(to_user, text, url)
+                if to_user.email_update and email:
+                    self._send_email_notification(to_user.user.username, text, url)
         return
     
     def _send_email_notification(self, email, text, url):
