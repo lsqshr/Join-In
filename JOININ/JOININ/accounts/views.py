@@ -1,4 +1,5 @@
-from JOININ.accounts.forms import SignupForm, LoginForm, CreateGroupForm
+from JOININ.accounts.forms import SignupForm, LoginForm, CreateGroupForm, \
+    SettingsForm
 from JOININ.accounts.models import JoinInUser, JoinInGroup
 from django.contrib import auth
 from django.contrib.auth import logout
@@ -132,3 +133,14 @@ def create_group(request):
         form = CreateGroupForm()
         form.fields['public'].initial = [True, "public"]
     return render_to_response("create_group.html",{"form":form,"errors":errors})
+
+def settings(request):
+    if request.method == "POST" and 'settings' in request.POST:
+        form=SettingsForm(request.POST,instance=JoinInUser())
+        if form.is_valid():
+            form.save()
+        return HttpResponseRedirect('/message_wall/view/')
+    else:
+        form=SettingsForm(instance=request.user.joinin_user) 
+    return render_to_response("settings.html",{'form':form},context_instance=RequestContext(request, {}))
+        

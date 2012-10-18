@@ -3,9 +3,10 @@ Created on 25/09/2012
 
 @author: siqi
 '''
+from JOININ.accounts.models import JoinInUser
 from django import forms
-from django.forms.widgets import Widget
 from django.db.models.fields import CharField
+from django.forms.widgets import Widget
 
 class SignupForm(forms.Form):
     #The user name will be the same as email
@@ -26,3 +27,7 @@ class InviteForm(forms.Form):
     
 class ApplyGroupForm(forms.Form):
     group_name=forms.CharField(max_length=15)
+    
+class SettingsForm(forms.ModelForm):
+    class Meta:
+        model = JoinInUser

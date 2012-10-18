@@ -25,4 +25,5 @@ urlpatterns = patterns('',
     url(r'^signup/$','JOININ.accounts.views.signup'),
     url(r'^logout/$','JOININ.accounts.views.user_logout'),
     url(r'^create_group/$','JOININ.accounts.views.create_group'),
+    url(r'^settings/$','JOININ.accounts.views.settings',)
 )
