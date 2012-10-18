@@ -329,7 +329,7 @@ def group_message_wall(request, group_id,link,**kwargs):
                     except JoinInUser.DoesNotExist:
                         pass
                     if errors:
-                        return render_to_response("message_modules/invite_dialog.html",\
+                        return render_to_response("accounts_modules/invite_dialog.html",\
                                                   {'errors':errors,'form':form,'group':group},\
                                                    context_instance=RequestContext(request, {}))
                     #create new invitation to the user.
@@ -358,11 +358,11 @@ def group_message_wall(request, group_id,link,**kwargs):
         if user_to_add not in group.users.all():
             group.users.add(user_to_add) 
         else:
-            raise "User has already been in the group."
+            raise Exception("User has already been in the group.")
         #delete this user from appliers
         group.appliers.remove(user_to_add)
         #delete the user from the invitations, if there are invitation was sent to this user
-        if user in group.invitations.all():
+        if user_to_add in group.invitations.all():
             group.invitations.remove(user_to_add)
         #redirect
         return HttpResponseRedirect('/message_wall/group/'+str(group.id)+'/view/')

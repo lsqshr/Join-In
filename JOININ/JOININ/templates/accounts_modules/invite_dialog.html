@@ -1,3 +1,8 @@
+<ul color="red">
+{%for error in errors%}
+	<li><font color="red">{{error}}</font></li>
+{%endfor%}
+</ul>
 <form action="" method="POST" enctype="multipart/form-data">
 {% csrf_token %}
 {{form.username.label}} to invite : {{form.username}}
