@@ -69,7 +69,7 @@ def private_message_wall(request,link,**kwargs):
                     #send this message
                     debug.append("ready to send\n")
                     msgw.send_message(web_url=web_url, send_datetime=datetime.datetime.now(), \
-                                      send_to=send_to, belongs_to_group=belongs_to, written_by=user, content=content)#did not include priority
+                                      send_to=send_to, belongs_to_group=belongs_to, written_by=user, content=content,priority=priority)#did not include priority
                     #send notification to all of the members in that group
                     nm.send_notification(to_user=None, to_group=belongs_to, text=request.user.username+\
                                          " has posted a message in group "+belongs_to.name+".\n\n"\
@@ -244,7 +244,7 @@ def group_message_wall(request, group_id,link,**kwargs):
                         #send this message
                         msgw.send_message(web_url=web_url, send_datetime=datetime.datetime.now(),\
                                            send_to=send_to, belongs_to_group=belongs_to,\
-                                            written_by=request.user.joinin_user, content=content)#did not include priority
+                                            written_by=request.user.joinin_user, content=content,priority=priority)#did not include priority
                         #send notification to all of the members in that group
                         nm.send_notification(to_user=None, to_group=belongs_to, text=request.user.username+\
                                              " has posted a message in group "+belongs_to.name+".\n\n"\
