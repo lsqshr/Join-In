@@ -135,12 +135,15 @@ def create_group(request):
     return render_to_response("create_group.html",{"form":form,"errors":errors})
 
 def settings(request):
+    errors=[]
     if request.method == "POST" and 'settings' in request.POST:
-        form=SettingsForm(request.POST,instance=JoinInUser())
+        form=SettingsForm(request.POST,instance=request.user.joinin_user)
         if form.is_valid():
             form.save()
-        return HttpResponseRedirect('/message_wall/view/')
+            return HttpResponseRedirect('/message_wall/view/')
+        else:
+            errors=form.errors
     else:
         form=SettingsForm(instance=request.user.joinin_user) 
-    return render_to_response("settings.html",{'form':form},context_instance=RequestContext(request, {}))
+    return render_to_response("settings.html",{'form':form,'errors':errors},context_instance=RequestContext(request, {}))
         

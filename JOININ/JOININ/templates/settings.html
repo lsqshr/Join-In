@@ -6,6 +6,15 @@
 <script language="javascript" src="/static/scripts.js"></script>
 </head>
 <body>
+<!--include header for private message wall -->
+{% include "message_modules/message_wall_header.html" %}
+<br>
+
+			<ul style="color:red">
+			{%for error in errors%}
+				<li>{{erorr}}</li>
+			{%endfor%}
+			</ul>
                 <form action="" method="POST" enctype="multipart/form-data">
 					{% csrf_token %}
 					<table>
@@ -13,5 +22,6 @@
 					</table>
 					<button type="submit" name="settings">save changes</button>
 				</form>
+				<a href = "/message_wall/view/">go back</a> 
 </body>
 </html>
