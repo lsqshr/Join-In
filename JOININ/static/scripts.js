@@ -30,7 +30,30 @@ function addGroups(idField, value) {
 	
 }
 
-
+function checkGroups() {
+	
+	countGroups = parseInt(document.getElementById('countGroups').value);
+	selected = 0;
+	
+	for(i=1; i<=countGroups; i++) {
+		
+		idField = "group"+i;
+		isChecked = document.getElementById(idField).checked;
+		
+		if(isChecked == true) {
+			selected++;
+			break;
+		}
+		
+	}
+	
+	if(selected == 0) {
+		alert('Select at least 1 group to send messages!');
+		return false;
+	} else {
+		 mostraEscondeMsg('sendMessage',true);
+	}
+}
 
 
 

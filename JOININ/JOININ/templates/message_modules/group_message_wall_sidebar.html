@@ -1,22 +1,22 @@
 {% extends "sidebar_base.html" %}
 {% block elements %}
 	<tr>
-		<td height="40" colspan="2" background="/static/images/titleBg.gif" class="titleMenu">Groups
+		<td height="40" colspan="3" background="/static/images/titleBg.gif" class="titleMenu">Groups
 		</td>
 	</tr>
 	{% include "accounts_modules/groups_joined.html" %}
 	<tr>
-		<td height="40" colspan="2" background="/static/images/titleBg.gif" class="titleMenu">Members in group
+		<td height="40" colspan="3" background="/static/images/titleBg.gif" class="titleMenu">Members in group
 		</td>
 	</tr>
 	{% for user in users %}
 		<tr>
-			<td width="163"><font size=3px>{{user.user.username}}</font>
+			<td width="127">{{user.user.username}}
 			</td>
 		</tr>
 	{% endfor %}
 	<tr>
-		<td height="40" colspan="2" background="/static/images/titleBg.gif" class="titleMenu">Appliers
+		<td height="40" colspan="3" background="/static/images/titleBg.gif" class="titleMenu">Appliers
 		</td>
 	</tr>
 	{% include "accounts_modules/appliers.html" %}

@@ -7,6 +7,52 @@
 </head>
 <body>
 
+                <div id="sendMessage" class="banner" style="display:block;">
+                  <p align="right" onclick="mostraEscondeMsg('sendMessage','false')" style="cursor: pointer;">[X]&nbsp;&nbsp;</p>
+                  <table cellpadding="3" cellspacing="0">
+				   <form name="form_msg" id="form_msg" method="post">
+					<tr>
+					  <td width="5%" rowspan="7" align="center" valign="top">&nbsp;</td>
+					  <td colspan="3" align="left" valign="top" class="textLar">Send a message! </td>
+					  <td rowspan="2" align="left" valign="top">&nbsp;</td>
+					</tr>
+					<tr>
+					  <td width="20%" align="left" valign="top">Web Url </td>
+					  <td colspan="2" align="left" valign="top"><input type="text" name="web_url" id="web_url" class="inputLar" />					  </td>
+					</tr>
+					<tr>
+					  <td width="20%" align="left" valign="top">Priority</td>
+					  <td colspan="2" align="left" valign="top"><select class="selectMed" id="priority" name="priority">
+						  <option value="message">Just a message</option>
+						</select>					  </td>
+					  <td align="left" valign="top">&nbsp;</td>
+					</tr>
+					<tr>
+					  <td width="20%" align="left" valign="top">Send to </td>
+					  <td colspan="2" align="left" valign="top"><select class="selectMed" id="sendTo" name="sendTo">
+                        <option value="">(Select)</option>
+                      </select></td>
+					  <td rowspan="2" align="left" valign="top">&nbsp;</td>
+					</tr>
+					<tr>
+					  <td width="20%" align="left" valign="top">Select a file</td>
+					  <td colspan="2" align="left" valign="top"><input type="file" name="file_upload" id="file_upload" class="inputFile" /></td>
+					</tr>
+					<tr>
+					  <td width="20%" valign="top">Message</td>
+					  <td width="63%" valign="top"><textarea name="textarea" class="writeTxtArea">Write a message</textarea>					  </td>
+					  <td width="10%" align="right" valign="bottom"><input type="button" name="post_msg" id="post_msg" value="Post" class="button" /></td>
+					  <td width="3%" rowspan="2" valign="top">&nbsp;</td>
+					</tr>
+					<tr>
+					  <td valign="top">&nbsp;</td>
+					  <td width="63%" valign="top">&nbsp;</td>
+					  <td width="10%" align="right" valign="bottom">&nbsp;</td>
+					</tr>
+				  </form>
+				</table>
+                </div>
+
 <!--include header for private message wall -->
 {% include "message_modules/message_wall_header.html" %}
 <br>
@@ -30,6 +76,11 @@
 		{% include "message_modules/notifications.html" %}
 	</div>
 </div>
-
+  <script language="javascript">
+mostraEscondeMsg('sendMessage',false);
+mostraEscondeMsg('createGroup',false);
+mostraEscondeMsg('applyGroup',false);
+mostraEscondeMsg('invite',false);
+</script>
 </body>
 </html>

@@ -71,9 +71,9 @@ def private_message_wall(request,link,**kwargs):
                     msgw.send_message(web_url=web_url, send_datetime=datetime.datetime.now(), \
                                       send_to=send_to, belongs_to_group=belongs_to, written_by=user, content=content)#did not include priority
                     #send notification to all of the members in that group
-                    nm.send_notification(to_user=None, to_group=belongs_to, text=request.user.joinin_user.username+\
+                    nm.send_notification(to_user=None, to_group=belongs_to, text=request.user.username+\
                                          " has posted a message in group "+belongs_to.name+".\n\n"\
-                                         +datetime.datetime.now()+content, \
+                                         +str(datetime.datetime.now())+content, \
                                          url="/message_wall/view/", sys=False, email=True)
             else:#write reply
                 content=request.POST['content']
@@ -175,7 +175,7 @@ def private_message_wall(request,link,**kwargs):
         #TODO:send notification to this user
         nm.send_notification(request.user.joinin_user,None, \
                              "Congratulations, you are now in group "+group_to_join.name+'.',\
-                              '/message_wall/group/'+group_to_join.id+'/view/')
+                              '/message_wall/group/'+str(group_to_join.id)+'/view/')
         return HttpResponseRedirect('/message_wall/view/')
     elif link == 'deny':
         #get groupto accept invitation
@@ -246,9 +246,9 @@ def group_message_wall(request, group_id,link,**kwargs):
                                            send_to=send_to, belongs_to_group=belongs_to,\
                                             written_by=request.user.joinin_user, content=content)#did not include priority
                         #send notification to all of the members in that group
-                        nm.send_notification(to_user=None, to_group=belongs_to, text=request.user.joinin_user.username+\
+                        nm.send_notification(to_user=None, to_group=belongs_to, text=request.user.username+\
                                              " has posted a message in group "+belongs_to.name+".\n\n"\
-                                             +datetime.datetime.now()+content, \
+                                             +str(datetime.datetime.now())+content, \
                                              url="/message_wall/view/", sys=False, email=True)
             elif "invite" in request.POST:#deal with the 
                 form=InviteForm(request.POST)
@@ -329,7 +329,7 @@ def group_message_wall(request, group_id,link,**kwargs):
                     except JoinInUser.DoesNotExist:
                         pass
                     if errors:
-                        return render_to_response("messge_modules/invite_dialog.html",\
+                        return render_to_response("message_modules/invite_dialog.html",\
                                                   {'errors':errors,'form':form,'group':group},\
                                                    context_instance=RequestContext(request, {}))
                     #create new invitation to the user.

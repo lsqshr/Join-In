@@ -24,18 +24,17 @@
 		</a>
 		<!--post new message-->
 			{% include "message_modules/message_sender.html" %}
-		debug: 
-		{%for d in debug%}
-			{{d}},
-		{%endfor%}
-		<!--messages to this group. not private messages-->
-		message_wall
 		<!--START TO SHOW THE MESSAGE WALL-->
 		{% include "message_modules/private_message_list.html" %}
 	
 	</div>
 </div>
-	
+  <script language="javascript">
+mostraEscondeMsg('sendMessage',false);
+mostraEscondeMsg('createGroup',false);
+mostraEscondeMsg('applyGroup',false);
+mostraEscondeMsg('invite',false);
+</script>	
 	
 </body>
 </html>
