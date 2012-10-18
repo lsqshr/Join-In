@@ -1,6 +1,8 @@
-<form action="" method="POST" enctype="multipart/form-data">
-{% csrf_token %}
-{{form.group_name.label}} to invite : {{form.group_name}}
-<button name="invite" type="submit">apply</button>
-</form>
-<a href="/message_wall/view/">go back to private message wall</a>
+<div id="apply_dialog">
+	<form action="" method="POST" enctype="multipart/form-data">
+	{% csrf_token %}
+	{{form.group_name.label}} to apply : {{form.group_name}}
+	<button name="invite" type="submit">apply</button>
+	</form>
+	<a href="/message_wall/view/">go back to private message wall</a>
+</div>
