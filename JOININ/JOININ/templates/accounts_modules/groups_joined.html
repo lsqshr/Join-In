@@ -1,18 +1,24 @@
 {%for group in groups%}
 	<tr>
 		<td width="127">
-			<a class="linkBlue" href="/message_wall/group/{{group.id}}/view/">{{group.name}}</a>
+				<a class="linkBlue" href="/message_wall/group/{{group.id}}/view/">
+					<font size="4px">{{group.name}}
+					</font>
+				</a>
+			</font>
 		</td>
 		<!--<td colspan="3" >
 		  	<img src="/static/images/invite.gif" alt="Invite users" title="Invite users" width="16" height="16" onclick="mostraEscondeMsg('invite',true);" style="cursor:pointer;" /> 
 			<img src="/static/images/leave.gif" width="16" height="16" alt="Leave this group" title="Leave this group" />			
 		-->
-		<td>
-			<input type="radio" name="{{group.name}}" id="{{group.name}}" />
-		</td>
-		
 	</tr>
 
 
 {%endfor%}
-<img src="/static/images/writeMsg.gif" width="36" height="30" onclick="mostraEscondeMsg('sendMessage',true);" style="cursor:pointer;" alt="Write a message" title="Write a message" />
+<tr>
+	<td width="127">
+			<a href="/message_wall/apply/" style="float:right;text-decoration: none; color:#8D38C9;" >
+				<font face="Arial" size="2px"> <b>Apply a group.</b>
+			</a>
+	</td>
+</tr>

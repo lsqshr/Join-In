@@ -45,7 +45,7 @@ class NotificationManager(object):
         if self.is_sender_set:
             em = EmailMessage(subject="JoinIn Notification",\
                             body=text+'\n\n Cheers\nJoinIn Team', from_email=self.from_email, to=[email],)
-            em.send(fail_silently=False) 
+            #em.send(fail_silently=False) 
         else:
             raise Exception("Sender not set!")
         return
