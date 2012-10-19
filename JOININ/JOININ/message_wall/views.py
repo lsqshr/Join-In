@@ -3,7 +3,7 @@ from JOININ.accounts.forms import InviteForm, ApplyGroupForm
 from JOININ.accounts.models import JoinInGroup, JoinInUser
 from JOININ.message_wall.forms import SendMessageForm
 from JOININ.message_wall.message_wall import MessageWall
-from JOININ.message_wall.models import Notification, Message
+from JOININ.message_wall.models import Notification, Message, PrivateMessage
 from JOININ.message_wall.notification_manager import NotificationManager
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect, Http404
@@ -378,3 +378,18 @@ def group_message_wall(request, group_id,link,**kwargs):
         return HttpResponseRedirect('/message_wall/group/'+str(group.id)+'/view/')
     else: 
         return HttpResponse("not working"+link)
+
+def mark_read(request,**kwargs):
+    msg_id=kwargs['message_id']
+    msg_id=long(msg_id)
+    try:
+        pmsg=PrivateMessage.objects.get(id=msg_id)
+    except:
+        raise Exception("message not found.")
+    if kwargs['mark'] == 'mark_as_read':
+        pmsg.read=True
+        pmsg.save()
+    else:
+        pmsg.read=False
+        pmsg.save()
+    return HttpResponseRedirect('/message_wall/view/')
