@@ -6,7 +6,7 @@ notifications:&nbsp
 {%endif%}
 <ol>
 {%for notification in notifications%}
-	<li>
+	<li style="background-color:#ADD8E6">
 		{%if notification.url%}
 		  <a href {{notification.url}}>{{notification.content}}&nbsp;
 			{{notification.send_datetime}}</a>
@@ -16,5 +16,6 @@ notifications:&nbsp
 		{%endif%}
 		  <a href="/message_wall/view/notification_set_read/{{notification.id}}/">got it!</a>
 	</li>
+	<hr/>
 {%endfor%}
 </ol>

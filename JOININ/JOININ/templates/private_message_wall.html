@@ -6,7 +6,12 @@
 <script language="javascript" src="/static/scripts.js"></script>
 </head>
 <body>
-
+ <script language="javascript">
+mostraEscondeMsg('sendMessage',false);
+mostraEscondeMsg('createGroup',false);
+mostraEscondeMsg('applyGroup',false);
+mostraEscondeMsg('invite',false);
+</script>
 <!--include header for private message wall -->
 {% include "message_modules/message_wall_header.html" %}
 <br>
@@ -27,11 +32,6 @@
 		{% include "message_modules/notifications.html" %}
 	</div>
 </div>
-  <script language="javascript">
-mostraEscondeMsg('sendMessage',false);
-mostraEscondeMsg('createGroup',false);
-mostraEscondeMsg('applyGroup',false);
-mostraEscondeMsg('invite',false);
-</script>
+ 
 </body>
 </html>

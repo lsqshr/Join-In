@@ -1,3 +1,9 @@
+{%if id_to_show == 'applyGroup'%}
+<script>mostraEscondeMsg('applyGroup',true);</script>
+{% else %}
+<script>mostraEscondeMsg('applyGroup',false);</script>
+{%endif%}
+
 {%for group in groups%}
 	<tr>
 		<td width="127">

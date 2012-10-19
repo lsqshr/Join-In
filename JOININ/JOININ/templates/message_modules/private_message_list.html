@@ -12,7 +12,7 @@ style="cursor:pointer;" alt="Write a message" title="Write a message"/>
 		{%endif%}
 		>
 					<b class="b1"></b><b class="b2"></b><b class="b3"></b><b class="b4"></b>
-					<a href="{{pmsg.message.web_url}}" style="color:black;text-decoration:none;">
+					
 						<div class="conteudo">
 							from: {{pmsg.message.written_by.user.username}}
 							{% if not pmsg.read %}
@@ -22,7 +22,9 @@ style="cursor:pointer;" alt="Write a message" title="Write a message"/>
 						    {%endif%}	
 							<br />
 							  <br />
-							 {{pmsg.message.content}}					
+							<a href="{{pmsg.message.web_url}}" style="color:black;text-decoration:none;">
+								 {{pmsg.message.content}}	
+							</a>				
 						 </div>
 						<div class="conteudoRight">
 							<span style="color:#999999">
@@ -41,7 +43,7 @@ style="cursor:pointer;" alt="Write a message" title="Write a message"/>
 							<br />
 							<hr style="color:#CCCCCC" />						
 						</div>
-					</a>
+					
 					<div class="conteudoReply">
 						{% for reply in pmsg.message.reply.all%}
 							<div>
