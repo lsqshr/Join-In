@@ -21,10 +21,10 @@ class MessageWall(object):
         def retrieve_list(self, type, user, group, start=None, end=None):
             #TODO:add limit to the retrieve record number. start to end, use [:] to slice the result set
             if not group:
-                self.message_list=user.private_messages.order_by('-message__update_datetime')
+                self.message_list=user.private_messages.order_by('read','-message__priority','-message__update_datetime')
             else:
                 self.message_list=user.private_messages.filter(message__belongs_to_group__name=group.name)\
-                    .order_by('-message__update_datetime')
+                    .order_by('read','-message__priority','-message__update_datetime')
             return self.message_list
         
         def search(self):

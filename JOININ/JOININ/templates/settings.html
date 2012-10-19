@@ -12,13 +12,42 @@
 
 			<ul style="color:red">
 			{%for error in errors%}
-				<li>{{erorr}}</li>
+				<li>{{error}}</li>
 			{%endfor%}
 			</ul>
                 <form action="" method="POST" enctype="multipart/form-data">
 					{% csrf_token %}
 					<table>
-						{{form.as_table}}
+						<tr >
+							<div hidden="true">
+							{{form.user}}
+							</div>
+						</tr>
+						<tr>
+							<th><label for="id_phone">Phone:</label></th>
+							<td><input id="id_phone" type="text" name="phone" maxlength="20" /></td>
+						</tr>
+						<tr>
+							<th><label for="id_phone_public">Phone public:</label></th>
+							<td><input type="checkbox" name="phone_public" id="id_phone_public" /></td>
+						</tr>
+						<!--not used now
+							<tr>
+								<th><label for="id_profile_img">Profile img:</label></th>
+								<td><input type="file" name="profile_img" id="id_profile_img" /></td>
+							</tr>-->
+						<tr>
+							<th><label for="id_system_notification">System notification:</label></th>
+							<td><input checked="checked" type="checkbox" name="system_notification" id="id_system_notification" /></td>
+						</tr>
+						<tr>
+							<th><label for="id_email_update">Email update:</label></th>
+							<td><input checked="checked" type="checkbox" name="email_update" id="id_email_update" /></td>
+						</tr>
+						<tr hidden="true">
+							<th><label for="id_last_login">Last login:</label></th>
+							<td><input type="text" name="last_login" id="id_last_login" /></td>
+						</tr>
 					</table>
 					<button type="submit" name="settings">save changes</button>
 				</form>
