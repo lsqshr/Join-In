@@ -21,7 +21,7 @@ class JoinInUser(models.Model):
     user = models.OneToOneField(User, null=False,unique=True,related_name='joinin_user')
     phone = models.CharField(max_length=20, null=True,blank=True)
     phone_public = models.BooleanField(default=False) 
-    profile_img = models.ImageField(upload_to='profile_imgs',null=True,blank=True)
+    #profile_img = models.ImageField(upload_to='profile_imgs',null=True,blank=True)
     system_notification = models.BooleanField(default=True)
     email_update = BooleanField(default=True)
     objects=JoinInUserManager() 
