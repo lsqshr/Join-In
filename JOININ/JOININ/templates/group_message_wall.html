@@ -24,6 +24,7 @@
 		</a>
 		<!--post new message-->
 			{% include "message_modules/message_sender.html" %}
+			{% include "accounts_modules/apply_dialog.html" %}
 		<!--START TO SHOW THE MESSAGE WALL-->
 		{% include "message_modules/private_message_list.html" %}
 	
@@ -31,8 +32,8 @@
 </div>
   <script language="javascript">
 mostraEscondeMsg('sendMessage',false);
-mostraEscondeMsg('createGroup',false);
 mostraEscondeMsg('applyGroup',false);
+mostraEscondeMsg('createGroup',false);
 mostraEscondeMsg('invite',false);
 </script>	
 	
