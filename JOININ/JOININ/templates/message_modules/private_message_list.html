@@ -2,11 +2,22 @@
 width="36" height="30" onclick="mostraEscondeMsg('sendMessage',true);" 
 style="cursor:pointer;float:right;" alt="Write a message" title="Write a message"/>
 {%for pmsg in private_messages%}
-		<div class="bordaBox">
+		<div class="bordaBox" 
+		{% if not pmsg.read %}
+		style="background-color:#ADD8E6;"
+		{% else %}
+		style="background-color:#C0C0C0;"	
+		{%endif%}
+		>
 					<b class="b1"></b><b class="b2"></b><b class="b3"></b><b class="b4"></b>
 					<a href="{{pmsg.message.web_url}}" style="color:black;text-decoration:none;">
 						<div class="conteudo">
 							from: {{pmsg.message.written_by.user.username}}
+							{% if not pmsg.read %}
+								<a href="/message_wall/view/mark_as_read/{{pmsg.id}}/" style="float:right">[mark as read]</a>
+							{%else%}
+								<a href="/message_wall/view/mark_as_unread/{{pmsg.id}}/" style="float:right">[mark as unread]</a>
+						    {%endif%}	
 							<br />
 							  <br />
 							 {{pmsg.message.content}}					
