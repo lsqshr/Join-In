@@ -1,27 +1,57 @@
 <!--post new message-->
-<form action="" method="POST" enctype="multipart/form-data">
-	{% csrf_token %}
-	<tr>
-		<table>
-			<tr>
-            <!--
-            <td align="center">Upload a file
-              <input name="file" type="file" class="inputUpload" /></td>
-            -->
-            <td align="center">
-				{{form.web_url.label}}{{form.web_url}}</td>
-			<td align="center">
-				{{form.priority.label}}{{form.priority}}</td>
-			<td align="center">
-				{{form.send_to.label}}{{form.send_to}}</td>
-			<td align="center">
-				{{form.belongs_to_group.label}}{{form.belongs_to_group}}</td>
-			</tr>
-			<tr>
-            	<td colspan="3" align="center">{{form.content}}</td>
-            	<td align="center">
-				<input type="submit" class="button" value="Post" name="send"/></td>
-            </tr>
-         </table> 
-     </tr>
-</form>
+
+<div id="sendMessage" class="banner" style="display:block;">
+	<p align="right" onclick="mostraEscondeMsg('sendMessage','false')" style="cursor: pointer;">[X]&nbsp;&nbsp;</p>
+                  <table cellpadding="3" cellspacing="0">
+				   <form action="" method="POST" enctype="multipart/form-data">
+					{% csrf_token %}
+					<tr>
+					  <td width="5%" rowspan="7" align="center" valign="top">&nbsp;</td>
+					  <td colspan="3" align="left" valign="top" class="textLar">Send a message! </td>
+					  <td rowspan="2" align="left" valign="top">&nbsp;</td>
+					</tr>
+					<tr>
+					  <td width="20%" align="left" valign="top">{{form.web_url.label}} </td>
+					  <td colspan="2" align="left" valign="top"> {{form.web_url}}
+					  </td>
+					</tr>
+					<tr>
+					  <td width="20%" align="left" valign="top">{{form.priority.label}}</td>
+					  <td colspan="2" align="left" valign="top">
+					  {{form.priority}}
+					  </td>
+					  <td align="left" valign="top">&nbsp;</td>
+					</tr>
+					<tr>
+					  <td width="20%" align="left" valign="top">{{form.belongs_to_group.label}}</td>
+					  <td colspan="2" align="left" valign="top">
+					  {{form.belongs_to_group}}
+					  </td>
+					  <td align="left" valign="top">&nbsp;</td>
+					</tr>
+					<tr>
+					  <td width="20%" align="left" valign="top">{{form.send_to.label}}</td>
+					  <td colspan="2" align="left" valign="top">
+					 {{form.send_to}}
+					 </td>
+					  <td rowspan="2" align="left" valign="top">&nbsp;</td>
+					</tr>
+					<tr>
+					  <td width="20%" align="left" valign="top">Select a file</td>
+					  <td colspan="2" align="left" valign="top"><input type="file" name="file_upload" id="file_upload" class="inputFile" /></td>
+					</tr>
+					<tr>
+					  <td width="20%" valign="top">Message</td>
+					  <td width="63%" valign="top">{{form.content}}</td>
+					  <td width="10%" align="right" valign="bottom">
+					  <button type="submit" name="post_msg" id="post_msg" value="Post" class="button">POST</button></td>
+					  <td width="3%" rowspan="2" valign="top">&nbsp;</td>
+					</tr>
+					<tr>
+					  <td valign="top">&nbsp;</td>
+					  <td width="63%" valign="top">&nbsp;</td>
+					  <td width="10%" align="right" valign="bottom">&nbsp;</td>
+					</tr>
+				  </form>
+				</table>
+                </div>
