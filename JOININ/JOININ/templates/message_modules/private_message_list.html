@@ -1,6 +1,8 @@
+<font style="color:#6960EC;float:right;" >Send a new message
 <img src="/static/images/writeMsg.gif" 
 width="36" height="30" onclick="mostraEscondeMsg('sendMessage',true);" 
-style="cursor:pointer;float:right;" alt="Write a message" title="Write a message"/>
+style="cursor:pointer;" alt="Write a message" title="Write a message"/>
+</font><br><br>
 {%for pmsg in private_messages%}
 		<div class="bordaBox" 
 		{% if not pmsg.read %}
