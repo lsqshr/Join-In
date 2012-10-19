@@ -230,7 +230,7 @@ background-image: linear-gradient(90deg, rgba(255, 255, 255,0.4), rgba(255, 255,
 
 #right{
 	float:right;
-	width:200
+	width:300;
 	
 }
 
@@ -239,6 +239,7 @@ background-image: linear-gradient(90deg, rgba(255, 255, 255,0.4), rgba(255, 255,
 	width:200;
 	margin:auto;
 }
+
 
 #rightside{
 	float:left;
