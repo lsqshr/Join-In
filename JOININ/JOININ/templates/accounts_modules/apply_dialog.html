@@ -1,8 +1,28 @@
-<div id="apply_dialog">
-	<form action="" method="POST" enctype="multipart/form-data">
-	{% csrf_token %}
-	{{form.group_name.label}} to apply : {{form.group_name}}
-	<button name="invite" type="submit">apply</button>
-	</form>
-	<a href="/message_wall/view/">go back to private message wall</a>
-</div>
+<div id="applyGroup" class="banner">
+                  <p align="right" onclick="mostraEscondeMsg('applyGroup','false')" style="cursor: pointer;">
+                  	[X]&nbsp;&nbsp;
+                  </p>
+                  <table width="100%" cellpadding="5">
+                  <form action="" method="POST" enctype="multipart/form-data">
+                  {% csrf_token %}
+				  	<tr>
+						<td colspan="2" align="left" valign="top" class="textLar">
+						Apply for a group! 
+						</td>
+					</tr>
+                    <tr>
+                      <td width="30%">
+                      {{apply_form.group_name.label}}</td>
+                      <td>
+					  	{{apply_form.group_name}}
+					  </td>
+                    </tr>
+                    
+                    <tr>
+                      <td width="30%">&nbsp;</td>
+                      <td align="right">
+                      	<input name="submit" type="submit" class="button" value="Apply" />                      </td>
+                    </tr>
+                    </form>
+                  </table>
+                </div>
