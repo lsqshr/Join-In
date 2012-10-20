@@ -16,16 +16,26 @@
 	</div>
 	<div id="rightside">
 		<!--links should be in the head of group page-->
-		<div style="float:right;margin-right:4%">
-			<font style="color:#6960EC;float:right;" >Invite a user.
-				<img src="/static/images/invite.gif" 
-				width="36" height="30" onclick="mostraEscondeMsg('invite',true);" 
-				style="cursor:pointer;" alt="invite a user" title="invite a user"/>
+		<!---leave group button-->
+		<div style="float:right;margin-right:5%;">
+			<font style="color:#6960EC;float:right;" >
+			<a href="/message_wall/group/{{group.id}}/leave/">
+				<img src="/static/images/leave.gif" 
+				width="36" height="30"  
+				style="cursor:pointer;" alt="leave this group" title="leave this group"/>
+			</a>
 			</font>
 		</div>
-		<a href="/message_wall/group/{{group.id}}/invite/" style="float:right;">
-			<input type="button" class="button" value="invite">
-		</a>
+		
+		<!--invite user button-->
+		<div style="float:right;">
+			<font style="color:#6960EC;float:right;padding-right:70%" >
+				<img src="/static/images/invite.gif" 
+				width="36" height="30"  onclick="mostraEscondeMsg('invite',true)"
+				style="cursor:pointer;" alt="leave this group" title="leave this group"/>
+			</font>
+		</div>
+		
 		<!--post new message-->
 			{% include "message_modules/message_sender.html" %}
 			{% include "accounts_modules/apply_dialog.html" %}
