@@ -5,6 +5,9 @@ width="36" height="30" onclick="mostraEscondeMsg('sendMessage',true);"
 style="cursor:pointer;" alt="Write a message" title="Write a message"/>
 </div>
 <br><br>
+{%if not private_messages%}
+	There have not been no messages in this group. Why not post the first one?
+{%endif%}
 {%for pmsg in private_messages%}
 		<div class="bordaBox" 
 		{% if not pmsg.read %}
@@ -70,7 +73,7 @@ style="cursor:pointer;" alt="Write a message" title="Write a message"/>
 						<tr>
 							<form action="" method="post" enctype="multipart/form-data">
 								{% csrf_token %}
-								<td width="90%"><textarea name="content" class="writeTxtArea" style="width:95%; height:20px;">Reply</textarea></td>
+								<td width="90%"><textarea name="content" class="writeTxtArea" style="width:95%; height:20px;" wrap="hard" title="Write a reply"></textarea></td>
 								<input type="hidden" name="message_id" value="{{pmsg.message.id}}"/>
 								<input type="hidden" name="group_id" value="{{pmsg.message.belongs_to_group.id}}"/>
 								<td width="10%"><input type="submit" class="button" value="reply" name="reply" /></td>

@@ -1,6 +1,7 @@
 from JOININ.accounts.forms import SignupForm, LoginForm, CreateGroupForm, \
     SettingsForm
 from JOININ.accounts.models import JoinInUser, JoinInGroup
+from JOININ.message_wall.notification_manager import NotificationManager
 from django.contrib import auth
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
@@ -107,8 +108,8 @@ def create_group(request):
     user = request.user.joinin_user
     errors=[]
     #get data from the form
-    if request.method == 'GET':
-        form = CreateGroupForm(request.GET)
+    if request.method == 'POST':
+        form = CreateGroupForm(request.POST)
         if form.is_valid():
             cd = form.cleaned_data
             name = cd['name']
@@ -124,15 +125,17 @@ def create_group(request):
                 new_group = JoinInGroup.objects.create(name=name, create_datetime=datetime.datetime.now(), \
                                                  public=public, creator=user)
                 new_group.users.add(user)
-                #this response is for DEVELOPMENT, in the future it will be redirect to the user's message wall and send a 
-                #system notification to this user to notify that he is in the group now.
-                return HttpResponse("success_create_group. <a href=\"/message_wall/view/"+"\">go back to the messagewall.")
+                #TODO:send notification
+                NotificationManager().send_notification(request.user.joinin_user, None, "You have successfull created a group called"\
+                                                        +name+". You can go to the your own group page and invite other users by their emails.", None, True, False)
+                return HttpResponseRedirect('/message_wall/view/')
             else:
                 errors.append("The group name "+name+" has been taken. Please choose another one.")
-    else:
-        form = CreateGroupForm()
-        form.fields['public'].initial = [True, "public"]
-    return render_to_response("accounts_modules/create_group.html",{"form":form,"errors":errors})
+                #TODO:send notification
+                NotificationManager().send_notification(request.user.joinin_user, None,'; '.join(errors), None, True, False)
+        else:
+            raise Exception("form not valid")         
+    return HttpResponseRedirect('/message_wall/view/')
 
 def settings(request):
     errors=[]

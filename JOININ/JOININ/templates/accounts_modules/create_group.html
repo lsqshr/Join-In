@@ -1,4 +1,7 @@
 <div id="createGroup" class="banner">
+	{%for error in errors%}
+		{{error}}
+	{%endfor%}
                   <p align="right" onclick="mostraEscondeMsg('createGroup','false')" style="cursor: pointer;">
                   	[X]&nbsp;&nbsp;
                   </p>
