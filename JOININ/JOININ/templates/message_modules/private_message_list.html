@@ -1,8 +1,10 @@
-<font style="color:#6960EC;float:right;" >Send a new message
+<div style="float:right;margin-right:5%">
+<font style="color:#6960EC;" >Send a new message</font>
 <img src="/static/images/writeMsg.gif" 
 width="36" height="30" onclick="mostraEscondeMsg('sendMessage',true);" 
 style="cursor:pointer;" alt="Write a message" title="Write a message"/>
-</font><br><br>
+</div>
+<br><br>
 {%for pmsg in private_messages%}
 		<div class="bordaBox" 
 		{% if not pmsg.read %}
@@ -16,9 +18,21 @@ style="cursor:pointer;" alt="Write a message" title="Write a message"/>
 						<div class="conteudo">
 							from: {{pmsg.message.written_by.user.username}}
 							{% if not pmsg.read %}
-								<a href="/message_wall/view/mark_as_read/{{pmsg.id}}/" style="float:right">[mark as read]</a>
+								<a href=
+								{%if page_tag == 'private'%}
+									"/message_wall/view/mark_as_read/{{pmsg.id}}/" 
+								{%else%}
+									"/message_wall/group/{{group.id}}/view/mark_as_read/{{pmsg.id}}/"
+								{%endif%}
+								style="float:right">[mark as read]</a>
 							{%else%}
-								<a href="/message_wall/view/mark_as_unread/{{pmsg.id}}/" style="float:right">[mark as unread]</a>
+								<a href=
+								{%if page_tag == 'private'%}
+									"/message_wall/view/mark_as_unread/{{pmsg.id}}/" 
+								{%else%}
+									"/message_wall/group/{{group.id}}/view/mark_as_unread/{{pmsg.id}}/"
+								{%endif%}
+								 style="float:right">[mark as unread]</a>
 						    {%endif%}	
 							<br />
 							  <br />

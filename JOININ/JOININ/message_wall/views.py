@@ -40,7 +40,7 @@ def private_message_wall(request,link,**kwargs):
         #deal with the form
         if request.method == "POST":
             debug.append("get in deal with form,")
-            if 'reply'  not in request.POST: 
+            if 'post_msg'  in request.POST: 
                 form = SendMessageForm(request.user,None,request.POST)
                 if form.is_valid():
                     debug.append("form valid!")
@@ -75,7 +75,7 @@ def private_message_wall(request,link,**kwargs):
                                          " has posted a message in group "+belongs_to.name+".\n\n"\
                                          +str(datetime.datetime.now())+content, \
                                          url="/message_wall/view/", sys=False, email=True)
-            else:#write reply
+            elif 'reply' in request.POST:#write reply
                 content=request.POST['content']
                 message_id=long(request.POST['message_id'])
                 group_id=request.POST['group_id']
@@ -97,6 +97,41 @@ def private_message_wall(request,link,**kwargs):
                 message.update_datetime=datetime.datetime.now() 
                 message.save()
                 return HttpResponseRedirect('/message_wall/view/')
+            elif 'apply' in request.POST:
+                #deal with the form
+                if request.method == 'POST':
+                    form=ApplyGroupForm(request.POST)
+                    errors=[]
+                    if form.is_valid():
+                        cd=form.cleaned_data
+                        group_name=cd['group_name']
+                        #find the group
+                        group_to_apply=None
+                        try:
+                            group_to_apply=JoinInGroup.objects.get(name=group_name)
+                        except JoinInGroup.DoesNotExist:
+                            errors.append("Sorry, group with name<b>"+group_name+"</b> does not exist, please check the name.")
+                        #add the user to the appliers of that group
+                        if request.user.joinin_user not in group_to_apply.appliers.all() or \
+                                request.user.joinin_user not in group_to_apply.users.all():
+                            group_to_apply.appliers.add(request.user.joinin_user)
+                        else:#TODO:
+                            raise "You have applied for this group or you have been a member of this group. Please be patient for the acceptance."
+                        #send notification
+                        nm.send_notification(request.user.joinin_user, None, 'You have applied to join group '+group_to_apply.name\
+                                             +'.Please wait for permission. Any of the members in this group are able to allow you to join in.', None) 
+                        #redirect to the private message wall
+                        return HttpResponseRedirect("/message_wall/view/")
+                    else:#group name is not in the right format
+                        errors.append("OOps!The group name is too long...")
+                    if errors:    
+                        return render_to_response("accounts_modules/apply_dialog.html",{'form':form,'errors':errors},\
+                                          context_instance=RequestContext(request, {}))       
+                    else:
+                        form=ApplyGroupForm()
+                    #show the apply group dialog
+                    return render_to_response("accounts_modules/apply_dialog.html",{'form':form},\
+                                              context_instance=RequestContext(request, {}))
         else:
             pass
         #get all the private messages to this user
@@ -118,46 +153,14 @@ def private_message_wall(request,link,**kwargs):
             see_all_notifications=False
         return render_to_response('private_message_wall.html', {'form':form,\
                                                                 'page_name':'Hi, '+user.user.username,\
+                                                                'page_tag':'private',\
                                                                 'private_messages':p_msgs,\
                                                                 "groups":groups,'notifications':notifications,\
                                                                 'see_all_notifications':see_all_notifications,\
                                                                 "debug":debug,'user':request.user.joinin_user},\
                                                                 context_instance=RequestContext(request, {}))
-    elif link=='apply':
-        #deal with the form
-        if request.method == 'POST':
-            form=ApplyGroupForm(request.POST)
-            errors=[]
-            if form.is_valid():
-                cd=form.cleaned_data
-                group_name=cd['group_name']
-                #find the group
-                group_to_apply=None
-                try:
-                    group_to_apply=JoinInGroup.objects.get(name=group_name)
-                except JoinInGroup.DoesNotExist:
-                    errors.append("Sorry, group with name<b>"+group_name+"</b> does not exist, please check the name.")
-                #add the user to the appliers of that group
-                if request.user.joinin_user not in group_to_apply.appliers.all() or \
-                        request.user.joinin_user not in group_to_apply.users.all():
-                    group_to_apply.appliers.add(request.user.joinin_user)
-                else:#TODO:
-                    raise "You have applied for this group or you have been a member of this group. Please be patient for the acceptance."
-                #send notification
-                nm.send_notification(request.user.joinin_user, None, 'You have applied to join group '+group_to_apply.name\
-                                     +'.Please wait for permission. Any of the members in this group are able to allow you to join in.', None) 
-                #redirect to the private message wall
-                return HttpResponseRedirect("/message_wall/view/")
-            else:#group name is not in the right format
-                errors.append("OOps!The group name is too long...")
-            if errors:    
-                return render_to_response("accounts_modules/apply_dialog.html",{'form':form,'errors':errors},\
-                                  context_instance=RequestContext(request, {}))       
-        else:
-            form=ApplyGroupForm()
-        #show the apply group dialog
-        return render_to_response("accounts_modules/apply_dialog.html",{'form':form},\
-                                  context_instance=RequestContext(request, {}))
+    #elif link=='apply':
+        
     elif link == 'accept':#accept one groupe's invitation 
         #get groupto accept invitation
         group_id=long(kwargs['group_id'])
@@ -216,7 +219,7 @@ def group_message_wall(request, group_id,link,**kwargs):
         #TODO: get all the files
         ####################deal with form#########################################
         if request.method == "POST":
-            if "send" in request.POST:
+            if "post_msg" in request.POST:
                     form = SendMessageForm(request.user,group, request.POST)
                     if form.is_valid():
                         cd = form.cleaned_data
@@ -296,6 +299,41 @@ def group_message_wall(request, group_id,link,**kwargs):
                 message.update_datetime=datetime.datetime.now() 
                 message.save()
                 return HttpResponseRedirect('/message_wall/group/'+str(group.id)+'/view/')
+            elif 'apply' in request.POST:
+                #deal with the form
+                if request.method == 'POST':
+                    form=ApplyGroupForm(request.POST)
+                    errors=[]
+                    if form.is_valid():
+                        cd=form.cleaned_data
+                        group_name=cd['group_name']
+                        #find the group
+                        group_to_apply=None
+                        try:
+                            group_to_apply=JoinInGroup.objects.get(name=group_name)
+                        except JoinInGroup.DoesNotExist:
+                            errors.append("Sorry, group with name<b>"+group_name+"</b> does not exist, please check the name.")
+                        #add the user to the appliers of that group
+                        if request.user.joinin_user not in group_to_apply.appliers.all() or \
+                                request.user.joinin_user not in group_to_apply.users.all():
+                            group_to_apply.appliers.add(request.user.joinin_user)
+                        else:#TODO:
+                            raise "You have applied for this group or you have been a member of this group. Please be patient for the acceptance."
+                        #send notification
+                        nm.send_notification(request.user.joinin_user, None, 'You have applied to join group '+group_to_apply.name\
+                                             +'.Please wait for permission. Any of the members in this group are able to allow you to join in.', None) 
+                        #redirect to the private message wall
+                        return HttpResponseRedirect("/message_wall/view/")
+                    else:#group name is not in the right format
+                        errors.append("OOps!The group name is too long...")
+                    if errors:    
+                        return render_to_response("accounts_modules/apply_dialog.html",{'form':form,'errors':errors},\
+                                          context_instance=RequestContext(request, {}))       
+                    else:
+                        form=ApplyGroupForm()
+                    #show the apply group dialog
+                    return render_to_response("accounts_modules/apply_dialog.html",{'form':form},\
+                                              context_instance=RequestContext(request, {}))
         else:
             pass
         #get all the private messages to this user
@@ -306,6 +344,7 @@ def group_message_wall(request, group_id,link,**kwargs):
         appliers=group.appliers.all()
         return render_to_response('group_message_wall.html', \
                                   {'form':form, 'page_name':'Group '+group.name+' Message Wall',\
+                                    'page_tag':'public',\
                                     'private_messages':p_msgs, "groups":request.user.joinin_user.groups.all(),\
                                     'users':users,'group':group,'appliers':appliers},\
                                    context_instance=RequestContext(request, {}))
@@ -392,4 +431,10 @@ def mark_read(request,**kwargs):
     else:
         pmsg.read=False
         pmsg.save()
-    return HttpResponseRedirect('/message_wall/view/')
+    if kwargs.has_key('group_id'):
+        group_id=kwargs['group_id']
+        group_id=str(group_id)
+        return HttpResponseRedirect('/message_wall/group/'+group_id+'/view/')
+    else:
+        return HttpResponseRedirect('/message_wall/view/')
+
