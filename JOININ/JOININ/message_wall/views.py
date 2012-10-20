@@ -398,15 +398,21 @@ def group_message_wall(request, group_id,link,**kwargs):
         except JoinInUser.DoesNotExist:
             raise "User Does not exist!"#TODO:
         #see if this user is in the group, not? add!
-        if user_to_add not in group.users.all():
+        if user_to_add not in group.users.all()\
+                and len(group.users.all())<=12:
             group.users.add(user_to_add) 
         else:
-            raise Exception("User has already been in the group.")
+            NotificationManager().send_notification(request.user.joinin_user, None, 'User '+user_to_add.user.username+\
+                                                    ' has already been in the group. Or there are already 12 members in this group, which reached the top limit.',\
+                                                     None,True,False)
         #delete this user from appliers
         group.appliers.remove(user_to_add)
         #delete the user from the invitations, if there are invitation was sent to this user
         if user_to_add in group.invitations.all():
             group.invitations.remove(user_to_add)
+        #if the group has no more user, this group should be deleted
+        if len(group.users.all()) is 0:
+            group.delete()
         #redirect
         return HttpResponseRedirect('/message_wall/group/'+str(group.id)+'/view/')
     elif link== 'deny':
