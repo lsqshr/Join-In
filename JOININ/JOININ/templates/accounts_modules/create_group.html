@@ -1,13 +1,3 @@
-{%for error in errors%}
-{{error}}
-{%endfor%}
-<form method="GET" action="" enctype="multipart/form-data" align="center"">
-		{% csrf_token %}
-		<div>Group Name: {{form.name}}</div>
-		<div>{{form.public}}</div>
-		<button type="submit">create</input>
-</form>
-
 <div id="createGroup" class="banner">
                   <p align="right" onclick="mostraEscondeMsg('createGroup','false')" style="cursor: pointer;">
                   	[X]&nbsp;&nbsp;
@@ -35,7 +25,8 @@
                     <tr>
                       <td width="30%">&nbsp;</td>
                       <td align="right">
-                      	<input name="apply" type="submit" class="button" value="Apply" />                      </td>
+                      	<input name="apply" type="submit" class="button" value="Apply" />                      
+                      </td>
                     </tr>
                  </form>
                </table>
