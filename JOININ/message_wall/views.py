@@ -174,8 +174,13 @@ def private_message_wall(request,link,**kwargs):
             raise Exception("Sorry, This group does not exist any more.")
         #add this user to that group
         if request.user.joinin_user in group_to_join.invitations.all() and \
-                request.user.joinin_user not in group_to_join.users.all():
+                request.user.joinin_user not in group_to_join.users.all() and \
+                len(group_to_join.users.all())<=12:
             group_to_join.users.add(request.user.joinin_user)
+        else:
+            NotificationManager().send_notification( request.user.joinin_user,\
+                                                      None,'Sorry, this group has reached the 12 members or you have already in this group.',\
+                                                      None, True, False)
         #delete the invitation
         group_to_join.invitations.remove(request.user.joinin_user)
         #TODO:send notification to this user
