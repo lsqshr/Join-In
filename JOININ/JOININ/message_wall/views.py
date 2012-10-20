@@ -270,16 +270,17 @@ def group_message_wall(request, group_id,link,**kwargs):
                         errors.append("Sorry! The user does not exist.")
                     #see if the user is in the group now    
                     try:
-                        group.users.get(user_username=username)
+                        group.users.get(user__username=username)
                         errors.append("Sorry! The user has already been added to this group!")
-                    except JoinInGroup.DoesNotExist:
+                    except JoinInUser.DoesNotExist:
                         pass
                     if errors:
-                        return render_to_response("messge_modules/invite_dialog.html",\
-                                                  {'errors':errors},context_instance=RequestContext(request, {}))
+                        NotificationManager().send_notification(request.user.joinin_user, None, ';'.join(errors), None, True,False)
+                        return HttpResponseRedirect('/message_wall/group/'+str(group.id)+'/view/')
                     #create new invitation to the user.
                     else:
                         group.invitations.add(user)
+                        return HttpResponseRedirect('/message_wall/group/'+str(group.id)+'/view/')
             elif 'reply' in request.POST:#write reply
                 content=request.POST['content']
                 message_id=long(request.POST['message_id'])

@@ -1,32 +1,25 @@
-<ul color="red">
-{%for error in errors%}
-	<li><font color="red">{{error}}</font></li>
-{%endfor%}
-</ul>
-<form action="" method="POST" enctype="multipart/form-data">
-{% csrf_token %}
-{{form.username.label}} to invite : {{form.username}}
-<button name="invite" type="submit">invite</button>
-</form>
-<a href="/message_wall/group/{{group.id}}/view/">go back to group message wall</a>
-
 <div id="invite" class="banner">
 	<form action="" method="POST" enctype="multipart/form-data">
+	{% csrf_token %}
       <p align="right" onclick="mostraEscondeMsg('invite','false')" style="cursor: pointer;">[X]&nbsp;&nbsp;</p>
       <table width="100%" cellpadding="5">
 	  	<tr>
 			<td colspan="2" align="left" valign="top" class="textLar">Invite ussers! </td>
 		</tr>
-        <tr>
-          <td width="30%">E-mails</td>
-          <td>
-		  	<input type="text" id="emails" name="emails" class="inputLar" />
-		  </td>
-        </tr>
+       <tr>
+       	<th>
+       		<label for="id_username">Username:
+       		</label>
+       	</th>
+       	<td>
+       		<input id="id_username" type="text" name="username" maxlength="50" />
+       	</td>
+       </tr>
         
         <tr>
           <td width="30%">&nbsp;</td>
-          <td align="right"><input name="submit" type="submit" class="button" value="Invite" />                      </td>
+          <td align="right"><input name="invite" type="submit" class="button" value="Invite" />                      </td>
         </tr>
+        </form>
       </table>
 </div>

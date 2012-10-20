@@ -16,17 +16,20 @@
 	</div>
 	<div id="rightside">
 		<!--links should be in the head of group page-->
-		<font style="color:#6960EC;float:right;" >Invite a user.
-			<img src="/static/images/invite.gif" 
-			width="36" height="30" onclick="mostraEscondeMsg('invite',true);" 
-			style="cursor:pointer;" alt="invite a user" title="invite a user"/>
-		</font>
+		<div style="float:right;margin-right:4%">
+			<font style="color:#6960EC;float:right;" >Invite a user.
+				<img src="/static/images/invite.gif" 
+				width="36" height="30" onclick="mostraEscondeMsg('invite',true);" 
+				style="cursor:pointer;" alt="invite a user" title="invite a user"/>
+			</font>
+		</div>
 		<a href="/message_wall/group/{{group.id}}/invite/" style="float:right;">
 			<input type="button" class="button" value="invite">
 		</a>
 		<!--post new message-->
 			{% include "message_modules/message_sender.html" %}
 			{% include "accounts_modules/apply_dialog.html" %}
+			{% include "accounts_modules/invite_dialog.html" %}
 		<!--START TO SHOW THE MESSAGE WALL-->
 		{% include "message_modules/private_message_list.html" %}
 	
@@ -35,8 +38,8 @@
   <script language="javascript">
 mostraEscondeMsg('sendMessage',false);
 mostraEscondeMsg('applyGroup',false);
-mostraEscondeMsg('createGroup',false);
 mostraEscondeMsg('invite',false);
+mostraEscondeMsg('createGroup',false);
 mostraEscondeMsg('createGroup',false);
 </script>	
 	
