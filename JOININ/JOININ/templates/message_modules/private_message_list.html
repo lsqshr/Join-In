@@ -55,31 +55,7 @@ style="cursor:pointer;" alt="Write a message" title="Write a message"/>
 							<a href="#" class="linkBlue">File 1 <img src="/static/images/sae.gif" /> </a>
 							<br />
 							<hr style="color:#CCCCCC" />						
-						</div>
-					
-					<div class="conteudoReply">
-						{% for reply in pmsg.message.reply.all%}
-							<div>
-								from: {{reply.written_by.user.username}}  <br><br>
-								{{reply.content}}
-								<span style="color:#999999">{{reply.send_datetime}}</span>
-								<br /><hr/><br />
-							</div>
-						{% endfor %}
-						<table width="100%">
-							<tr>
-								<form action="" method="post" enctype="multipart/form-data">
-									{% csrf_token %}
-									<td width="90%"><textarea name="content" class="writeTxtArea" style="width:95%; height:20px;">Reply</textarea></td>
-									<input type="hidden" name="message_id" value="{{pmsg.message.id}}"/>
-									<input type="hidden" name="group_id" value="{{pmsg.message.belongs_to_group.id}}"/>
-									<td width="10%"><input type="submit" class="button" value="reply" name="reply" /></td>
-								</form>
-							</tr>
-						</table>
->>>>>>> branch 'master' of https://github.com/lsqshr/Join-In.git
-					</div>
-				
+						</div>				
 				<div class="conteudoReply">
 					{% for reply in pmsg.message.reply.all%}
 						<div>
