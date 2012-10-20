@@ -180,6 +180,8 @@ def private_message_wall(request,link,**kwargs):
         if request.user.joinin_user in group_to_join.invitations.all() and \
                 request.user.joinin_user not in group_to_join.users.all():
             group_to_join.users.add(request.user.joinin_user)
+            for msg in group_to_join.messages:
+                PrivateMessage.objects.create(message=msg, belongs_to=request.user.joinin_user, read=False, priority=priority, trashed=False)
         #delete the invitation
         group_to_join.invitations.remove(request.user.joinin_user)
         #TODO:send notification to this user
