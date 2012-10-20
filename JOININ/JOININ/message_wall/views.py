@@ -1,6 +1,7 @@
 # Create your views here.
 from JOININ.accounts.forms import InviteForm, ApplyGroupForm
 from JOININ.accounts.models import JoinInGroup, JoinInUser
+from JOININ.accounts.views import create_group
 from JOININ.message_wall.forms import SendMessageForm
 from JOININ.message_wall.message_wall import MessageWall
 from JOININ.message_wall.models import Notification, Message, PrivateMessage
@@ -132,6 +133,8 @@ def private_message_wall(request,link,**kwargs):
                     #show the apply group dialog
                     return render_to_response("accounts_modules/apply_dialog.html",{'form':form},\
                                               context_instance=RequestContext(request, {}))
+            elif 'create_group' in request.POST:
+                return create_group(request)
         else:
             pass
         #get all the private messages to this user
@@ -190,22 +193,7 @@ def private_message_wall(request,link,**kwargs):
             raise Exception("Sorry, This group does not exist any more.")
         #simply remove the user from the invitations
         group_to_join.invitations.remove(request.user.joinin_user)
-        return HttpResponseRedirect('/message_wall/view/')
-    elif link == 'show':
-        #get id to show
-        id_to_show=kwargs['id_to_show']
-        if id_to_show == 'applyGroup':
-            form=ApplyGroupForm()
-            return render_to_response('private_message_wall.html', {'form':form,\
-                                                                'page_name':'Hi, '+user.user.username,\
-                                                                'private_messages':p_msgs,\
-                                                                "groups":groups,'notifications':notifications,\
-                                                                'see_all_notifications':see_all_notifications,\
-                                                                "debug":debug,'user':request.user.joinin_user,\
-                                                                "id_to_show":id_to_show},\
-                                                                context_instance=RequestContext(request, {}))
-
-            
+        return HttpResponseRedirect('/message_wall/view/')           
     
 @login_required    
 def group_message_wall(request, group_id,link,**kwargs):

@@ -132,7 +132,7 @@ def create_group(request):
     else:
         form = CreateGroupForm()
         form.fields['public'].initial = [True, "public"]
-    return render_to_response("create_group.html",{"form":form,"errors":errors})
+    return render_to_response("accounts_modules/create_group.html",{"form":form,"errors":errors})
 
 def settings(request):
     errors=[]
