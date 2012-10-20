@@ -1,8 +1,10 @@
-<font style="color:#6960EC;float:right;" >Send a new message
+<div style="float:right;margin-right:5%">
+<font style="color:#6960EC;" >Send a new message</font>
 <img src="/static/images/writeMsg.gif" 
 width="36" height="30" onclick="mostraEscondeMsg('sendMessage',true);" 
 style="cursor:pointer;" alt="Write a message" title="Write a message"/>
-</font><br><br>
+</div>
+<br><br>
 {%for pmsg in private_messages%}
 		<div class="bordaBox" 
 		{% if not pmsg.read %}
@@ -10,37 +12,72 @@ style="cursor:pointer;" alt="Write a message" title="Write a message"/>
 		{% else %}
 		style="background-color:#C0C0C0;"	
 		{%endif%}
-				<b class="b1"></b><b class="b2"></b><b class="b3"></b><b class="b4"></b>
-				
-					<div class="conteudo">
-						from: {{pmsg.message.written_by.user.username}}
-						{% if not pmsg.read %}
-							<a href="/message_wall/view/mark_as_read/{{pmsg.id}}/" style="float:right">[mark as read]</a>
-						{%else%}
-							<a href="/message_wall/view/mark_as_unread/{{pmsg.id}}/" style="float:right">[mark as unread]</a>
-					    {%endif%}	
-						<br />
-						  <br />
-						<a href="{{pmsg.message.web_url}}" style="color:black;text-decoration:none;">
-							 {{pmsg.message.content}}	
-						</a>				
-					 </div>
-					<div class="conteudoRight">
-						<span style="color:#999999">
-							Belongs to {{pmsg.message.belongs_to_group}} on {{pmsg.message.send_datetime}} |
-							Priority: 
-								{%if pmsg.message.priority == 1%}
-									ignore me <img src="/static/images/ignore_me.gif" />
-								{%elif pmsg.message.priority == 2%}
-									just message <img src="/static/images/just_message.gif" />
+					<b class="b1"></b><b class="b2"></b><b class="b3"></b><b class="b4"></b>
+					
+						<div class="conteudo">
+							from: {{pmsg.message.written_by.user.username}}
+							{% if not pmsg.read %}
+								<a href=
+								{%if page_tag == 'private'%}
+									"/message_wall/view/mark_as_read/{{pmsg.id}}/" 
 								{%else%}
-									urgent <img src="/static/images/urgent.gif" />
+									"/message_wall/group/{{group.id}}/view/mark_as_read/{{pmsg.id}}/"
 								{%endif%}
-							 |
-						</span>
-						<a href="#" class="linkBlue">File 1 <img src="/static/images/sae.gif" /> </a>
-						<br />
-						<hr style="color:#CCCCCC" />						
+								style="float:right">[mark as read]</a>
+							{%else%}
+								<a href=
+								{%if page_tag == 'private'%}
+									"/message_wall/view/mark_as_unread/{{pmsg.id}}/" 
+								{%else%}
+									"/message_wall/group/{{group.id}}/view/mark_as_unread/{{pmsg.id}}/"
+								{%endif%}
+								 style="float:right">[mark as unread]</a>
+						    {%endif%}	
+							<br />
+							  <br />
+							<a href="{{pmsg.message.web_url}}" style="color:black;text-decoration:none;">
+								 {{pmsg.message.content}}	
+							</a>				
+						 </div>
+						<div class="conteudoRight">
+							<span style="color:#999999">
+								Belongs to {{pmsg.message.belongs_to_group}} on {{pmsg.message.send_datetime}} |
+								Priority: 
+									{%if pmsg.message.priority == 1%}
+										ignore me <img src="/static/images/ignore_me.gif" />
+									{%elif pmsg.message.priority == 2%}
+										just message <img src="/static/images/just_message.gif" />
+									{%else%}
+										urgent <img src="/static/images/urgent.gif" />
+									{%endif%}
+								 |
+							</span>
+							<a href="#" class="linkBlue">File 1 <img src="/static/images/sae.gif" /> </a>
+							<br />
+							<hr style="color:#CCCCCC" />						
+						</div>
+					
+					<div class="conteudoReply">
+						{% for reply in pmsg.message.reply.all%}
+							<div>
+								from: {{reply.written_by.user.username}}  <br><br>
+								{{reply.content}}
+								<span style="color:#999999">{{reply.send_datetime}}</span>
+								<br /><hr/><br />
+							</div>
+						{% endfor %}
+						<table width="100%">
+							<tr>
+								<form action="" method="post" enctype="multipart/form-data">
+									{% csrf_token %}
+									<td width="90%"><textarea name="content" class="writeTxtArea" style="width:95%; height:20px;">Reply</textarea></td>
+									<input type="hidden" name="message_id" value="{{pmsg.message.id}}"/>
+									<input type="hidden" name="group_id" value="{{pmsg.message.belongs_to_group.id}}"/>
+									<td width="10%"><input type="submit" class="button" value="reply" name="reply" /></td>
+								</form>
+							</tr>
+						</table>
+>>>>>>> branch 'master' of https://github.com/lsqshr/Join-In.git
 					</div>
 				
 				<div class="conteudoReply">
