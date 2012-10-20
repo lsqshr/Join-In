@@ -16,9 +16,11 @@
 	</div>
 	<div id="rightside">
 		<!--links should be in the head of group page-->
-		<a href="/message_wall/group/{{group.id}}/leave/" style="float:right;">
-			<input type="button" class="button" value="leave group">
-		</a> &nbsp;&nbsp;
+		<font style="color:#6960EC;float:right;" >Invite a user.
+			<img src="/static/images/invite.gif" 
+			width="36" height="30" onclick="mostraEscondeMsg('invite',true);" 
+			style="cursor:pointer;" alt="invite a user" title="invite a user"/>
+		</font>
 		<a href="/message_wall/group/{{group.id}}/invite/" style="float:right;">
 			<input type="button" class="button" value="invite">
 		</a>
@@ -35,6 +37,7 @@ mostraEscondeMsg('sendMessage',false);
 mostraEscondeMsg('applyGroup',false);
 mostraEscondeMsg('createGroup',false);
 mostraEscondeMsg('invite',false);
+mostraEscondeMsg('createGroup',false);
 </script>	
 	
 </body>
