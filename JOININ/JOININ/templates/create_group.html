@@ -1,9 +1,0 @@
-{%for error in errors%}
-{{error}}
-{%endfor%}
-<form method="GET" action="" enctype="multipart/form-data" align="center"">
-		{% csrf_token %}
-		<div>Group Name: {{form.name}}</div>
-		<div>{{form.public}}</div>
-		<button type="submit">create</input>
-</form>

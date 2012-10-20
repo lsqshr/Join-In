@@ -1,0 +1,33 @@
+<div id="createGroup" class="banner">
+                  <p align="right" onclick="mostraEscondeMsg('createGroup','false')" style="cursor: pointer;">
+                  	[X]&nbsp;&nbsp;
+                  </p>
+                 <table width="100%" cellpadding="5">
+                  <form action="" method="POST" enctype="multipart/form-data">
+                  {% csrf_token %}
+				  	<tr>
+				  		<th><label for="id_name">Name:</label></th>
+				  			<td>
+				  				<input id="id_name" type="text" name="name" maxlength="15" />
+				  			</td>
+				  	</tr>
+				  	<tr>
+				  		<th>
+				  			<label for="id_public">Public:</label>
+				  		</th>
+				  		<td>
+				  			<select name="public" id="id_public">
+				  				<option value="True">Public</option>
+				  				<option value="False">Private</option>
+				  			</select>
+				  		</td>
+				  	</tr>
+                    <tr>
+                      <td width="30%">&nbsp;</td>
+                      <td align="right">
+                      	<input name="apply" type="submit" class="button" value="Apply" />                      
+                      </td>
+                    </tr>
+                 </form>
+               </table>
+                </div>

@@ -11,17 +11,15 @@
 						</td>
 					</tr>
                     <tr>
-                      <td width="30%">
-                      {{apply_form.group_name.label}}</td>
-                      <td>
-					  	{{apply_form.group_name}}
-					  </td>
-                    </tr>
+                    	<th><label for="id_group_name">Group name:</label></th>
+                    	<td>
+							<input id="id_group_name" type="text" name="group_name" maxlength="15" /></td>
+					</tr>
                     
                     <tr>
                       <td width="30%">&nbsp;</td>
                       <td align="right">
-                      	<input name="submit" type="submit" class="button" value="Apply" />                      </td>
+                      	<input name="apply" type="submit" class="button" value="Apply" />                      </td>
                     </tr>
                     </form>
                   </table>
