@@ -116,10 +116,7 @@ def private_message_wall(request,link,**kwargs):
                         if request.user.joinin_user not in group_to_apply.appliers.all() or \
                                 request.user.joinin_user not in group_to_apply.users.all():
                             group_to_apply.appliers.add(request.user.joinin_user)
-                            #send all the messages in that group as private messages to the user,
-                            #since the new user should see the historical messages
-                            for msg in group_to_apply.messages.all():
-                                PrivateMessage.objects.create(message=msg, belongs_to=request.user.joinin_user, read=False, priority=msg.priority, trashed=False)
+                            
                         else:#TODO:
                             raise "You have applied for this group or you have been a member of this group. Please be patient for the acceptance."
                         #send notification
@@ -396,6 +393,9 @@ def group_message_wall(request, group_id,link,**kwargs):
         group.users.remove(request.user.joinin_user)
         #TODO:send notification to notify user that the user has left the group
         #redirect to the private message wall
+        #if the group has no more user, this group should be deleted
+        if len(group.users.all()) is 0:
+            group.delete()
         return HttpResponseRedirect("/message_wall/view/")
     elif link == 'accept':
         #get user
@@ -416,9 +416,11 @@ def group_message_wall(request, group_id,link,**kwargs):
         #delete the user from the invitations, if there are invitation was sent to this user
         if user_to_add in group.invitations.all():
             group.invitations.remove(user_to_add)
-        #if the group has no more user, this group should be deleted
-        if len(group.users.all()) is 0:
-            group.delete()
+        #send all the messages in that group as private messages to the user,
+        #since the new user should see the historical messages
+        for msg in group_to_apply.messages.all():
+            PrivateMessage.objects.create(message=msg, belongs_to=request.user.joinin_user, read=False, priority=msg.priority, trashed=False)
+        
         #redirect
         return HttpResponseRedirect('/message_wall/group/'+str(group.id)+'/view/')
     elif link== 'deny':
