@@ -50,7 +50,7 @@ def login(request):
                 except:
                         pass         
                 if errors:
-                    return render_to_response('signup.html', {'register_form':form,
+                    return render_to_response('login.html', {'register_form':form,
                                                               'login_form':LoginForm(), 'errors':errors},
                                                                context_instance=RequestContext(request, {}))
                 new_joinin_user = JoinInUser.objects.create_user(email, password)
