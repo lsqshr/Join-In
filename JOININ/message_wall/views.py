@@ -418,7 +418,7 @@ def group_message_wall(request, group_id,link,**kwargs):
             group.invitations.remove(user_to_add)
         #send all the messages in that group as private messages to the user,
         #since the new user should see the historical messages
-        for msg in group_to_apply.messages.all():
+        for msg in group.messages.all():
             PrivateMessage.objects.create(message=msg, belongs_to=request.user.joinin_user, read=False, priority=msg.priority, trashed=False)
         
         #redirect
