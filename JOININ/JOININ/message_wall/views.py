@@ -419,7 +419,7 @@ def group_message_wall(request, group_id,link,**kwargs):
         #send all the messages in that group as private messages to the user,
         #since the new user should see the historical messages
         for msg in group.messages.all():
-            PrivateMessage.objects.create(message=msg, belongs_to=request.user.joinin_user, read=False, priority=msg.priority, trashed=False)
+            PrivateMessage.objects.create(message=msg, belongs_to=user_to_add, read=False, priority=msg.priority, trashed=False)
         
         #redirect
         return HttpResponseRedirect('/message_wall/group/'+str(group.id)+'/view/')
