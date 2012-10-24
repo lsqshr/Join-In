@@ -6,7 +6,7 @@ notifications:&nbsp
 {%endif%}
 <ol>
 {%for notification in notifications%}
-	<li style="background-color:#ADD8E6">
+	<li >
 		{%if notification.url%}
 		  <a href {{notification.url}}>{{notification.content}}&nbsp;
 			{{notification.send_datetime}}</a>

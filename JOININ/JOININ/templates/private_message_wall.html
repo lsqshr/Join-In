@@ -5,13 +5,7 @@
 <link rel="stylesheet" type="text/css" href="/static/styles.css"/>
 <script language="javascript" src="/static/scripts.js"></script>
 </head>
-<body>
- <script language="javascript">
-mostraEscondeMsg('sendMessage',false);
-mostraEscondeMsg('createGroup',false);
-mostraEscondeMsg('applyGroup',false);
-mostraEscondeMsg('invite',false);
-</script>
+<body background="/static/images/background.jpg">
 <!--include header for private message wall -->
 {% include "message_modules/message_wall_header.html" %}
 <br>
@@ -23,9 +17,17 @@ mostraEscondeMsg('invite',false);
 	<div id="middle">
 		<!--post new message-->
 		{% include "message_modules/message_sender.html" %}
+    <script language="javascript">
+      mostraEscondeMsg("sendMessage",false); 
+    </script>
 		{% include "accounts_modules/apply_dialog.html" %}
+    <script language="javascript">
+      mostraEscondeMsg("applyGroup",false); 
+    </script>
 		{% include "accounts_modules/create_group.html" %}
-	
+	  <script language="javascript">
+      mostraEscondeMsg("createGroup",false); 
+    </script>
 	<!--START TO SHOW THE MESSAGE WALL-->
 	{% include "message_modules/private_message_list.html" %}
 	</div>
@@ -34,12 +36,5 @@ mostraEscondeMsg('invite',false);
 		{% include "message_modules/notifications.html" %}
 	</div>
 </div>
-
- <script language="javascript">
-mostraEscondeMsg('sendMessage',false);
-mostraEscondeMsg('applyGroup',false);
-mostraEscondeMsg('createGroup',false);
-mostraEscondeMsg('invite',false);
-</script>
 </body>
 </html>
