@@ -25,23 +25,14 @@
 		          </p><br>
 		          <p style="float:right;">Register Now!</p>
 		        </div>
-		        <div id="register_form_div" class="box">
+		        <div id="register_form_div">
 				<form name="register_form" id="register_form" method="POST">
 					{% csrf_token %}					
 					<fieldset>
 						<legend>Kick it started!</legend>					
-				    		<label>
-								<span>{{register_form.email.label}}</span>
-								{{register_form.email}}
-				    		</label>
-				    		<label>
-								<span>{{register_form.password.label}}</span>
-								{{register_form.password}}
-				    		</label>
-				    		<label>
-								<span>{{register_form.confirm_password.label}}</span>
-								{{register_form.confirm_password}}
-				    		</label>
+				    		{{register_form.email}}
+				    		{{register_form.password}}
+				    		{{register_form.confirm_password}}
 					</fieldset>
 					<input id="register_form_submit" type="submit" value="Register" class="button" />
 				</form> 

@@ -10,10 +10,10 @@ from django.forms.widgets import Widget
 
 class SignupForm(forms.Form):
     #The user name will be the same as email
-    email=forms.EmailField(required=True,label='Your email address:')
-    password=forms.CharField(max_length=50,widget=forms.PasswordInput)
-    confirm_password=forms.CharField(max_length=50,widget=forms.PasswordInput)
-    
+    email=forms.EmailField(required=True,label='Your email address: ')
+    password=forms.CharField(max_length=50,widget=forms.PasswordInput,label='Password: ')
+    confirm_password=forms.CharField(max_length=50,widget=forms.PasswordInput, label='Confirm Password: ')
+        
 class LoginForm(forms.Form):
     username=forms.CharField(max_length=50,required=True)
     password=forms.CharField(max_length=50,required=True,widget=forms.PasswordInput)

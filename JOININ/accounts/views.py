@@ -12,13 +12,13 @@ from django.template.context import RequestContext
 import datetime
 
 def login(request):
+    errors=[]
     if request.method == "POST":
         if 'Login' in request.POST:#user submited the form to login
             form = LoginForm(request.POST)
             register_form=SignupForm()
             if form.is_valid():
                 cd = form.cleaned_data
-                errors=[]
                 username=cd['username']
                 password=cd['password']
                 user=auth.authenticate(username=username,password=password)
@@ -31,11 +31,18 @@ def login(request):
                     errors.append('Your username or password is incorrect,please try again.')
                     return render_to_response('login.html',{'login_form':form,\
                                                             'register_form':register_form,\
-                                                            'page_name':'Log-in','errors':errors},context_instance=RequestContext(request,{}))
+                                                            'page_name':'Log-in','errors':errors},\
+                                                            context_instance=RequestContext(request,{}))
+            else:# form is not valid
+                errors.append('Please provide valid username and password to access this system.')
+                return render_to_response('login.html',{'login_form':form,\
+                                                            'register_form':register_form,\
+                                                            'page_name':'Log-in','errors':errors},\
+                                                            context_instance=RequestContext(request,{}))
         else:#user submit the register form
-            form = SignupForm(request.POST)
-            if form.is_valid():
-                cd = form.cleaned_data
+            register_form = SignupForm(request.POST)
+            if register_form.is_valid():
+                cd = register_form.cleaned_data
                 email = cd['email']
                 password = cd['password']
                 confirm_password = cd['confirm_password']
@@ -50,7 +57,7 @@ def login(request):
                 except:
                         pass         
                 if errors:
-                    return render_to_response('login.html', {'register_form':form,
+                    return render_to_response('login.html', {'register_form':register_form,
                                                               'login_form':LoginForm(), 'errors':errors},
                                                                context_instance=RequestContext(request, {}))
                 new_joinin_user = JoinInUser.objects.create_user(email, password)
@@ -60,7 +67,15 @@ def login(request):
                     auth.login(request, user)
                     #Redirect to a success page.
                     #redirect to the congratulations view
-                    return render_to_response('congrats_signup.html', {'user':new_joinin_user.user}) 
+                    return render_to_response('congrats_signup.html', {'user':new_joinin_user.user})
+            else:
+                errors.append('Please provide valid username and password to access this system.')
+                return render_to_response('login.html',{'login_form':LoginForm(),\
+                                                            'register_form':register_form,\
+                                                            'page_name':'Log-in',\
+                                                            'errors':register_form.errors},\
+                                                            context_instance=RequestContext(request,{}))
+
     else:
         login_form = LoginForm()
         register_form=SignupForm()
