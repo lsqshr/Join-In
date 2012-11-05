@@ -14,7 +14,7 @@ import datetime
 def login(request):
     errors=[]
     if request.method == "POST":
-        if 'Login' in request.POST:#user submited the form to login
+        if 'login_submit' in request.POST:#user submited the form to login
             form = LoginForm(request.POST)
             register_form=SignupForm()
             if form.is_valid():
@@ -75,40 +75,12 @@ def login(request):
                                                             'page_name':'Log-in',\
                                                             'errors':register_form.errors},\
                                                             context_instance=RequestContext(request,{}))
-
     else:
         login_form = LoginForm()
         register_form=SignupForm()
-    return render_to_response('login.html', {'register_form':register_form,'login_form':login_form}, context_instance=RequestContext(request, {}))
+    return render_to_response('login.html', {'register_form':register_form,'login_form':login_form,'page_name':'Log-in'}, context_instance=RequestContext(request, {}))
 
 
-def signup(request):
-    if request.method == "POST":
-        form = SignupForm(request.POST)
-        if form.is_valid():
-            cd = form.cleaned_data
-            email = cd['email']
-            password = cd['password']
-            confirm_password = cd['confirm_password']
-            errors = []#errors list to be rendered
-            #see if two password match each other
-            if password != confirm_password:
-                errors.append('Sorry, two password do not match each other.')
-               
-            #see if the same email has been registered
-            try:
-                    User.objects.get(username=email)
-                    errors.append('Sorry,this email address has been used,please change another one')
-            except:
-                    pass         
-            if errors:
-                return render_to_response('signup.html', {'form':form, 'errors':errors, 'page_name':'Register'}, context_instance=RequestContext(request, {}))
-            new_joinin_user = JoinInUser.objects.create_user(email, password)
-            #redirect to the congratulations view
-            return render_to_response('congrats_signup.html', {'user':new_joinin_user.user}) 
-    else:
-        form = SignupForm()
-    return render_to_response('signup.html', {'form':form, 'page_name':'Register'}, context_instance=RequestContext(request, {}))
 
 def forget_password(request):
     return HttpResponse("forget!");

@@ -1,3 +1,57 @@
-#error_messages{
-	color:#EFF4FF;
+#introductions {
+	color:#A0FFB1;
+	margin-left:15%;
+	margin-right:15%;
+	margin-top:7%;
+	font-size:0.9em;
+}
+#register_block {
+	margin-left: auto;
+    	margin-right: auto;
+	margin-top:15%;
+    	width: 62%;
+	height:55%;
+}
+#register_form_div{
+	margin-left:auto;
+	margin-right:auto;
+	margin-top:10%;
+	width:70%;
+	
+}
+
+
+fieldset
+{
+	border: 1px solid #781351;
+	width: 80%;
+	height:20%
+}
+
+legend
+{
+	color: #fff;
+	background:#781351;
+	border: 1px solid #781351;
+	padding: 2px 6px;
+	font-size:0.9em;
+}
+
+#register_form_submit{
+	float:right;
+	margin-right:16.7%;
+	margin-top:1%;
+}
+
+#login{
+	display:inline;
+}
+#login span{
+	color:#A0FFB1;
+	font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+	margin-right:1em;
+}
+
+#login_submit{
+	font-size:1.1em;
 }

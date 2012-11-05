@@ -9,33 +9,24 @@
 <body class="body">
 	<div class="wrapper">	
 	{% include "accounts_modules/register_header.html" %}
-	
-		
-                <div id="error_messages">
-                  <ul class="errors">
-                    {%for error in errors%}
-                      <li>{{error}}</li>
-                    {%endfor%}
-                  </ul>
-                </div>
-                <div id="register_block" class="glass">
+	    <div id="register_block" class="glass">
 			<div id="introductions">
 		          <p>From now, make your group work and orgnizations as 
-				clear and efficient as this message!
+						clear and efficient as this message!
 		          </p><br>
 		          <p style="float:right;">Register Now!</p>
 		        </div>
-		        <div id="register_form_div" class="box">
+		        <div id="register_form_div" class="account_form">
 				<form name="register_form" id="register_form" method="POST">
 					{% csrf_token %}					
 					<fieldset>
 						<legend>Kick it started!</legend>					
-				    		<label>
+				    		<label >
 								<span>{{register_form.email.label}}</span>
 								{{register_form.email}}
 				    		</label>
-				    		<label>
-								<span>{{register_form.password.label}}</span>
+				    		<label >
+								<span >{{register_form.password.label}}</span>
 								{{register_form.password}}
 				    		</label>
 				    		<label>
@@ -43,14 +34,12 @@
 								{{register_form.confirm_password}}
 				    		</label>
 					</fieldset>
-					<input id="register_form_submit" type="submit" value="Register" class="button" />
+					<button id="register_form_submit" type="submit" value="Register" class="black_button"><p>sign up</p></button>
 				</form> 
 		        </div>
 		        
 		</div>	
-		<div class="push"></div>	
-	</div>	  
-	
+	</div>	
 {% include "footer.html"%}
 </body>
 </html>
