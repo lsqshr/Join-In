@@ -1,15 +1,19 @@
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<title>Join-In log in</title>
-<link rel="stylesheet" type="text/css" href="/static/styles.css">
-<link rel="stylesheet" type="text/css" href="/static/login_layout.css">
-<script language="javascript" src="/static/scripts.js"></script>
-</head>
-<body class="body">
-	<div class="wrapper">	
-	{% include "accounts_modules/register_header.html" %}
-	    <div id="register_block" class="glass">
+{% extends 'base.html' %}
+{% block css%}
+	<link rel="stylesheet" type="text/css" href="/static/styles.css">
+	<link rel="stylesheet" type="text/css" href="/static/login_layout.css">
+{% endblock %}
+
+{% block js %}
+	<script language="javascript" src="/static/scripts.js"></script>
+{% endblock %}
+
+{% block header %}
+	{% include "accounts_modules/register_header.html" %}	
+{% endblock %}
+
+{% block content %}
+	<div id="register_block" class="glass">
 			<div id="introductions">
 		          <p>From now, make your group work and orgnizations as 
 						clear and efficient as this message!
@@ -39,7 +43,8 @@
 		        </div>
 		        
 		</div>	
-	</div>	
-{% include "footer.html"%}
-</body>
-</html>
+{% endblock %}
+	
+{% block footer%}
+	{% include "footer.html"%}
+{% endblock %}

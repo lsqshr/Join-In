@@ -515,6 +515,13 @@ text-align:right;
 	display:inline;
 }
 
+#logo img{
+	width:8%;
+	height:3.7%;
+	margin-right:0.5%;
+	margin-top:1%;
+}
+
 #page_name{
 	float:right;
 	display:inline;

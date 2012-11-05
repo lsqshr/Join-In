@@ -46,12 +46,16 @@ legend
 #login{
 	display:inline;
 }
+
 #login span{
 	color:#A0FFB1;
 	font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
 	margin-right:1em;
+	margin-left:0.5em;
 }
 
 #login_submit{
-	font-size:1.1em;
+	font-size:0.77em;
+	margin-left:0.3em;
+	margin-right:1.0em;
 }
