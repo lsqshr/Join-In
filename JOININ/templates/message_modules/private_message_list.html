@@ -1,76 +1,71 @@
-<div style="float:right;margin-right:5%">
-<font style="color:#6960EC;" >Send a new message</font>
-<img src="/static/images/writeMsg.gif" 
-width="36" height="30" onclick="mostraEscondeMsg('sendMessage',true);" 
-style="cursor:pointer;" alt="Write a message" title="Write a message"/>
-</div>
+
 <br><br>
 {%if not private_messages%}
 	There have not been no messages in this group. Why not post the first one?
 {%endif%}
 {%for pmsg in private_messages%}
-		<div class="bordaBox" 
-		{% if not pmsg.read %}
-      style="background-image:url('/static/images/message_background.jpg');"
-		{% else %}
-      style="background-image:url('/static/images/read_message_background.jpg');"	
-		{%endif%}
-    >
-					<b class="b1"></b><b class="b2"></b><b class="b3"></b><b class="b4"></b>
-					
-						<div class="conteudo" class="message_bar">
-							from: {{pmsg.message.written_by.user.username}}
-							{% if not pmsg.read %}
-								<a href=
-								{%if page_tag == 'private'%}
-									"/message_wall/view/mark_as_read/{{pmsg.id}}/" 
-								{%else%}
-									"/message_wall/group/{{group.id}}/view/mark_as_read/{{pmsg.id}}/"
-								{%endif%}
-								style="float:right">[mark as read]</a>
-							{%else%}
-								<a href=
-								{%if page_tag == 'private'%}
-									"/message_wall/view/mark_as_unread/{{pmsg.id}}/" 
-								{%else%}
-									"/message_wall/group/{{group.id}}/view/mark_as_unread/{{pmsg.id}}/"
-								{%endif%}
-								 style="float:right">[mark as unread]</a>
-						    {%endif%}	
-							<br />
-							  <br />
+	<div 
+	{% if not pmsg.read %}
+		class="message pink_message"
+	{% else %}
+		class="message grey_message"	
+	{%endif%}
+		
+	>
+		<div class="message_bar">
+			<!--priority token-->
+			{% if pmsg.message.priority == 1 %}
+				<img class ="priority" src="/static/images/ignore_me.gif" title="ignore me"/>
+			{% elif pmsg.message.priority == 2 %}
+				<img class ="priority" src="/static/images/just_message.gif" title="just message"/>
+			{% else %}
+				<img class ="priority" src="/static/images/urgent.gif" title="urgent"/>
+			{% endif %}
+			<!--the sender's name-->
+			<font >{{pmsg.message.written_by.user.username}}</font>
+			
+			{% if not pmsg.read %}
+				<a href=
+				{%if page_tag == 'private'%}
+					"/message_wall/view/mark_as_read/{{pmsg.id}}/" 
+				{%else%}
+					"/message_wall/group/{{group.id}}/view/mark_as_read/{{pmsg.id}}/"
+				{%endif%}
+				style="float:right">[mark as read]</a>
+			{%else%}
+				<a href=
+				{%if page_tag == 'private'%}
+					"/message_wall/view/mark_as_unread/{{pmsg.id}}/" 
+				{%else%}
+					"/message_wall/group/{{group.id}}/view/mark_as_unread/{{pmsg.id}}/"
+				{%endif%}
+				 style="float:right">[mark as unread]</a>
+		    {%endif%}	
+			<br />
+			  <br />
               {% if pmsg.message.web_url %}
                 <a href="{{pmsg.message.web_url}}" style="color:black;font-family:'Comic Sans MS', cursive, sans-serif">
-                   <font size="2px">{{pmsg.message.content}}</font>	
+				<font class="message_content">{{pmsg.message.content}}</font>
                 </a>				
               {%else%}
-                <font style="color:black;font-family:'Comic Scans MS',cursive,sans-serif" size="2px">{{pmsg.message.content}}</font>
+                <font class="message_content">{{pmsg.message.content}}</font>
               {%endif%}
-						 </div>
-						<div class="conteudoRight">
+		</div>
+		<div class="conteudoRight">
 							<span style="color:#999999">
 								Belongs to {{pmsg.message.belongs_to_group}} on {{pmsg.message.send_datetime}} |
-								Priority: 
-									{%if pmsg.message.priority == 1%}
-										ignore me <img src="/static/images/ignore_me.gif" />
-									{%elif pmsg.message.priority == 2%}
-										just message <img src="/static/images/just_message.gif" />
-									{%else%}
-										urgent <img src="/static/images/urgent.gif" />
-									{%endif%}
-								 |
 							</span>
 							<a href="#" class="linkBlue">File 1 <img src="/static/images/sae.gif" /> </a>
 							<br />
 							<hr style="color:#CCCCCC" />						
-						</div>
-				<div class="conteudoReply">
+		</div>
+		<div class="reply_area">
 					{% for reply in pmsg.message.reply.all%}
 						<div>
-							from: {{reply.written_by.user.username}}  <br><br>
-							{{reply.content}}
+							{{reply.written_by.user.username}}  <br><br>
+							<font>{{reply.content}}</font>
 							<span style="color:#999999">{{reply.send_datetime}}</span>
-							<br /><hr/><br />
+							<br/><hr class="reply_hr"/><br/>
 						</div>
 					{% endfor %}
 					<table width="100%">
@@ -80,12 +75,11 @@ style="cursor:pointer;" alt="Write a message" title="Write a message"/>
 								<td width="90%"><textarea name="content" class="writeTxtArea" style="width:95%; height:20px;" wrap="hard" title="Write a reply"></textarea></td>
 								<input type="hidden" name="message_id" value="{{pmsg.message.id}}"/>
 								<input type="hidden" name="group_id" value="{{pmsg.message.belongs_to_group.id}}"/>
-								<td width="10%"><input type="submit" class="button" value="reply" name="reply" /></td>
+								<td width="10%"><input type="submit" class="red_button" value="reply" name="reply" /></td>
 							</form>
 						</tr>
 					</table>
 				</div>
-				<b class="b4"></b><b class="b3"></b><b class="b2"></b><b class="b1"></b>	
 			</div>
 			<br/>
 		{%endfor%}

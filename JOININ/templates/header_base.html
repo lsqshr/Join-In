@@ -1,12 +1,15 @@
 <div class= "header" >
-	<span id="logo"><img src="/static/images/logo.png"></img></span>
-	<span>	
-		{% block sign_in %} {% endblock %}
-		{% block buttons %} {% endblock %}
+	<span id="logo">
+		<img src="/static/images/logo.png" >
 		<span id="page_name">
-			{{page_name}}
+			<font>{{page_name}}</font>
 		</span>
 	</span>
+		{% block sign_in %} {% endblock %}
+		{% block more_stuff %}{%endblock%}
+		
+		
+	
 	<span >
 		{%if errors%}
 						<div id="error_messages" class="errors">

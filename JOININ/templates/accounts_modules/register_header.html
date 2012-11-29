@@ -1,7 +1,7 @@
 {% extends 'header_base.html' %}
 {% block sign_in %} 
-	           
-   <form method="post" name="login" id="login" action=""  enctype="multipart/form-data">
+    
+   <form method="post" id="login"  action=""  enctype="multipart/form-data">
   {% csrf_token %}
 	
     <span> Email:</span> {{login_form.username}} 
@@ -12,5 +12,4 @@
     <button type="submit" name="login_submit" id="login_submit" class="red_button">Login</button>
    </form>	
   <a href="/accounts/forget_password/" class="link">Forgot your password?</a>						
-
 {% endblock %}

@@ -1,0 +1,22 @@
+{% extends 'base.html'%}
+
+{% block header %}
+	{% include "accounts_modules/mainframe_header.html"%}
+{% endblock%}
+{% block css%}
+	<link rel="stylesheet" type="text/css" href="/static/styles.css">
+	<link rel="stylesheet" type="text/css" href="/static/mainframe_layout.css">
+	<link rel="stylesheet" type="text/css" href="/static/popup.css">
+{% endblock %}
+
+{% block js %}
+	<script language="javascript" src="/static/scripts.js"></script>
+	<script language="javascript" src="/static/fg_moveable_popup.js"></script></script>
+	
+{% endblock %}
+
+{% block content%}
+	{% block left_sidebar %}{%endblock%}
+	{% block right_sidebar %}{%endblock%}
+	{% block wall %}{%endblock%}
+{% endblock %}

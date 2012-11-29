@@ -1,57 +1,33 @@
 <!--post new message-->
 
-<div id="sendMessage" class="banner" style="display:block;">
-	<p align="right" onclick="mostraEscondeMsg('sendMessage','false')" style="cursor: pointer;">[X]&nbsp;&nbsp;</p>
-                  <table cellpadding="3" cellspacing="0">
-				   <form action="" method="POST" enctype="multipart/form-data">
+<div class="popup" id="send_message_window">
+	<div class="fg_container_header">
+        <div class="fg_box_Title">Send A Message</div>
+        <div class="fg_box_Close"><a href="javascript:fg_hideform('send_message_window','fg_backgroundpopup');">Close(X)</a></div>
+    </div>
+    <div id="send_message_inner_container" class="fg_form_InnerContainer">
+					<form action="" method="POST" enctype="multipart/form-data" class="contactus">
 					{% csrf_token %}
-					<tr>
-					  <td width="5%" rowspan="7" align="center" valign="top">&nbsp;</td>
-					  <td colspan="3" align="left" valign="top" class="textLar">Send a message! </td>
-					  <td rowspan="2" align="left" valign="top">&nbsp;</td>
-					</tr>
-					<tr>
-					  <td width="20%" align="left" valign="top">{{form.web_url.label}} </td>
-					  <td colspan="2" align="left" valign="top"> {{form.web_url}}
-					  </td>
-					</tr>
-					<tr>
-					  <td width="20%" align="left" valign="top">{{form.priority.label}}</td>
-					  <td colspan="2" align="left" valign="top">
-					  {{form.priority}}
-					  </td>
-					  <td align="left" valign="top">&nbsp;</td>
-					</tr>
-					<tr>
-					  <td width="20%" align="left" valign="top">{{form.belongs_to_group.label}}</td>
-					  <td colspan="2" align="left" valign="top">
-					  {{form.belongs_to_group}}
-					  </td>
-					  <td align="left" valign="top">&nbsp;</td>
-					</tr>
-					<tr>
-					  <td width="20%" align="left" valign="top">{{form.send_to.label}}</td>
-					  <td colspan="2" align="left" valign="top">
-					 {{form.send_to}}
-					 </td>
-					  <td rowspan="2" align="left" valign="top">&nbsp;</td>
-					</tr>
-					<tr>
-					  <td width="20%" align="left" valign="top">Select a file</td>
-					  <td colspan="2" align="left" valign="top"><input type="file" name="file_upload" id="file_upload" class="inputFile" /></td>
-					</tr>
-					<tr>
-					  <td width="20%" valign="top">Message</td>
-					  <td width="63%" valign="top">{{form.content}}</td>
-					  <td width="10%" align="right" valign="bottom">
-					  <button type="submit" name="post_msg" id="post_msg" value="Post" class="button">POST</button></td>
-					  <td width="3%" rowspan="2" valign="top">&nbsp;</td>
-					</tr>
-					<tr>
-					  <td valign="top">&nbsp;</td>
-					  <td width="63%" valign="top">&nbsp;</td>
-					  <td width="10%" align="right" valign="bottom">&nbsp;</td>
-					</tr>
+					<div class='short_explanation'>* required fields</div>
+					<div class='fg_server_errors' class='error'></div>
+					<div class="container">
+						{{form.web_url.label}}{{form.web_url}}
+					</div>
+					<div class="container">
+						{{form.priority.label}}{{form.priority}}
+					</div>
+					<div class="container">
+						{{form.belongs_to_group.label}}{{form.belongs_to_group}}
+					</div>
+					<div class="container">
+						{{form.send_to.label}}{{form.send_to}}
+					</div>
+					<div class="container">
+						Message{{form.content}}
+					</div>
+					<div class="container">
+					  <button type="submit" name="post_msg" id="post_msg" value="Post" class="button">POST</button>
+					</div>
 				  </form>
-				</table>
-                </div>
+	</div>
+</div>

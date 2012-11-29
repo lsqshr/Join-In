@@ -1,30 +1,17 @@
-{%if id_to_show == 'applyGroup'%}
-<script>mostraEscondeMsg('applyGroup',true);</script>
-{% else %}
-<script>mostraEscondeMsg('applyGroup',false);</script>
-{%endif%}
-
-{%for group in groups%}
-	<tr>
-		<td width="127">
-				<a class="linkBlue" href="/message_wall/group/{{group.id}}/view/">
-					<font size="2.5px">{{group.name}}
-					</font>
+<div id="groups_joined">
+	{%if id_to_show == 'applyGroup'%}
+	<script>mostraEscondeMsg('applyGroup',true);</script>
+	{% else %}
+	<script>mostraEscondeMsg('applyGroup',false);</script>
+	{%endif%}
+	
+	<ul class="beautiful_list">
+	{%for group in groups%}
+			<li>
+				<a href="/message_wall/group/{{group.id}}/view/">
+							{{group.name}}
 				</a>
-			</font>
-		</td>
-		<!--<td colspan="3" >
-		  	<img src="/static/images/invite.gif" alt="Invite users" title="Invite users" width="16" height="16" onclick="mostraEscondeMsg('invite',true);" style="cursor:pointer;" /> 
-			<img src="/static/images/leave.gif" width="16" height="16" alt="Leave this group" title="Leave this group" />			
-		-->
-	</tr>
-
-
-{%endfor%}
-<tr>
-	<td width="127">
-		<font face="Arial" size="2px" color="#3090C7"> Apply a group.</font>
-			<img src="/static/images/group.gif" onclick="mostraEscondeMsg('applyGroup',true);" 
-			style="cursor:pointer;">
-	</td>
-</tr>
+			</li>
+	{%endfor%}
+	</ul>
+</div>

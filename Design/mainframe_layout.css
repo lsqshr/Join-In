@@ -1,0 +1,65 @@
+@CHARSET "UTF-8";
+
+
+.wall {
+	width:50%;
+	float:left;
+}
+
+.left_sidebar{
+	width:21%;
+	float:left;
+	margin:2%;
+}
+
+.left_sidebar .left_sidebar_title{
+	width:300%;
+	height:5.5%;
+	font-size:1.5em;
+	color:#A0FFB1;
+	margin-top:3%;
+	margin-bottom:5%;
+}
+
+.right_sidebar{
+	float:right;
+	width:21%;
+	margin-left:1%;
+	margin-top:3%;
+}
+
+#group_list{
+	margin-left:-40%;
+}
+
+#group_buttons{
+	display:inline;
+}
+
+#group_buttons button{
+	display:inline;
+}
+#group_buttons .mid{
+}
+#group_buttons .right{
+}
+
+#cssmenu{
+	margin-left:-40%;
+}
+
+.message_bar{
+	margin-bottom: 2%;
+}
+
+.priority {
+	margin-right:1%;
+}
+
+.reply_area{
+	margin-left:7%;
+}
+
+#send_message_button{
+	margin-left:7%;
+}

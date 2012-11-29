@@ -55,7 +55,11 @@ legend
 }
 
 #login_submit{
+	color:white;
 	font-size:0.77em;
 	margin-left:0.3em;
 	margin-right:1.0em;
+	display:inline;
 }
+
+#login_submit{}

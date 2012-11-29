@@ -1,28 +1,24 @@
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<title> Join-in private message wall</title>
-<link rel="stylesheet" type="text/css" href="/static/styles.css"/>
-<script language="javascript" src="/static/scripts.js"></script>
-</head>
-<body class="body">
-<!--include header for private message wall -->
-{% include "message_modules/message_wall_header.html" %}
-<br>
-<div id="container">
-	<div id="left">
-		<!--groups joined-->
+{% extends 'mainframe_base.html' %}
+{% block title%}
+	<title>Your Siqhy private message wall</title>
+{% endblock %}
+
+{% block left_sidebar %}
+	<div class="left_sidebar">
 		{% include "message_modules/private_message_wall_sidebar.html" %}
 	</div>
-	<div id="middle">
+{%endblock%}
+
+{% block wall %}
+	<div class="wall">
 		<!--post new message-->
 		{% include "message_modules/message_sender.html" %}
     <script language="javascript">
-      mostraEscondeMsg("sendMessage",false); 
+      mostraEscondeMsg("sendMessage",false);
     </script>
 		{% include "accounts_modules/apply_dialog.html" %}
     <script language="javascript">
-      mostraEscondeMsg("applyGroup",false); 
+      mostraEscondeMsg("applyGroup",false);
     </script>
 		{% include "accounts_modules/create_group.html" %}
 	  <script language="javascript">
@@ -31,10 +27,16 @@
 	<!--START TO SHOW THE MESSAGE WALL-->
 	{% include "message_modules/private_message_list.html" %}
 	</div>
-	<div id="right" align="top">
-		<!--notifications-->
-		{% include "message_modules/notifications.html" %}
+{%endblock%}
+
+{% block right_sidebar %}
+	<div class="right_sidebar">
+		<a href='javascript:fg_popup_form("send_message_window","send_message_inner_container","fg_backgroundpopup");' id="send_message_button"
+			alt="Write a message" title="Write a message" class="red_button"> Send A New Message</a>
 	</div>
-</div>
-</body>
-</html>
+	<!--
+	<div class="right_sidebar">
+	{%include 'message_modules/notifications.html'%}
+	</div>
+	-->
+{%endblock%}

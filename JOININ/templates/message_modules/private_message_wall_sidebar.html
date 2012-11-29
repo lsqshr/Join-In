@@ -1,14 +1,20 @@
-{% extends "sidebar_base.html" %}
+{% extends "left_sidebar_base.html" %}
 {% block elements %}
-	<tr>
-		<td height="40" colspan="3" background="/static/images/titleBg.gif" class="titleMenu">Groups
-		</td>
-	</tr>
-	{% include "accounts_modules/groups_joined.html" %}
-	<tr>
-		<td height="40" colspan="3" background="/static/images/titleBg.gif" class="titleMenu">Invitations
-		</td>
-	</tr>
-	{% include "accounts_modules/invitations.html" %}
-	
+	<div id='cssmenu'>
+		<ul>
+		   <li class='has-sub '><a href='#'><span>Manage Groups</span></a>
+		      <ul>
+		         <li><a href='#' onclick="mostraEscondeMsg('createGroup',true);"><span>Create a group</span></a></li>
+		         <li><a href='#' onclick="mostraEscondeMsg('applyGroup',true);"><span>Join a group</span></a></li>
+		         <li><a href='#'><span>Group Panel</span></a></li>
+		      </ul>
+		   </li>
+		</ul>
+	</div>
+	<div id="group_list" >
+		{% include "accounts_modules/groups_joined.html" %}
+	</div>
+	<div>
+		{% include "accounts_modules/invitations.html" %}
+	</div>
 {% endblock %}
