@@ -24,12 +24,6 @@ border-radius: 10px;
    color:#333;
 }
 
-.contactus label
-{
-   font-family : Arial, sans-serif;
-   font-size:0.8em;
-   font-weight: bold;
-}
 
 .contactus input[type="text"],textarea
 {
@@ -120,9 +114,8 @@ border-radius: 10px;
 
 .popup
 {
-   height:500px;
    width:390px;
-   background:#FFFFFF;
+   background:#333333;
    border:1px solid #000;
    padding:0;
    position:absolute;
@@ -135,10 +128,18 @@ border-radius: 10px;
 display:none;
 }
 
+.popup label
+{
+  width:50%;
+  margin-right: 2%;
+  color:#A0FFB1;
+  font-weight: bold;
+}
+
 .fg_container_header
 {
    height:30px;
-   background:#000066;
+   background:grey;
    border-top-right-radius:10px;
    -moz-border-radius-topright:10px;
    -webkit-border-top-right-radius:10px;
@@ -180,6 +181,7 @@ display:none;
 .fg_form_InnerContainer
 {
    margin:15px;
+   background-color: #333333;
 }
 
 .fg_form_InnerContainer h2

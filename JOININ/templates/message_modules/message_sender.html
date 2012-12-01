@@ -5,29 +5,29 @@
         <div class="fg_box_Title">Send A Message</div>
         <div class="fg_box_Close"><a href="javascript:fg_hideform('send_message_window','fg_backgroundpopup');">Close(X)</a></div>
     </div>
-    <div id="send_message_inner_container" class="fg_form_InnerContainer">
-					<form action="" method="POST" enctype="multipart/form-data" class="contactus">
-					{% csrf_token %}
-					<div class='short_explanation'>* required fields</div>
-					<div class='fg_server_errors' class='error'></div>
-					<div class="container">
-						{{form.web_url.label}}{{form.web_url}}
-					</div>
-					<div class="container">
-						{{form.priority.label}}{{form.priority}}
-					</div>
-					<div class="container">
-						{{form.belongs_to_group.label}}{{form.belongs_to_group}}
-					</div>
-					<div class="container">
-						{{form.send_to.label}}{{form.send_to}}
-					</div>
-					<div class="container">
-						Message{{form.content}}
-					</div>
-					<div class="container">
-					  <button type="submit" name="post_msg" id="post_msg" value="Post" class="button">POST</button>
-					</div>
-				  </form>
+    <div id="send_message_inner_container" class="fg_form_innercontainer">
+		<form action="" method="POST" enctype="multipart/form-data" class="contactus">
+			{% csrf_token %}
+			<div class='short_explanation'>* required fields</div>
+			<div class='fg_server_errors' class='error'></div>
+			<div class="container">
+				<label>{{form.web_url.label}}</label>{{form.web_url}}
+			</div>
+			<div class="container">
+				<label>{{form.priority.label}}</label>{{form.priority}}
+			</div>
+			<div class="container">
+				<label>{{form.belongs_to_group.label}}</label>{{form.belongs_to_group}}
+			</div>
+			<div class="container">
+				<label>{{form.send_to.label}}</label>{{form.send_to}}
+			</div>
+			<div class="container">
+				<label>Message:</label>{{form.content}}
+			</div>
+			<div class="container">
+			  <button type="submit" name="post_msg" id="post_msg" value="Post" class="red_button popup_button">POST</button>
+			</div>
+	  </form>
 	</div>
 </div>

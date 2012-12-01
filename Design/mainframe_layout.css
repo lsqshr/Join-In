@@ -63,3 +63,8 @@
 #send_message_button{
 	margin-left:7%;
 }
+
+.popup button{
+	float:right;
+	margin-right: 10%;
+}

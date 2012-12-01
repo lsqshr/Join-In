@@ -4,8 +4,15 @@
 {% block title %}{% endblock %}
 {% block css %}{% endblock %}
 {% block js%}{% endblock %}
+<script type="text/javascript">
+	function hide(){
+		fg_hideform('send_message_window','fg_backgroundpopup');
+		fg_hideform('create_group_window','fg_backgroundpopup');
+		fg_hideform('join_group_window','fg_backgroundpopup');
+	}
+</script>
 </head>
-<body class="body" onload="javascript:fg_hideform('send_message_window','fg_backgroundpopup');">
+<body class="body" onload="javascript:hide();">
 	<div id='fg_backgroundpopup'></div>
 	<div class="wrapper">	
 	{% block header %}{% endblock %}

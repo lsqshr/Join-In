@@ -1,26 +1,18 @@
-<div id="applyGroup" class="banner">
-                  <p align="right" onclick="mostraEscondeMsg('applyGroup','false')" style="cursor: pointer;">
-                  	[X]&nbsp;&nbsp;
-                  </p>
-                  <table width="100%" cellpadding="5">
-                  <form action="" method="POST" enctype="multipart/form-data">
-                  {% csrf_token %}
-				  	<tr>
-						<td colspan="2" align="left" valign="top" class="textLar">
-						Apply for a group! 
-						</td>
-					</tr>
-                    <tr>
-                    	<th><label for="id_group_name">Group name:</label></th>
-                    	<td>
-							<input id="id_group_name" type="text" name="group_name" maxlength="15" /></td>
-					</tr>
-                    
-                    <tr>
-                      <td width="30%">&nbsp;</td>
-                      <td align="right">
-                      	<input name="apply" type="submit" class="button" value="Apply" />                      </td>
-                    </tr>
-                    </form>
-                  </table>
-                </div>
+<div id="join_group_window" class="popup">
+  <div class="fg_container_header">
+        <div class="fg_box_Title">Join a group</div>
+        <div class="fg_box_Close"><a href="javascript:fg_hideform('join_group_window','fg_backgroundpopup');">Close(X)</a></div>
+  </div>
+  <div id="join_group_innercontainer" class="fg_form_innercontainer">
+    <form action="" method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class="container">
+        <label for="id_group_name">Group name:</label> 
+        <input id="id_group_name" type="text" name="group_name" maxlength="15" />
+      </div>
+      <div class="container">
+          <input name="join_group" type="submit" class="red_button" value="join"/> 
+      </div>
+    </form>
+  </div>
+</div>

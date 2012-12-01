@@ -1,36 +1,28 @@
-<div id="createGroup" class="banner">
+<div id="create_group_window" class="popup">
 	{%for error in errors%}
 		{{error}}
 	{%endfor%}
-                  <p align="right" onclick="mostraEscondeMsg('createGroup','false')" style="cursor: pointer;">
-                  	[X]&nbsp;&nbsp;
-                  </p>
-                 <table width="100%" cellpadding="5">
-                  <form action="" method="POST" enctype="multipart/form-data">
-                  {% csrf_token %}
-				  	<tr>
-				  		<th><label for="id_name">Name:</label></th>
-				  			<td>
-				  				<input id="id_name" type="text" name="name" maxlength="15" />
-				  			</td>
-				  	</tr>
-				  	<tr>
-				  		<th>
-				  			<label for="id_public">Public:</label>
-				  		</th>
-				  		<td>
-				  			<select name="public" id="id_public">
-				  				<option value="True">Public</option>
-				  				<option value="False">Private</option>
-				  			</select>
-				  		</td>
-				  	</tr>
-                    <tr>
-                      <td width="30%">&nbsp;</td>
-                      <td align="right">
-                      	<input name="create_group" type="submit" class="button" value="Create" />                      
-                      </td>
-                    </tr>
-                 </form>
-               </table>
-                </div>
+	<div class="fg_container_header">
+        <div class="fg_box_Title">Create a new group</div>
+        <div class="fg_box_Close"><a href="javascript:fg_hideform('create_group_window','fg_backgroundpopup');">Close(X)</a></div>
+    </div>
+    <div id="create_group_inner_container" class="fg_form_innercontainer">
+		<form action="" method="POST" enctype="multipart/form-data">
+			{% csrf_token %}
+			<div class="container">
+				<label for="id_name">Name:</label>
+				<input id="id_name" type="text" name="name" maxlength="15" />
+			</div>
+			<div class="container">
+				<label for="id_public">Public:</label>
+				<select name="public" id="id_public">
+					<option value="True">Public</option>
+					<option value="False">Private</option>
+				</select>
+			</div>
+			<div class="container">
+			  	<input name="create_group" type="submit" class="red_button" value="Create"/> 
+			</div>
+	 </form>
+	</div>
+</div>
