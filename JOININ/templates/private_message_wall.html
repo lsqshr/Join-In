@@ -13,17 +13,8 @@
 	<div class="wall">
 		<!--post new message-->
 		{% include "message_modules/message_sender.html" %}
-    <script language="javascript">
-      mostraEscondeMsg("sendMessage",false);
-    </script>
 		{% include "accounts_modules/apply_dialog.html" %}
-    <script language="javascript">
-      mostraEscondeMsg("applyGroup",false);
-    </script>
 		{% include "accounts_modules/create_group.html" %}
-	  <script language="javascript">
-      mostraEscondeMsg("createGroup",false); 
-    </script>
 	<!--START TO SHOW THE MESSAGE WALL-->
 	{% include "message_modules/private_message_list.html" %}
 	</div>
