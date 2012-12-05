@@ -11,3 +11,12 @@ message=raw_input("Say something for the input:::\n")
 os.system("git add -f .;")
 #git commit
 os.system("git commit -m \""+message+"\";")
+
+#get the port number for the database server
+parser.add_option("-p", "--push", dest="remote",
+                  help="push this commit and previous ones to remoting server",
+                  metavar="PUSH",type="string",default="github")
+(options,args) = parser.parse_args()
+
+server_name = options.remote
+print args
