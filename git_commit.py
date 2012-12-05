@@ -21,4 +21,5 @@ parser.add_option("-p", "--push", dest="remote",
 (options,args) = parser.parse_args()
 
 server_name = options.remote
-print args
+if options.remote:
+	print options.remote 
