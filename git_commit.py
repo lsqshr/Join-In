@@ -1,4 +1,5 @@
 import os
+from optparse import OptionParser
 #clean all the pyc
 os.system("find . -name \"*.pyc\" -exec rm -f {} \;")
 os.system("find . -name \"*.swp\" -exec rm -f {} \;")
