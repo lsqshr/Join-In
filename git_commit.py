@@ -12,6 +12,7 @@ os.system("git add -f .;")
 #git commit
 os.system("git commit -m \""+message+"\";")
 
+parser = OptionParser()
 #get the port number for the database server
 parser.add_option("-p", "--push", dest="remote",
                   help="push this commit and previous ones to remoting server",
