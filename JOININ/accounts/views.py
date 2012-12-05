@@ -2,6 +2,7 @@ from JOININ.accounts.forms import SignupForm, LoginForm, CreateGroupForm, \
     SettingsForm
 from JOININ.accounts.models import JoinInUser, JoinInGroup
 from JOININ.message_wall.notification_manager import NotificationManager
+from JOININ.notification import models as notification
 from django.contrib import auth
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
@@ -26,7 +27,7 @@ def login(request):
                     #Correct Password, and User is marked "active"
                     auth.login(request, user)
                     #Redirect to a success page.
-                    return HttpResponseRedirect("/message_wall/view/") 
+                    return HttpResponseRedirect("/message_wall/private/view/") 
                 else:
                     errors.append('Your username or password is incorrect,please try again.')
                     return render_to_response('login.html',{'login_form':form,\
@@ -109,20 +110,20 @@ def create_group(request):
             except JoinInGroup.DoesNotExist:
                 group_exist=False
             if(not group_exist):
-                new_group = JoinInGroup.objects.create(name=name, create_datetime=datetime.datetime.now(), \
-                                                 public=public, creator=user)
+                new_group = JoinInGroup.objects.create(name=name,\
+                                    create_datetime=datetime.datetime.now(), \
+                                    public=public, creator=user)
                 new_group.users.add(user)
-                #TODO:send notification
-                NotificationManager().send_notification(request.user.joinin_user, None, "You have successfull created a group called"\
-                                                        +name+". You can go to the your own group page and invite other users by their emails.", None, True, False)
-                return HttpResponseRedirect('/message_wall/view/')
+                #NotificationManager().send_notification(request.user.joinin_user, None, "You have successfull created a group called"\
+                #                                        +name+". You can go to the your own group page and invite other users by their emails.", None, True, False)
+                notification.send([request.user,], "successful_join", {"from_user": request.user})
+                return HttpResponseRedirect('/message_wall/private/view/')
             else:
                 errors.append("The group name "+name+" has been taken. Please choose another one.")
-                #TODO:send notification
                 NotificationManager().send_notification(request.user.joinin_user, None,'; '.join(errors), None, True, False)
         else:
             raise Exception("form not valid")         
-    return HttpResponseRedirect('/message_wall/view/')
+    return HttpResponseRedirect('/message_wall/private/view/')
 
 def settings(request):
     errors=[]

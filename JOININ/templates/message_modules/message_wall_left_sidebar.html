@@ -1,0 +1,29 @@
+{% extends "left_sidebar_base.html" %}
+{% block elements %}
+	<div id='cssmenu'>
+		<ul>
+			<li class='has-sub'><a href='#'><span>Personal Settings</span></a>	
+				<ul>
+					<li><a href='#'><span>profile setting</span></a></li>
+					<li><a href='#'><span>notices settings</span></a></li>
+		        </ul>
+			</li>
+		</ul>
+		<ul>
+			
+		   <li class='has-sub '><a href='#'><span>Manage Groups</span></a>
+		      <ul>
+		         <li><a href='javascript:fg_popup_form("create_group_window","create_group_inner_container","fg_backgroundpopup");' id="send_message_button"><span>Create a group</span></a></li>
+		         <li><a href='javascript:fg_popup_form("join_group_window","join_group_inner_container","fg_backgroundpopup");'><span>Join a group</span></a></li>
+		         <li><a href='#'><span>Group Panel</span></a></li>
+		      </ul>
+		   </li>
+		</ul>
+	</div>
+	<div id="group_list" >
+		{% include "accounts_modules/groups_joined.html" %}
+	</div>
+	<div>
+		{% include "accounts_modules/invitations.html" %}
+	</div>
+{% endblock %}

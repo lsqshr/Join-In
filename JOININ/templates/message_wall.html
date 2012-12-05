@@ -1,0 +1,25 @@
+{% extends 'mainframe_base.html' %}
+{% block title%}
+	Your Siqhy private message wall
+{% endblock %}
+
+{% block left_sidebar %}
+	<div class="left_sidebar">
+		{% include "message_modules/message_wall_left_sidebar.html" %}
+	</div>
+{%endblock%}
+
+{% block wall %}
+	<div class="wall">
+		<!--post new message-->
+		{% include "message_modules/message_sender.html" %}
+		{% include "accounts_modules/apply_dialog.html" %}
+		{% include "accounts_modules/create_group.html" %}
+	<!--START TO SHOW THE MESSAGE WALL-->
+	{% include "message_modules/private_message_list.html" %}
+	</div>
+{%endblock%}
+
+{% block right_sidebar %}
+	{% include "message_modules/message_wall_right_sidebar.html" %}
+{%endblock%}

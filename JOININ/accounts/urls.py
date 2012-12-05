@@ -20,9 +20,7 @@ urlpatterns = patterns('',
     # Uncomment the next line to enable the admin:
     # url(r'^admin/', include(admin.site.urls)),
     url(r'^login/$','JOININ.accounts.views.login'),
-    url(r'^signup/$','JOININ.accounts.views.signup'),
     url(r'^forget_password/$','JOININ.accounts.views.forget_password'),
-    url(r'^signup/$','JOININ.accounts.views.signup'),
     url(r'^logout/$','JOININ.accounts.views.user_logout'),
     url(r'^create_group/$','JOININ.accounts.views.create_group'),
     url(r'^settings/$','JOININ.accounts.views.settings',)

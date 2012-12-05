@@ -6,12 +6,16 @@
 	{%endif%}
 	
 	<ul class="beautiful_list">
-	{%for group in groups%}
-			<li>
-				<a href="/message_wall/group/{{group.id}}/view/">
-							{{group.name}}
-				</a>
-			</li>
-	{%endfor%}
+		<li>
+			<a href="/message_wall/private/view/">ALL</a>
+		</li>
+
+		{%for group in groups%}
+				<li>
+					<a href="/message_wall/group/{{group.id}}/view/">
+								{{group.name}}
+					</a>
+				</li>
+		{%endfor%}
 	</ul>
 </div>

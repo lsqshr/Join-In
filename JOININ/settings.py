@@ -168,3 +168,11 @@ LOGGING = {
         },
     }
 }
+
+#email backends
+EMAIL_BACKEND = 'django.core.mail.backends.locmem.EmailBackend'
+EMAIL_HOST='smtp.gmail.com'
+EMAIL_PORT='465'
+EMAIL_HOST_USER='lsqshr@gmail.com'
+EMAIL_HOST_PASSWORD='13936344120lsqshr'
+EMAIL_USE_TLS=True
