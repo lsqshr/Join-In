@@ -18,8 +18,11 @@ parser = OptionParser()
 parser.add_option("-p", "--push", dest="remote",
                   help="push this commit and previous ones to remoting server",
                   metavar="PUSH",type="string",default="github")
+parser.add_option("-b", "--branch", dest="branch",
+                  help="push this branch to remoting server",
+                  metavar="PUSH",type="string",default="master")
+
 (options,args) = parser.parse_args()
 
-server_name = options.remote
-if options.remote:
-	print options.remote 
+if len(args)!=0:
+	os.system("git push"+options.branch+options.remote)
